@@ -3325,35 +3325,10 @@ def run(phone, i):
 
     print("Spam thành công lần :", i)
         
-import base64
-import json
-import requests
-import sys
-import hmac
-import hashlib
-import secrets
 import os
-
-from datetime import datetime
+import sys
 from time import sleep
-from concurrent.futures import ThreadPoolExecutor
 
-
-# =========================
-# CONFIG
-# =========================
-SECRET_KEY = "HECTOR_SECRET_2026"
-
-ADMIN_KEYS = {
-    "HECTORSKIBIDI",     # admin chính            # thêm bao nhiêu tùy thích
-}
-
-DEBUG_SHOW_REAL_KEY = False
-
-
-# =========================
-# BANNER
-# =========================
 def banner():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -3377,175 +3352,134 @@ def banner():
     for char in ban:
         sys.stdout.write(char)
         sys.stdout.flush()
-        sleep(0.005)
+        sleep(0.005)  
 
+import requests, json, time, sys
+from datetime import datetime, timedelta
+from time import sleep
+from concurrent.futures import ThreadPoolExecutor
 
-# =========================
-# ENCODE / DECODE
-# =========================
-def encrypt_data(data):
-    return base64.b64encode(data.encode()).decode()
+# ===================== GET KEY - GIỮ NGUYÊN =====================
+import base64
 
-def decrypt_data(data):
-    return base64.b64decode(data.encode()).decode()
+def encrypt_data(data: str) -> str:
+    return base64.b64encode(data.encode("utf-8")).decode("utf-8")
 
-
-# =========================
-# GET IP
-# =========================
-def get_ip():
+def decrypt_data(data: str) -> str:
+    return base64.b64decode(data.encode("utf-8")).decode("utf-8")
+def get_ip_address():
     try:
-        return requests.get(
-            "https://api.ipify.org?format=json",
-            timeout=5
-        ).json()["ip"]
-    except:
+        response = requests.get('https://api.ipify.org?format=json')
+        ip_data = response.json()
+        ip_address = ip_data['ip']
+        return ip_address
+    except Exception as e:
+        print(f"Lỗi khi lấy địa chỉ IP: {e}")
         return None
 
+def display_ip_address(ip_address):
+    if ip_address:
+        banner()
+        print(f"\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;31mĐịa chỉ IP : {ip_address}")
+    else:
+        print("Không thể lấy địa chỉ IP của thiết bị.")
 
-# =========================
-# SAVE / LOAD KEY
-# =========================
-def save_ip_key(ip, key, exp):
-    data = {ip: {
-        "key": key,
-        "exp": exp.isoformat()
-    }}
-    open("ip_key.json", "w").write(encrypt_data(json.dumps(data)))
+def luu_thong_tin_ip(ip, key, expiration_date):
+    data = {ip: {'key': key, 'expiration_date': expiration_date.isoformat()}}
+    encrypted_data = encrypt_data(json.dumps(data))
 
+    with open('ip_key.json', 'w') as file:
+        file.write(encrypted_data)
 
-def load_ip_key():
+def tai_thong_tin_ip():
     try:
-        return json.loads(decrypt_data(open("ip_key.json").read()))
-    except:
+        with open('ip_key.json', 'r') as file:
+            encrypted_data = file.read()
+        data = json.loads(decrypt_data(encrypted_data))
+        return data
+    except FileNotFoundError:
         return None
 
-
-def ip_has_valid_key(ip):
-    data = load_ip_key()
+def kiem_tra_ip(ip):
+    data = tai_thong_tin_ip()
     if data and ip in data:
-        return datetime.fromisoformat(data[ip]["exp"]) > datetime.now()
-    return False
+        expiration_date = datetime.fromisoformat(data[ip]['expiration_date'])
+        if expiration_date > datetime.now():
+            return data[ip]['key']
+    return None
 
+def generate_key_and_url(ip_address):
+    ngay = int(datetime.now().day)
+    key1 = str(ngay * 27 + 27)
+    ip_numbers = ''.join(filter(str.isdigit, ip_address))
+    key = f'HECTORVN{key1}{ip_numbers}'
+    expiration_date = datetime.now().replace(hour=23, minute=59, second=0, microsecond=0)
+    url = f'https://deltagetkey.blogspot.com/2026/02/get-key.html?ma={key}'
+    return url, key, expiration_date
 
-# =========================
-# CREATE KEY (USER)
-# =========================
-def create_key(ip):
-    nonce = secrets.token_hex(8)
-    ts = str(int(datetime.now().timestamp()))
+def da_qua_gio_moi():
+    now = datetime.now()
+    midnight = now.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+    return now >= midnight
 
-    raw = f"{ip}|{ts}|{nonce}"
-
-    sig = hmac.new(
-        SECRET_KEY.encode(),
-        raw.encode(),
-        hashlib.sha256
-    ).hexdigest()
-
-    return f"{raw}|{sig}"
-
-
-# =========================
-# VERIFY KEY (USER)
-# =========================
-def verify_key(key, ip):
-    try:
-        raw_ip, ts, nonce, sig = key.split("|")
-
-        if raw_ip != ip:
-            return False
-
-        raw = f"{raw_ip}|{ts}|{nonce}"
-
-        expected = hmac.new(
-            SECRET_KEY.encode(),
-            raw.encode(),
-            hashlib.sha256
-        ).hexdigest()
-
-        return hmac.compare_digest(sig, expected)
-
-    except:
-        return False
-
-
-# =========================
-# SHORT LINK
-# =========================
-def shorten(url):
+def get_shortened_link_phu(url):
     try:
         token = "6989d7bcd70a74263103abab"
-        api = f"https://link4m.co/api-shorten/v2?api={token}&url={url}"
-        return requests.get(api, timeout=5).json()
-    except:
-        return {"status": "error"}
+        api_url = f"https://link4m.co/api-shorten/v2?api={token}&url={url}"
+        response = requests.get(api_url, timeout=5)
+        if response.status_code == 200:
+            data = response.json()
+            return data
+        else:
+            return {"status": "error", "message": "Không thể kết nối đến dịch vụ rút gọn URL."}
+    except Exception as e:
+        return {"status": "error", "message": f"Lỗi khi rút gọn URL: {e}"}
 
-
-# =========================
-# MAIN
-# =========================
 def main():
-    banner()
+    ip_address = get_ip_address()
+    display_ip_address(ip_address)
 
-    ip = get_ip()
-    if not ip:
-        print("Không lấy được IP")
-        return
+    if ip_address:
+        existing_key = kiem_tra_ip(ip_address)
+        if existing_key:
+            print(f"\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;35mTool còn hạn, mời bạn dùng tool...")
+            time.sleep(2)
+        else:
+            if da_qua_gio_moi():
+                print("\033[1;33mQuá giờ sử dụng tool !!!")
+                sys.exit()
 
-    print("IP:", ip)
+            url, key, expiration_date = generate_key_and_url(ip_address)
 
-    # nếu đã có key user hợp lệ
-    if ip_has_valid_key(ip):
-        print("Tool còn hạn → vào luôn")
-        return
-
-    key = create_key(ip)
-    expire = datetime.now().replace(hour=23, minute=59, second=0, microsecond=0)
-
-    url = f"https://deltagetkey.blogspot.com/2026/02/get-key.html?ma={key}"
-
-    if DEBUG_SHOW_REAL_KEY:
-        print("DEBUG KEY:", key)
-
-    print("Nhập 1 để lấy key")
-
-    with ThreadPoolExecutor(max_workers=1) as ex:
-        while True:
-            if input("Chọn: ") == "1":
-                data = ex.submit(shorten, url).result()
-
-                if data.get("status") == "error":
-                    print("Không rút gọn link được")
-                    sys.exit()
-
-                link = data.get("shortenedUrl")
-                print("Link vượt:", link)
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                print("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;32mNhập 1 Để Lấy Key \033[1;33m( Free )")
 
                 while True:
-                    user_key = input("Nhập key: ")
+                    choice = input("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;34mNhập lựa chọn: ")
+                    print("\033[97m════════════════════════════════════════════════")
+                    if choice == "1":
+                        yeumoney_data = executor.submit(get_shortened_link_phu, url).result()
+                        if yeumoney_data.get('status') == "error":
+                            print(yeumoney_data.get('message'))
+                            sys.exit()
 
-                    # =========================
-                    # ADMIN KEY (BYPASS)
-                    # =========================
-                    if user_key in ADMIN_KEYS:
-                        print("Admin truy cập thành công")
-                        sleep(1)
-                        return
+                        link_key = yeumoney_data.get('shortenedUrl')
+                        print('\033[1;35mLink Để Vượt Key:', link_key)
 
-                    # =========================
-                    # USER KEY
-                    # =========================
-                    if verify_key(user_key, ip):
-                        print("Key đúng → truy cập")
-                        save_ip_key(ip, user_key, expire)
-                        sleep(1)
-                        return
-                    else:
-                        print("Sai key → vượt lại:", link)
+                        while True:
+                            keynhap = input('\033[1;33mKey Đã Vượt Là: ')
+                            ADMIN_KEY = "hectoradminskibidi123"
 
+                            if keynhap == key or keynhap == ADMIN_KEY:
+                                print('Key Đúng Mời Bạn Dùng Tool')
+                                sleep(2)
+                                luu_thong_tin_ip(ip_address, keynhap, expiration_date)
+                                return
+                            else:
+                                print('Key Sai, Vượt Lại:', link_key)
 
-# =========================
+# ===================== CHẠY GET KEY TRƯỚC =====================
+
 if __name__ == "__main__":
     main()
 # ===================== TOOL CHÍNH =====================
