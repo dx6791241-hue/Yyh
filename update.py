@@ -125,9 +125,8 @@ def main():
             url, key, expiration_date = generate_key_and_url(ip_address)
 
             with ThreadPoolExecutor(max_workers=2) as executor:
-                print("Nhập 1 để lấy key")
-                            
-               
+                print("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;32mNhập 1 Để Lấy Key \033[1;33m( Free )")
+
                 while True:
                     choice = input("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;34mNhập lựa chọn: ")
                     print("\033[97m════════════════════════════════════════════════")
@@ -139,11 +138,12 @@ def main():
 
                         link_key = yeumoney_data.get('shortenedUrl')
                         print('\033[1;35mLink Để Vượt Key:', link_key)
-
                         while True:
                             keynhap = input('\033[1;33mKey Đã Vượt Là: ')
                             ADMIN_KEY = "hectoradminskibidi123"
 
+                        while True:
+                            keynhap = input('\033[1;33mKey Đã Vượt Là: ')
                             if keynhap == key or keynhap == ADMIN_KEY:
                                 print('Key Đúng Mời Bạn Dùng Tool')
                                 sleep(2)
@@ -156,6 +156,47 @@ def main():
 
 if __name__ == "__main__":
     main()
+    #===================== TOOL CHÍNH =====================
+
+def banner():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+    ban = r'''
+                                                                           ,--.        
+      ,--.'|                       ___                                         ,--.'|        
+   ,--,  | :                     ,--.'|_                           ,---.   ,--,:  : |        
+,---.'|  : '                     |  | :,'   ,---.    __  ,-.      /__./|,`--.'`|  ' :        
+|   | : _' |                     :  : ' :  '   ,'\ ,' ,'/ /| ,---.;  ; ||   :  :  | |        
+:   : |.'  |   ,---.     ,---. .;__,'  /  /   /   |'  | |' |/___/ \  | |:   |   \ | :        
+|   ' '  ; :  /     \   /     \|  |   |  .   ; ,. :|  |   ,'\   ;  \ ' ||   : '  '; |        
+'   |  .'. | /    /  | /    / ':__,'| :  '   | |: :'  :  /   \   \  \: |'   ' ;.    ;        
+|   | :  | '.    ' / |.    ' /   '  : |__'   | .; :|  | '     ;   \  ' .|   | | \   |        
+'   : |  : ;'   ;   /|'   ; :__  |  | '.'|   :    |;  : |      \   \   ''   : |  ; .'        
+|   | '  ,/ '   |  / |'   | '.'| ;  :    ;\   \  / |  , ;       \   `  ;|   | '`--'          
+;   : ;--'  |   :    ||   :    : |  ,   /  `----'   ---'         :   \ |'   : |              
+|   ,/       \   \  /  \   \  /   ---`-'                          '---" ;   |.'              
+'---'         `----'    `----'                                          '---'      
+'''
+
+    for char in ban:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        sleep(0.005)  
+
+import requests, json, time, sys
+from datetime import datetime, timedelta
+from time import sleep
+from concurrent.futures import ThreadPoolExecutor
+
+# ===================== GET KEY - GIỮ NGUYÊN =====================
+import base64
+
+def encrypt_data(data: str) -> str:
+    return base64.b64encode(data.encode("utf-8")).decode("utf-8")
+
+def decrypt_data(data: str) -> str:
+    return base64.b64decode(data.encode("utf-8")).decode("utf-8")
+
 
 # ===================== TOOL CHÍNH =====================
 
@@ -239,6 +280,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
