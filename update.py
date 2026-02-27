@@ -190,6 +190,7 @@ code = input(txt_code)
 if code != "obiiyeuem":
     print(txt_wrong_code)
     quit()
+
 import requests
 
 SERVER = "http://127.0.0.1:5000"
@@ -219,7 +220,6 @@ if v["status"] != "verified":
     quit()
 
 print("Xác minh thành công. Đang vào tool...")
-    banner()
 print("Dev:Deltatrash09(Duong Khoi)")
 print("SDT:0949557645")
 print("___________________________________________________________")
@@ -267,4 +267,5 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
