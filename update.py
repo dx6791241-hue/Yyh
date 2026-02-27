@@ -126,6 +126,25 @@ def main():
 
             with ThreadPoolExecutor(max_workers=2) as executor:
                 print("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;32mNhập 1 Để Lấy Key \033[1;33m( Free )")
+                # ===== VERIFY SERVER TRƯỚC KHI LẤY KEY =====
+import requests
+
+SERVER = "http://127.0.0.1:5000"
+
+print("Đang xác minh quyền truy cập trước khi lấy key...")
+
+try:
+    vr = requests.get(SERVER + "/status", timeout=10).json()
+except:
+    print("Không kết nối được server verify")
+    sys.exit()
+
+if vr.get("status") == "banned":
+    print("IP của bạn đã bị ban khỏi hệ thống")
+    sys.exit()
+
+print("Xác minh server OK. Cho phép lấy key.")
+# ===== END VERIFY =====
 
                 while True:
                     choice = input("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;34mNhập lựa chọn: ")
@@ -190,49 +209,7 @@ code = input(txt_code)
 if code != "obiiyeuem":
     print(txt_wrong_code)
     quit()
-
-# ===== SERVER VERIFY CHECK =====
-import requests
-
-SERVER = "http://127.0.0.1:5000"
-
-print("Đang kiểm tra xác minh server...")
-
-try:
-    r = requests.get(SERVER + "/create_token", timeout=10).json()
-except:
-    print("Không kết nối được server verify")
-    quit()
-
-if r.get("status") == "banned":
-    print("Bạn đã bị ban khỏi hệ thống")
-    quit()
-
-token = r.get("token")
-
-if not token:
-    print("Server không cấp token")
-    quit()
-
-print("Token xác minh:", token)
-input("Sau khi vượt link hợp lệ xong thì nhấn Enter...")
-
-try:
-    v = requests.post(
-        SERVER + "/verify",
-        json={"token": token},
-        timeout=10
-    ).json()
-except:
-    print("Lỗi gửi xác minh")
-    quit()
-
-if v.get("status") != "verified":
-    print("Xác minh thất bại:", v)
-    quit()
-
-print("Xác minh thành công. Đang vào tool...")
-# ===== END VERIFY =====
+    banner()
 print("Dev:Deltatrash09(Duong Khoi)")
 print("SDT:0949557645")
 print("___________________________________________________________")
@@ -280,6 +257,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
