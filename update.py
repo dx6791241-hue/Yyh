@@ -145,9 +145,9 @@ def main():
 
             url, key, expiration_date = generate_key_and_url(ip_address)
 
-                        with ThreadPoolExecutor(max_workers=2) as executor:
-                            verify_server_access()
-                            print("Nhập 1 để lấy key")
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                verify_server_access()
+                print("Nhập 1 để lấy key")
                             
                
                 while True:
@@ -261,6 +261,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
