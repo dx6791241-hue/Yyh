@@ -191,35 +191,48 @@ if code != "obiiyeuem":
     print(txt_wrong_code)
     quit()
 
+# ===== SERVER VERIFY CHECK =====
 import requests
 
 SERVER = "http://127.0.0.1:5000"
 
 print("Đang kiểm tra xác minh server...")
 
-# tạo token verify
-r = requests.get(SERVER + "/create_token").json()
+try:
+    r = requests.get(SERVER + "/create_token", timeout=10).json()
+except:
+    print("Không kết nối được server verify")
+    quit()
 
-if r["status"] == "banned":
+if r.get("status") == "banned":
     print("Bạn đã bị ban khỏi hệ thống")
     quit()
 
-token = r["token"]
-print("Token xác minh:", token)
+token = r.get("token")
 
+if not token:
+    print("Server không cấp token")
+    quit()
+
+print("Token xác minh:", token)
 input("Sau khi vượt link hợp lệ xong thì nhấn Enter...")
 
-# gửi xác minh
-v = requests.post(
-    SERVER + "/verify",
-    json={"token": token}
-).json()
+try:
+    v = requests.post(
+        SERVER + "/verify",
+        json={"token": token},
+        timeout=10
+    ).json()
+except:
+    print("Lỗi gửi xác minh")
+    quit()
 
-if v["status"] != "verified":
+if v.get("status") != "verified":
     print("Xác minh thất bại:", v)
     quit()
 
 print("Xác minh thành công. Đang vào tool...")
+# ===== END VERIFY =====
 print("Dev:Deltatrash09(Duong Khoi)")
 print("SDT:0949557645")
 print("___________________________________________________________")
@@ -267,5 +280,6 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
