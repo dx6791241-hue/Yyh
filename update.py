@@ -190,6 +190,35 @@ code = input(txt_code)
 if code != "obiiyeuem":
     print(txt_wrong_code)
     quit()
+import requests
+
+SERVER = "http://127.0.0.1:5000"
+
+print("Đang kiểm tra xác minh server...")
+
+# tạo token verify
+r = requests.get(SERVER + "/create_token").json()
+
+if r["status"] == "banned":
+    print("Bạn đã bị ban khỏi hệ thống")
+    quit()
+
+token = r["token"]
+print("Token xác minh:", token)
+
+input("Sau khi vượt link hợp lệ xong thì nhấn Enter...")
+
+# gửi xác minh
+v = requests.post(
+    SERVER + "/verify",
+    json={"token": token}
+).json()
+
+if v["status"] != "verified":
+    print("Xác minh thất bại:", v)
+    quit()
+
+print("Xác minh thành công. Đang vào tool...")
     banner()
 print("Dev:Deltatrash09(Duong Khoi)")
 print("SDT:0949557645")
@@ -238,3 +267,4 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
