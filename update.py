@@ -126,26 +126,26 @@ def main():
 
             with ThreadPoolExecutor(max_workers=2) as executor:
                 print("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;32mNhập 1 Để Lấy Key \033[1;33m( Free )")
-                # ===== VERIFY SERVER TRƯỚC KHI LẤY KEY =====
-import requests
+                            # ===== VERIFY SERVER TRƯỚC KHI LẤY KEY =====
+            import requests
 
-SERVER = "http://127.0.0.1:5000"
+            SERVER = "http://127.0.0.1:5000"
 
-print("Đang xác minh quyền truy cập trước khi lấy key...")
+            print("Đang xác minh quyền truy cập trước khi lấy key...")
 
-try:
-    vr = requests.get(SERVER + "/status", timeout=10).json()
-except:
-    print("Không kết nối được server verify")
-    sys.exit()
+            try:
+                vr = requests.get(SERVER + "/status", timeout=10).json()
+            except:
+                print("Không kết nối được server verify")
+                sys.exit()
 
-if vr.get("status") == "banned":
-    print("IP của bạn đã bị ban khỏi hệ thống")
-    sys.exit()
+            if vr.get("status") == "banned":
+                print("IP của bạn đã bị ban khỏi hệ thống")
+                sys.exit()
 
-print("Xác minh server OK. Cho phép lấy key.")
-# ===== END VERIFY =====
-
+            print("Xác minh server OK. Cho phép lấy key.")
+            # ===== END VERIFY =====
+               
                 while True:
                     choice = input("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;34mNhập lựa chọn: ")
                     print("\033[97m════════════════════════════════════════════════")
@@ -257,6 +257,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
