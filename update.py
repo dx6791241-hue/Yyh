@@ -127,7 +127,7 @@ def main():
             with ThreadPoolExecutor(max_workers=2) as executor:
                 print("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;32mNhập 1 Để Lấy Key \033[1;33m( Free )")
                             # ===== VERIFY SERVER TRƯỚC KHI LẤY KEY =====
-            import requests
+                            import requests
 
             SERVER = "http://127.0.0.1:5000"
 
@@ -257,6 +257,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
