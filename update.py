@@ -124,27 +124,22 @@ def main():
 
             url, key, expiration_date = generate_key_and_url(ip_address)
 
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                print("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;32mNhập 1 Để Lấy Key \033[1;33m( Free )")
-                            # ===== VERIFY SERVER TRƯỚC KHI LẤY KEY =====
-                            import requests
+                        with ThreadPoolExecutor(max_workers=2) as executor:
 
-                            SERVER = "http://127.0.0.1:5000"
+                import requests
+                SERVER = "http://127.0.0.1:5000"
 
-                            print("Đang xác minh quyền truy cập trước khi lấy key...")
+                print("Đang xác minh server...")
 
-                            try:
-                                vr = requests.get(SERVER + "/status", timeout=10).json()
-                            except:
-                                print("Không kết nối được server verify")
-                                sys.exit()
+                vr = requests.get(SERVER + "/status").json()
+                if vr.get("status") == "banned":
+                    print("IP bị ban")
+                    sys.exit()
 
-                            if vr.get("status") == "banned":
-                                print("IP của bạn đã bị ban khỏi hệ thống")
-                                sys.exit()
+                print("OK")
 
-                            print("Xác minh server OK. Cho phép lấy key.")
-                            # ===== END VERIFY =====
+                print("Nhập 1 để lấy key")
+                            
                
                 while True:
                     choice = input("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;34mNhập lựa chọn: ")
@@ -257,6 +252,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
