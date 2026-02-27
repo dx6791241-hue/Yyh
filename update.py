@@ -1,3 +1,24 @@
+import requests
+import sys
+
+def verify_server_access():
+    SERVER = "http://127.0.0.1:5000"
+
+    print("Đang xác minh quyền truy cập...")
+
+    try:
+        r = requests.get(SERVER + "/status", timeout=10)
+        data = r.json()
+    except Exception as e:
+        print("Không kết nối được server verify")
+        print(e)
+        sys.exit()
+
+    if data.get("status") == "banned":
+        print("IP của bạn đã bị ban")
+        sys.exit()
+
+    print("Xác minh server OK")
 import os
 import sys
 from time import sleep
@@ -125,20 +146,8 @@ def main():
             url, key, expiration_date = generate_key_and_url(ip_address)
 
                         with ThreadPoolExecutor(max_workers=2) as executor:
-
-                import requests
-                SERVER = "http://127.0.0.1:5000"
-
-                print("Đang xác minh server...")
-
-                vr = requests.get(SERVER + "/status").json()
-                if vr.get("status") == "banned":
-                    print("IP bị ban")
-                    sys.exit()
-
-                print("OK")
-
-                print("Nhập 1 để lấy key")
+                            verify_server_access()
+                            print("Nhập 1 để lấy key")
                             
                
                 while True:
@@ -252,6 +261,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
