@@ -137,21 +137,21 @@ def main():
                             sys.exit()
 
                         link_key = yeumoney_data.get('shortenedUrl')
-print('\033[1;35mLink Để Vượt Key:', link_key)
+                        print('\033[1;35mLink Để Vượt Key:', link_key)
 
-ADMIN_KEY = "hectoradminskibidi123"
+                        ADMIN_KEY = "hectoradminskibidi123"
 
-while True:
-    keynhap = input('\033[1;33mKey Đã Vượt Là: ').strip()
+                        while True:
+                            keynhap = input('\033[1;33mKey Đã Vượt Là: ').strip()
 
-    if keynhap == key or keynhap == ADMIN_KEY:
-        print('Key Đúng Mời Bạn Dùng Tool')
-        sleep(2)
-        luu_thong_tin_ip(ip_address, keynhap, expiration_date)
-        return
-    else:
-        print('Key Sai, Vượt Lại:', link_key)
-# ===================== CHẠY GET KEY TRƯỚC =====================
+                            if keynhap == key or keynhap == ADMIN_KEY:
+                                print('Key Đúng Mời Bạn Dùng Tool')
+                                sleep(2)
+                                luu_thong_tin_ip(ip_address, keynhap, expiration_date)
+                                return
+                            else:
+                                print('Key Sai, Vượt Lại:', link_key)
+                                
 
 if __name__ == "__main__":
     main()
@@ -279,6 +279,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
