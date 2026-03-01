@@ -244,6 +244,7 @@ print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.5\033[1;31m] \033[1;32mTOOL ĐỔI MK TĐS")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.6\033[1;31m] \033[1;32mTool Auto TikTok")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.7\033[1;31m] \033[1;32mTOOL DOSS WEB VIP")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.8\033[1;31m] \033[1;32mTOOL ĐÀO PROXY ")
 
 chon = input("\033[1;32mNhập lựa chọn: ")
 
@@ -270,6 +271,9 @@ if chon == '1.6' :
 if chon == '1.7' :
     exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/text.py').text)
 
+if chon == '1.8' :
+    exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/scan.py').text)
+
 phone = input(txt_phone)
 if phone == "0949557645":
     print(txt_block)
@@ -279,6 +283,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
