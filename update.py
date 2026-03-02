@@ -253,8 +253,6 @@ chon = input("\033[1;32mNhập lựa chọn: ")
 # ===== XỬ LÝ =====
 if chon == '1.1' :
     exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/spamsms1.py').text)
-
-
 if chon == '1.2':
     exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tdstikv2/main/00.py').text)
 
@@ -264,7 +262,7 @@ if chon == '1.3' :
 if chon == '1.4' :
     exec(requests.get('https://raw.githubusercontent.com/Khanh23047/TDS-IG/main/3.py').text)
     
-elif chon == '1.5' : 
+if chon == '1.5' : 
  exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Mktds/main/4.py').text)
 
 if chon == '1.6' :  
@@ -289,6 +287,7 @@ count = int(input(txt_count))
 
 for i in range(1, count + 1):
     run(phone, i)
+
 
 
 
