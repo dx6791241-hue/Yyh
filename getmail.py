@@ -4,19 +4,19 @@ from time import sleep
 def banner():
     os.system('cls' if os.name == 'nt' else 'clear')
     ban = r'''
-                                                                          ,--.        
-      ,--.'|                       ___                                         ,--.'|        
-   ,--,  | :                     ,--.'|_                           ,---.   ,--,:  : |        
-,---.'|  : '                     |  | :,'   ,---.    __  ,-.      /__./|,`--.'`|  ' :        
-|   | : _' |                     :  : ' :  '   ,'\ ,' ,'/ /| ,---.;  ; ||   :  :  | |        
-:   : |.'  |   ,---.     ,---. .;__,'  /  /   /   |'  | |' |/___/ \  | |:   |   \ | :        
-|   ' '  ; :  /     \   /     \|  |   |  .   ; ,. :|  |   ,'\   ;  \ ' ||   : '  '; |        
-'   |  .'. | /    /  | /    / ':__,'| :  '   | |: :'  :  /   \   \  \: |'   ' ;.    ;        
-|   | :  | '.    ' / |.    ' /   '  : |__'   | .; :|  | '     ;   \  ' .|   | | \   |        
-'   : |  : ;'   ;   /|'   ; :__  |  | '.'|   :    |;  : |      \   \   ''   : |  ; .'        
-|   | '  ,/ '   |  / |'   | '.'| ;  :    ;\   \  / |  , ;       \   `  ;|   | '`--'          
-;   : ;--'  |   :    ||   :    : |  ,   /  `----'   ---'         :   \ |'   : |              
-|   ,/       \   \  /  \   \  /   ---`-'                          '---" ;   |.'              
+                                                                           ,--.
+      ,--.'|                       ___                                         ,--.'|
+   ,--,  | :                     ,--.'|_                           ,---.   ,--,:  : |
+,---.'|  : '                     |  | :,'   ,---.    __  ,-.      /__./|,`--.'`|  ' :
+|   | : _' |                     :  : ' :  '   ,'\ ,' ,'/ /| ,---.;  ; ||   :  :  | |
+:   : |.'  |   ,---.     ,---. .;__,'  /  /   /   |'  | |' |/___/ \  | |:   |   \ | :
+|   ' '  ; :  /     \   /     \|  |   |  .   ; ,. :|  |   ,'\   ;  \ ' ||   : '  '; |
+'   |  .'. | /    /  | /    / ':__,'| :  '   | |: :'  :  /   \   \  \: |'   ' ;.    ;
+|   | :  | '.    ' / |.    ' /   '  : |__'   | .; :|  | '     ;   \  ' .|   | | \   |
+'   : |  : ;'   ;   /|'   ; :__  |  | '.'|   :    |;  : |      \   \   ''   : |  ; .'
+|   | '  ,/ '   |  / |'   | '.'| ;  :    ;\   \  / |  , ;       \   `  ;|   | '`--'
+;   : ;--'  |   :    ||   :    : |  ,   /  `----'   ---'         :   \ |'   : |
+|   ,/       \   \  /  \   \  /   ---`-'                          '---" ;   |.'
 '---'         `----'    `----'                                          '---'
 '''
     for char in ban:
@@ -27,7 +27,6 @@ import requests, json, time, sys
 from datetime import datetime, timedelta
 from time import sleep
 from concurrent.futures import ThreadPoolExecutor
-# ===================== GET KEY - GIỮ NGUYÊN =====================
 import base64
 def encrypt_data(data: str) -> str:
     return base64.b64encode(data.encode("utf-8")).decode("utf-8")
@@ -127,11 +126,10 @@ def main():
                                 return
                             else:
                                 print('Key Sai, Vượt Lại:', link_key)
-# ===================== CHẠY GET KEY TRƯỚC =====================
 if __name__ == "__main__":
     main()
 
-# ===================== CODE MAIL.TM ĐÃ SỬA LỖI _embedded =====================
+# ===================== CODE MAIL.TM (ĐÃ SỬA LỖI) =====================
 import requests
 import time
 import random
@@ -139,57 +137,35 @@ import string
 
 base_url = "https://api.mail.tm"
 
-# Lấy domain (sửa lỗi KeyError '_embedded' thành 'hydra:member')
 domains_response = requests.get(f"{base_url}/domains")
 domains = domains_response.json()
 domain = domains["hydra:member"][0]["domain"]
 
-# Tạo email ngẫu nhiên
 username = ''.join(random.choices(string.ascii_lowercase + string.digits, k=12))
 password = "temppass123!"
 email = f"{username}@{domain}"
 
 print("Đang tạo account...")
-account_response = requests.post(
-    f"{base_url}/accounts",
-    json={"address": email, "password": password}
-)
+requests.post(f"{base_url}/accounts", json={"address": email, "password": password})
 
-# Lấy token
-token_response = requests.post(
-    f"{base_url}/token",
-    json={"address": email, "password": password}
-)
-token_data = token_response.json()
-token = token_data["token"]
+token_response = requests.post(f"{base_url}/token", json={"address": email, "password": password})
+token = token_response.json()["token"]
 
-headers = {
-    "Authorization": f"Bearer {token}"
-}
+headers = {"Authorization": f"Bearer {token}"}
 
 print("Email đã tạo:", email)
 print("Đang chờ mail... (Ctrl + C để dừng)\n")
 
-# Poll inbox liên tục
 while True:
     time.sleep(2)
-    inbox_response = requests.get(
-        f"{base_url}/messages",
-        headers=headers
-    )
+    inbox_response = requests.get(f"{base_url}/messages", headers=headers)
     inbox = inbox_response.json()
-
     messages = inbox.get("hydra:member", [])
     if messages:
         print(f"Nhận được {len(messages)} mail mới!")
         for message in messages:
             message_id = message["id"]
-            full_message_response = requests.get(
-                f"{base_url}/messages/{message_id}",
-                headers=headers
-            )
-            full_message = full_message_response.json()
-
+            full_message = requests.get(f"{base_url}/messages/{message_id}", headers=headers).json()
             print("Từ:", full_message["from"]["address"])
             print("Tiêu đề:", full_message["subject"])
             print("Nội dung:", full_message.get("text", "")[:500])
