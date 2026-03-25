@@ -242,7 +242,7 @@ if chon == '1.8' :
     exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/scan.py').text)
 
 if chon == '1.9' :
-    exec(requests.get('https://github.com/dx6791241-hue/Yyh/blob/main/getmail.py').text)
+    exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/update.py').text)
 
 
 
