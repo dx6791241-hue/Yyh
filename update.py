@@ -216,7 +216,7 @@ print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36
 
 
 chon = input("\033[1;32mNhập lựa chọn: ").strip()
-
+print(f"\033[1;35m[DEBUG] Bạn đã chọn: {chon}")
 # ===== XỬ LÝ =====
 if chon == '1.1' :
     exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/spamsms1.py').text)
