@@ -215,7 +215,7 @@ print("_____________________________________DỊCH VỤ ________________________
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.9\033[1;31m] \033[1;32m TẠO MAIL ẢO")
 
 
-chon = input("\033[1;32mNhập lựa chọn: ")
+chon = input("\033[1;32mNhập lựa chọn: ").strip()
 
 # ===== XỬ LÝ =====
 if chon == '1.1' :
@@ -241,8 +241,12 @@ if chon == '1.7' :
 if chon == '1.8' :
     exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/scan.py').text)
 
-if chon == '1.9' :
-    exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/update.py').text)
+if chon == '1.9':
+    try:
+        code = requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/main/getmail.py', timeout=10).text
+        exec(code)
+    except Exception as e:
+        print(f"\033[1;31mLỗi khi chạy tool Tạo Mail Ảo: {e}")
 
 
 
