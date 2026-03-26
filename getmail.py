@@ -156,14 +156,20 @@ headers = {"Authorization": f"Bearer {token}"}
 print("Email đã tạo:", email)
 print("Đang chờ mail... (Ctrl + C để dừng)\n")
 
+seen_ids = set()  # thêm dòng này trước while
+
 while True:
     time.sleep(2)
     inbox_response = requests.get(f"{base_url}/messages", headers=headers)
     inbox = inbox_response.json()
     messages = inbox.get("hydra:member", [])
-    if messages:
-        print(f"Nhận được {len(messages)} mail mới!")
-        for message in messages:
+
+    new_messages = [m for m in messages if m["id"] not in seen_ids]
+
+    if new_messages:
+        print(f"Nhận được {len(new_messages)} mail mới!")
+        for message in new_messages:
+            seen_ids.add(message["id"])  # đánh dấu đã đọc
             message_id = message["id"]
             full_message = requests.get(f"{base_url}/messages/{message_id}", headers=headers).json()
             print("Từ:", full_message["from"]["address"])
