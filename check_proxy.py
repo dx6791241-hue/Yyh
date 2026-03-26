@@ -12,15 +12,15 @@ from time import sleep
 def banner():
     os.system('cls' if os.name == 'nt' else 'clear')
     ban = r'''
-░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░
-   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░
-   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓██▓▒░
-   ░▒▓█▓▒░ ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓██████▓▒░ ░▒▓███████▓▒░ ░▒▓██▓▒░
-   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░░▒▓██▓▒░
-   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░
-   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░
+    
+░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░ 
+   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░ 
+   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░    ░▒▓██▓▒░  
+   ░▒▓█▓▒░   ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓██████▓▒░ ░▒▓███████▓▒░   ░▒▓██▓▒░    
+   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░░▒▓██▓▒░      
+   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        
+   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░ 
                                                                                                          
-                                                                                                               
 '''
     for char in ban:
         sys.stdout.write(char)
@@ -134,14 +134,14 @@ def main():
 if __name__ == "__main__":
     main()
 print("Dev:KhanhZ9(TangHuchi)")
-# ====================== TOOL CHECK PROXY LIVE (ĐÃ MERGE KEY) =====================
+# ====================== TOOL CHECK PROXY LIVE (ĐÃ TỐI ƯU) =====================
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# ====================== CẤU HÌNH ======================
-OUTPUT_FILE = "live_proxies.txt"      # File output (có thể đổi tên nếu muốn)
-TIMEOUT = 12                          # Giây
-MAX_WORKERS = 100                     # Số luồng (tăng nếu máy mạnh)
-TEST_URL = "https://httpbin.org/ip"
+# ====================== CẤU HÌNH MỚI (ÍT DIE HƠN) ======================
+OUTPUT_FILE = "live_proxies.txt"
+TIMEOUT = 20                    # Tăng lên 20 giây (proxy chậm vẫn sống)
+MAX_WORKERS = 60                # Giảm xuống 60 để tránh overload
+TEST_URL = "http://httpbin.org/ip"   # Dùng HTTP trước để proxy HTTP thuần sống nhiều hơn
 # =====================================================
 
 def check_proxy(proxy):
@@ -152,9 +152,9 @@ def check_proxy(proxy):
             "https": f"http://{proxy}"
         }
         
-        r = requests.get(TEST_URL, proxies=proxies_dict, timeout=TIMEOUT)
+        r = requests.get(TEST_URL, proxies=proxies_dict, timeout=TIMEOUT, allow_redirects=True)
         
-        if r.status_code == 200:
+        if r.status_code in [200, 302]:   # Chấp nhận cả redirect
             latency = round((time.time() - start) * 1000)
             return proxy, True, latency
         else:
@@ -163,34 +163,28 @@ def check_proxy(proxy):
         return proxy, False, None
 
 def proxy_main():
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] 🚀 Tool Check Proxy Live\n")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] 🚀 Tool Check Proxy Live - Phiên bản ÍT DIE\n")
     
-    # ================== NHẬP FILE TỪ NGƯỜI DÙNG ==================
+    # ================== NHẬP FILE (giữ nguyên) ==================
     while True:
-        print("📁 Nhập tên file proxy (.txt) - phải nằm cùng thư mục với tool:")
+        print("📁 Nhập tên file proxy (.txt) - phải nằm cùng thư mục:")
         input_file = input("> ").strip()
-        
-        # Thêm đuôi .txt nếu người dùng quên
         if not input_file.lower().endswith(".txt"):
             input_file += ".txt"
-        
-        # Kiểm tra file có tồn tại không
         if os.path.exists(input_file):
             print(f"✅ Tìm thấy file: {input_file}")
             break
         else:
-            print(f"❌ Không tìm thấy file '{input_file}' trong thư mục hiện tại!")
-            print("   Hãy kiểm tra lại tên file hoặc đặt file vào cùng thư mục với tool.\n")
-    
-    # Đọc proxy
+            print(f"❌ Không tìm thấy file '{input_file}' !\n")
+
     try:
         with open(input_file, "r", encoding="utf-8") as f:
             proxies = [line.strip() for line in f if line.strip() and not line.startswith("#")]
     except Exception as e:
-        print(f"❌ Lỗi khi đọc file: {e}")
+        print(f"❌ Lỗi đọc file: {e}")
         return
 
-    print(f"📋 Tổng proxy cần check: {len(proxies)}\n")
+    print(f"📋 Tổng proxy: {len(proxies)}\n")
     
     live_proxies = []
     total_start = time.time()
@@ -208,19 +202,18 @@ def proxy_main():
             if is_live:
                 live_proxies.append(proxy)
 
-    # Xuất file
     if live_proxies:
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
             for p in live_proxies:
                 f.write(p + "\n")
         print(f"\n🎉 HOÀN THÀNH!")
         print(f"✅ Live: {len(live_proxies)}/{len(proxies)} proxy")
-        print(f"📁 Đã lưu vào: {OUTPUT_FILE}")
+        print(f"📁 Đã lưu: {OUTPUT_FILE}")
     else:
         print("\n😢 Không có proxy live nào!")
 
     total_time = round(time.time() - total_start, 2)
     print(f"⏱️  Tổng thời gian: {total_time} giây")
 
-# ====================== CHẠY TOOL PROXY SAU KHI KEY ĐÚNG =====================
+# ====================== CHẠY SAU KEY =====================
 proxy_main()
