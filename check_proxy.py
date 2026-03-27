@@ -9,27 +9,30 @@ import sys
 import os
 import sys
 from time import sleep
+
 def banner():
     os.system('cls' if os.name == 'nt' else 'clear')
     ban = r'''
-   
-░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░ 
-   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░ 
-   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░    ░▒▓██▓▒░  
-   ░▒▓█▓▒░   ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓██████▓▒░ ░▒▓███████▓▒░   ░▒▓██▓▒░    
-   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░░▒▓██▓▒░      
-   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        
-   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░ 
+░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░
+   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░
+   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓██▓▒░
+   ░▒▓█▓▒░ ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓██████▓▒░ ░▒▓███████▓▒░ ░▒▓██▓▒░
+   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░░▒▓██▓▒░
+   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░
+   ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░
+                                                                                                         
                                                                                                                
 '''
     for char in ban:
         sys.stdout.write(char)
         sys.stdout.flush()
         sleep(0.005)
+
 import requests, json, time, sys
 from datetime import datetime, timedelta
 from time import sleep
 from concurrent.futures import ThreadPoolExecutor
+
 # ===================== GET KEY - GIỮ NGUYÊN =====================
 import base64
 def encrypt_data(data: str) -> str:
@@ -95,6 +98,40 @@ def get_shortened_link_phu(url):
             return {"status": "error", "message": "Không thể kết nối đến dịch vụ rút gọn URL."}
     except Exception as e:
         return {"status": "error", "message": f"Lỗi khi rút gọn URL: {e}"}
+
+# ====================== PHẦN NHẠC NỀN =====================
+import yt_dlp
+import pygame
+
+def play_music_background(music_url):
+    try:
+        print("\033[1;33m[🎵] Đang tải nhạc nền... (có thể mất vài giây)\033[0m")
+        
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'quiet': True,
+            'no_warnings': True,
+            'extract_audio': True,
+            'outtmpl': 'music_temp.%(ext)s',
+            'noplaylist': True,
+        }
+        
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(music_url, download=True)
+            filename = ydl.prepare_filename(info)
+            audio_file = filename.rsplit('.', 1)[0] + '.mp3' if not filename.endswith('.mp3') else filename
+        
+        pygame.mixer.init()
+        pygame.mixer.music.load(audio_file)
+        pygame.mixer.music.play(-1)  # -1 = loop vô hạn
+        print(f"\033[1;32m[🎵] Đang phát nhạc: {info.get('title', 'Unknown')}\033[0m")
+        print("   Nhấn Ctrl + C để dừng tool (nhạc sẽ dừng theo)\n")
+        
+    except Exception as e:
+        print(f"\033[1;31m[❌] Không thể phát nhạc: {e}\033[0m")
+        print("   Tool sẽ chạy không có nhạc.\n")
+
+# ===================== CHẠY GET KEY =====================
 def main():
     ip_address = get_ip_address()
     display_ip_address(ip_address)
@@ -130,22 +167,19 @@ def main():
                                 return
                             else:
                                 print('Key Sai, Vượt Lại:', link_key)
-# ===================== CHẠY GET KEY TRƯỚC =====================
+
 if __name__ == "__main__":
     main()
 print("Dev:KhanhZ9(TangHuchi)")
 
-# ====================== TOOL CHECK PROXY LIVE - PHIÊN BẢN KỸ + NHANH =====================
+# ====================== TOOL CHECK PROXY + NHẠC =====================
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # ====================== CẤU HÌNH ======================
 OUTPUT_FILE = "live_proxies.txt"
 TIMEOUT = 18
 MAX_WORKERS = 70
-TEST_URLS = [
-    "http://httpbin.org/ip",
-    "https://httpbin.org/ip"
-]
+TEST_URLS = ["http://httpbin.org/ip", "https://httpbin.org/ip"]
 RETRIES = 2
 # =====================================================
 
@@ -156,22 +190,34 @@ def check_proxy(proxy):
             try:
                 proxies_dict = {"http": f"http://{proxy}", "https": f"http://{proxy}"}
                 r = requests.get(url, proxies=proxies_dict, timeout=TIMEOUT, allow_redirects=True)
-                
                 if r.status_code in [200, 302]:
                     latency = round((time.time() - start) * 1000)
                     return proxy, True, latency
             except:
                 pass
         if attempt < RETRIES:
-            time.sleep(1)  # chờ nhẹ trước khi retry
-    
+            time.sleep(1)
     return proxy, False, None
 
 def proxy_main():
     print(f"[{datetime.now().strftime('%H:%M:%S')}] 🚀 Tool Check Proxy Live - Kỹ Càng & Nhanh\n")
     
+    # === HỎI NHẠC NỀN ===
+    print("\033[1;33m[🎵] Bạn có muốn bật nhạc nền không? (y/n)\033[0m")
+    choice_music = input("Nhập lựa chọn: ").strip().lower()
+    
+    if choice_music == 'y' or choice_music == 'yes':
+        print("\033[1;36mNhập link YouTube hoặc link mp3 trực tiếp:\033[0m")
+        music_link = input("> ").strip()
+        if music_link:
+            # Chạy nhạc trong thread riêng để không block tool
+            music_thread = threading.Thread(target=play_music_background, args=(music_link,), daemon=True)
+            music_thread.start()
+            time.sleep(3)  # chờ nhạc bắt đầu
+
+    # === PHẦN CHECK PROXY ===
     while True:
-        print("📁 Nhập tên file proxy (.txt) - phải nằm cùng thư mục:")
+        print("\n📁 Nhập tên file proxy (.txt) - phải nằm cùng thư mục:")
         input_file = input("> ").strip()
         if not input_file.lower().endswith(".txt"):
             input_file += ".txt"
@@ -179,7 +225,7 @@ def proxy_main():
             print(f"✅ Tìm thấy file: {input_file}")
             break
         else:
-            print(f"❌ Không tìm thấy file '{input_file}' ! Hãy kiểm tra lại.\n")
+            print(f"❌ Không tìm thấy file '{input_file}' !\n")
 
     try:
         with open(input_file, "r", encoding="utf-8") as f:
@@ -212,12 +258,12 @@ def proxy_main():
                 f.write(line + "\n")
         print(f"\n🎉 HOÀN THÀNH!")
         print(f"✅ Live: {len(live_proxies)}/{len(proxies)} proxy")
-        print(f"📁 Đã lưu vào: {OUTPUT_FILE} (có kèm latency)")
+        print(f"📁 Đã lưu vào: {OUTPUT_FILE}")
     else:
         print("\n😢 Không có proxy live nào!")
 
     total_time = round(time.time() - total_start, 2)
     print(f"⏱️  Tổng thời gian: {total_time} giây")
 
-# ====================== CHẠY TOOL PROXY =====================
+# ====================== CHẠY TOOL =====================
 proxy_main()
