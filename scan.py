@@ -160,8 +160,6 @@ if __name__ == "__main__":
 print("Dev:KhanhZ9(TangHuchi)")
 
 urls = [
-    "https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/proxies_github%20(1).txt"
-    "https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/proxies.txt"
     "https://api.proxyscrape.com/v3/free-proxy-list/get?request=displayproxies&proxy_format=protocolipport&format=text",
     "https://raw.githubusercontent.com/jetkai/proxy-list/main/online-proxies/txt/proxies.txt",
     "https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt",
