@@ -178,11 +178,15 @@ def init_browser():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument("--disable-images")          # Tắt hình ảnh
+    chrome_options.add_argument("--blink-settings=imagesEnabled=false")
+    chrome_options.page_load_strategy = "eager"              # Load nhanh hơn (không chờ hết trang)
+
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-        print(f"{luc}✅ Trình duyệt Chrome đã mở!")
+        print(f"{luc}✅ Chrome đã mở (tối ưu tốc độ)!")
         return driver
     except Exception as e:
         print(f"{red}❌ Không mở được Chrome: {e}")
@@ -192,22 +196,29 @@ def init_browser():
 def auto_click(link, job_type):
     global driver
     try:
+        # Tối ưu tốc độ load trang
+        driver.execute_script("window.stop();")  # Dừng load trang thừa
         driver.get(link)
-        time.sleep(6)
+        time.sleep(4)   # ← Giảm từ 6s xuống 4s
 
+        # Không cần chờ video nữa để nhanh hơn (nếu lỗi thì tăng lại 3s)
         try:
-            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.TAG_NAME, "video")))
+            WebDriverWait(driver, 8).until(
+                EC.presence_of_element_located((By.TAG_NAME, "video"))
+            )
         except:
             pass
 
         if job_type == 'tiktok_like':
-            targets = ["//button[@data-e2e='like-icon']", "//button[contains(., 'Like') or contains(., 'Thích')]"]
+            targets = [
+                "//button[@data-e2e='like-icon']",
+                "//button[contains(., 'Like') or contains(., 'Thích')]"
+            ]
         elif job_type == 'tiktok_follow':
             targets = [
                 "//button[contains(., 'Follow') or contains(., 'Theo dõi')]",
                 "//button[@data-e2e='follow-button']",
-                "//div[@data-e2e='follow-button']//button",
-                "//button[contains(@aria-label, 'Follow') or contains(@aria-label, 'Theo dõi')]",
+                "//div[@data-e2e='follow-button']//button"
             ]
         elif job_type == 'tiktok_comment':
             return auto_comment()
@@ -216,12 +227,15 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 12).until(EC.element_to_be_clickable((By.XPATH, target)))
+                btn = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, target))
+                )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                time.sleep(0.3)
+                time.sleep(0.2)   # Giảm chờ scroll
                 driver.execute_script("arguments[0].click();", btn)
-                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} NHANH!")
-                time.sleep(1)
+                
+                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} - NHANH!")
+                time.sleep(0.8)   # ← Giảm mạnh từ 1s xuống 0.8s
                 return True
             except:
                 continue
@@ -231,10 +245,10 @@ def auto_click(link, job_type):
 
     except Exception as e:
         error_msg = str(e).lower()
-        if "no such window" in error_msg or "target window already closed" in error_msg or "web view not found" in error_msg:
-            print(f"{red}⚠️ Cửa sổ Chrome bị đóng! Đang mở lại...")
+        if "no such window" in error_msg or "target window already closed" in error_msg:
+            print(f"{red}⚠️ Chrome đóng! Mở lại...")
             init_browser()
-            time.sleep(3)
+            time.sleep(2)
             return auto_click(link, job_type)
         else:
             print(f"{red}⚠️ Lỗi: {e}")
