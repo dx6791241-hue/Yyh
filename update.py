@@ -206,15 +206,13 @@ print("___________________________________________________________")
 # ===== MENU =====
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.1\033[1;31m] \033[1;32m SPAMSMS BETA \033[1;33m[\033[1;31mV1\033[1;33m]")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.2\033[1;31m] \033[1;32mTDS TIKTOK \033[1;33m[\033[1;31mV2\033[1;33m]")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.3\033[1;31m] \033[1;32mTDS TIKTOK & TIKTOK NOW")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.4\033[1;31m] \033[1;32mTDS INSTAGRAM")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.5\033[1;31m] \033[1;32mTOOL ĐỔI MK TĐS")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.6\033[1;31m] \033[1;32mTool Auto TikTok")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.7\033[1;31m] \033[1;32mTOOL DOSS WEB V1")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.8\033[1;31m] \033[1;32mTOOL ĐÀO PROXY ")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.3\033[1;31m] \033[1;32mTOOL TDS FACEBOOK")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.4\033[1;31m] \033[1;32mTOOL ĐỔI MK TĐS")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.5\033[1;31m] \033[1;32mTOOL DOSS WEB V1")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.6\033[1;31m] \033[1;32mTOOL ĐÀO PROXY ")
 print("_____________________________________DỊCH VỤ _____________________________________________")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.9\033[1;31m] \033[1;32m TẠO MAIL ẢO")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.0\033[1;31m] \033[1;32m LỌC PROXY LIVE")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.7\033[1;31m] \033[1;32m TẠO MAIL ẢO")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.8\033[1;31m] \033[1;32m LỌC PROXY LIVE")
 
 
 
@@ -224,35 +222,31 @@ print(f"\033[1;35m[DEBUG] Bạn đã chọn: {chon}")
 if chon == '1.1' :
     exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/spamsms1.py').text)
 if chon == '1.2':
-    exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tdstikv2/main/00.py').text)
+    exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/tiktok.py').text)
 
 if chon == '1.3' :
-    exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tik-tiknow/main/1.py').text)
+    exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/facebook_tds.py').text)
     
 if chon == '1.4' :
-    exec(requests.get('https://raw.githubusercontent.com/Khanh23047/TDS-IG/main/3.py').text)
+    exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Mktds/main/4.py').text)
     
 if chon == '1.5' : 
- exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Mktds/main/4.py').text)
+ exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/text.py').text)
 
 if chon == '1.6' :  
     exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/view_deobf.py').text)
 
-if chon == '1.7' :
-    exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/text.py').text)
-
-if chon == '1.8' :
-    exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/scan.py').text)
-
-if chon == '1.9':
+if chon == '1.7':
     try:
         code = requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/main/getmail.py', timeout=10).text
         exec(code)
     except Exception as e:
         print(f"\033[1;31mLỗi khi chạy tool Tạo Mail Ảo: {e}")
 
-if chon == '2.0':
+if chon == '1.8' :
     exec(requests.get('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/check_proxy.py').text)
+
+
 
 
 
