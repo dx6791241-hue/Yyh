@@ -155,12 +155,12 @@ def init_browser():
         print(f"{red}Không mở được Chrome!")
         sys.exit()
 
-# ================== AUTO CLICK KIỂU A - BẤM FOLLOW NHANH NHẤT CÓ THỂ ==================
+# ================== AUTO CLICK - BẤM NHANH NHƯNG GIỮ TRANG 3-4 GIÂY ==================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(1.2)   # Load nhanh
+        time.sleep(1.5)   # Load trang
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -174,14 +174,14 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 5).until(
+                btn = WebDriverWait(driver, 6).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
                 driver.execute_script("arguments[0].click();", btn)
                 
-                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} NGAY!")
-                time.sleep(0.2)   # Chuyển trang liền
+                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()}")
+                time.sleep(3.5)   # ← GIỮ TRANG 3.5 GIÂY ĐỂ TDS DUYỆT
                 return True
             except:
                 continue
