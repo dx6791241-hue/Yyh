@@ -154,12 +154,12 @@ def init_browser():
         print(f"{red}Không mở được Chrome!")
         sys.exit()
 
-# ================== AUTO CLICK - PHIÊN BẢN 12 GIÂY ==================
+# ================== AUTO CLICK - 7 GIÂY/JOB ==================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(4.5)   # Load trang chậm hơn một chút
+        time.sleep(2.2)   # Chờ load trang user
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -173,14 +173,14 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 8).until(
+                btn = WebDriverWait(driver, 5).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
                 driver.execute_script("arguments[0].click();", btn)
                 
                 print(f"{luc}✅ ĐÃ CLICK {job_type.upper()}")
-                time.sleep(2.0)   # Chờ sau click
+                time.sleep(1.0)     # Chờ sau khi click
                 return True
             except:
                 continue
@@ -192,7 +192,7 @@ def auto_click(link, job_type):
         if "no such window" in str(e).lower():
             print(f"{red}Chrome đóng! Mở lại...")
             init_browser()
-            time.sleep(3)
+            time.sleep(2)
             return auto_click(link, job_type)
         return False
 
@@ -200,14 +200,14 @@ def auto_comment():
     try:
         comment_btn = WebDriverWait(driver, 8).until(EC.element_to_be_clickable((By.XPATH, "//button[@data-e2e='comment-icon']")))
         driver.execute_script("arguments[0].click();", comment_btn)
-        time.sleep(2)
+        time.sleep(1.5)
         comment_input = WebDriverWait(driver, 6).until(EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']")))
         comment_input.send_keys("Hay lắm ❤️")
-        time.sleep(1)
+        time.sleep(0.8)
         send_btn = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Gửi')]")))
         driver.execute_script("arguments[0].click();", send_btn)
         print(f"{luc}✅ Đã comment")
-        time.sleep(2)
+        time.sleep(1.5)
         return True
     except:
         return False
@@ -269,7 +269,7 @@ def main():
 
             if not jobs:
                 print(red + 'Hết job, đang chờ...', end='\r')
-                time.sleep(8)
+                time.sleep(5)
                 continue
 
             for job in jobs:
@@ -316,19 +316,25 @@ class TraoDoiSub:
             return "success" in r.text.lower() or "cache" in r.text.lower()
         except: return False
 
-    def nhan_xu(self, nhan_type):
+        def nhan_xu(self, nhan_type):
         global total
         try:
+            # Request đúng theo những gì bạn gửi
             url = f"https://traodoisub.com/api/coin/?type={nhan_type}&id={nhan_type}_API&access_token={self.token}"
             data = requests.get(url, timeout=10).json()
+            
             if 'data' in data:
                 xuthem = data['data'].get('xu_them', 0)
                 xu_hien_tai = data['data'].get('xu', 0)
                 total += int(xuthem)
                 print(f'\n{lam}✅ NHẬN THÀNH CÔNG {red}| {luc}Cộng: {vang}{xuthem} {luc}Xu {red}| {luc}Tổng: {vang}{total} {luc}Xu {red}| {vang}{xu_hien_tai}')
                 return True
+            else:
+                print(f"{red}❌ Nhận xu thất bại (không có data)")
+                return False
+        except Exception as e:
+            print(f"{red}❌ Lỗi nhận xu: {e}")
             return False
-        except: return False
 
 if __name__ == "__main__":
     try: 
