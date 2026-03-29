@@ -19,7 +19,7 @@ lam = "\033[1;36m"
 
 thanh_xau = red + "[" + trang + "=.=" + red + "] " + trang + "=> "
 
-# ====================== BANNER GỐC CỦA BẠN (KHÔNG ĐỔI) ======================
+# ====================== BANNER ======================
 def banner():
     os.system('cls' if os.name == 'nt' else 'clear')
     ban = r'''
@@ -52,77 +52,100 @@ def decrypt_data(data: str) -> str:
 
 def get_ip_address():
     try:
-        return requests.get('https://api.ipify.org?format=json', timeout=5).json()['ip']
+        response = requests.get('https://api.ipify.org?format=json', timeout=5)
+        return response.json()['ip']
     except:
         return None
 
-def display_ip_address(ip):
-    if ip:
+def display_ip_address(ip_address):
+    if ip_address:
         banner()
-        print(f"\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;31mĐịa chỉ IP : {ip}")
+        print(f"\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;31mĐịa chỉ IP : {ip_address}")
 
-def luu_thong_tin_ip(ip, key, exp):
-    data = {ip: {'key': key, 'expiration_date': exp.isoformat()}}
-    with open('ip_key.json', 'w') as f:
-        f.write(encrypt_data(json.dumps(data)))
+def luu_thong_tin_ip(ip, key, expiration_date):
+    data = {ip: {'key': key, 'expiration_date': expiration_date.isoformat()}}
+    encrypted_data = encrypt_data(json.dumps(data))
+    with open('ip_key.json', 'w') as file:
+        file.write(encrypted_data)
 
 def kiem_tra_ip(ip):
     try:
-        with open('ip_key.json', 'r') as f:
-            data = json.loads(decrypt_data(f.read()))
+        with open('ip_key.json', 'r') as file:
+            encrypted_data = file.read()
+        data = json.loads(decrypt_data(encrypted_data))
         if ip in data:
-            exp = datetime.fromisoformat(data[ip]['expiration_date'])
-            if exp > datetime.now():
-                return True
+            expiration_date = datetime.fromisoformat(data[ip]['expiration_date'])
+            if expiration_date > datetime.now():
+                return data[ip]['key']
     except:
         pass
-    return False
+    return None
 
-def generate_key_and_url(ip):
-    ngay = datetime.now().day
+def generate_key_and_url(ip_address):
+    ngay = int(datetime.now().day)
     key1 = str(ngay * 27 + 27)
-    ip_num = ''.join(filter(str.isdigit, ip))
-    key = f'HECTORVN{key1}{ip_num}'
-    exp = datetime.now().replace(hour=23, minute=59, second=0, microsecond=0)
+    ip_numbers = ''.join(filter(str.isdigit, ip_address))
+    key = f'HECTORVN{key1}{ip_numbers}'
+    expiration_date = datetime.now().replace(hour=23, minute=59, second=0, microsecond=0)
     url = f'https://deltagetkey.blogspot.com/2026/02/get-key.html?ma={key}'
-    return url, key, exp
+    return url, key, expiration_date
 
 def get_shortened_link_phu(url):
     try:
         token = "6989d7bcd70a74263103abab"
-        r = requests.get(f"https://link4m.co/api-shorten/v2?api={token}&url={url}", timeout=5)
-        return r.json()
+        api_url = f"https://link4m.co/api-shorten/v2?api={token}&url={url}"
+        response = requests.get(api_url, timeout=5)
+        if response.status_code == 200:
+            return response.json()
+        return {"status": "error"}
     except:
         return {"status": "error"}
 
 def get_key_system():
-    ip = get_ip_address()
-    display_ip_address(ip)
-    if not ip:
-        print(f"{red}Không lấy được IP!"); sys.exit()
+    ip_address = get_ip_address()
+    display_ip_address(ip_address)
+    if not ip_address:
+        print(f"{red}Không lấy được IP!")
+        sys.exit()
 
-    if kiem_tra_ip(ip):
-        print(f"\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;35mTool còn hạn...")
+    existing_key = kiem_tra_ip(ip_address)
+    if existing_key:
+        print(f"\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;35mTool còn hạn, mời bạn dùng tool...")
         sleep(2)
         return True
 
-    url, key, exp = generate_key_and_url(ip)
-    with ThreadPoolExecutor(max_workers=2) as ex:
-        print("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;32mNhập 1 Để Lấy Key (Free)")
+    if da_qua_gio_moi():
+        print(f"{red}Quá giờ sử dụng tool !!!")
+        sys.exit()
+
+    url, key, expiration_date = generate_key_and_url(ip_address)
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        print("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;32mNhập 1 Để Lấy Key \033[1;33m(Free)")
+
         while True:
-            ch = input("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;34mNhập lựa chọn: ")
-            if ch == "1":
-                data = ex.submit(get_shortened_link_phu, url).result()
-                link = data.get('shortenedUrl')
-                print(f'\033[1;35mLink vượt key: {link}')
+            choice = input("\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;34mNhập lựa chọn: ")
+            print("\033[97m════════════════════════════════════════════════")
+            if choice == "1":
+                yeumoney_data = executor.submit(get_shortened_link_phu, url).result()
+                if yeumoney_data.get('status') == "error":
+                    print("Không thể rút gọn link!")
+                    sys.exit()
+
+                link_key = yeumoney_data.get('shortenedUrl')
+                print(f'\033[1;35mLink Để Vượt Key: {link_key}')
+
                 while True:
-                    k = input('\033[1;33mNhập key đã vượt: ')
-                    if k == key or k == "hectoradminskibidi123":
-                        print(f'{luc}Key đúng!')
-                        sleep(1.5)
-                        luu_thong_tin_ip(ip, k, exp)
+                    keynhap = input('\033[1;33mKey Đã Vượt Là: ')
+                    ADMIN_KEY = "hectoradminskibidi123"
+
+                    if keynhap == key or keynhap == ADMIN_KEY:
+                        print(f'{luc}Key Đúng! Mời bạn dùng Tool')
+                        sleep(2)
+                        luu_thong_tin_ip(ip_address, keynhap, expiration_date)
                         return True
-                    print(f'{red}Key sai!')
+                    else:
+                        print(f'{red}Key Sai, Vượt Lại: {link_key}')
 
 # ====================== SELENIUM ======================
 from selenium import webdriver
@@ -133,86 +156,98 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+total = 0
 driver = None
 
 def init_browser():
     global driver
-    opts = Options()
-    opts.add_argument("--user-data-dir=C:\\ChromeProfileTDS")
-    opts.add_argument("--no-sandbox")
-    opts.add_argument("--disable-dev-shm-usage")
-    opts.add_argument("--disable-images")
-    opts.add_argument("--blink-settings=imagesEnabled=false")
-    opts.page_load_strategy = "eager"
-    opts.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chrome_options = Options()
+    chrome_options.add_argument("--user-data-dir=C:\\ChromeProfileTDS")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument("--disable-images")
+    chrome_options.add_argument("--blink-settings=imagesEnabled=false")
+    chrome_options.page_load_strategy = "eager"
+
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=opts)
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
         print(f"{luc}✅ Chrome đã mở (tối ưu tốc độ)!")
         return driver
     except Exception as e:
-        print(f"{red}Không mở được Chrome!")
+        print(f"{red}❌ Không mở được Chrome: {e}")
         sys.exit()
 
-# ================== AUTO CLICK - NHANH (6 GIÂY/JOB) ==================
+# ================== AUTO CLICK SIÊU NHANH (THEO YÊU CẦU CỦA BẠN) ==================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(1.0)   # Load trang
+        time.sleep(1.5)   # ← Giảm mạnh, chỉ chờ đủ để nút Follow hiện ra
 
         if job_type == 'tiktok_follow':
             targets = [
                 "//button[contains(., 'Follow') or contains(., 'Theo dõi')]",
-                "//button[@data-e2e='follow-button']"
+                "//button[@data-e2e='follow-button']",
+                "//div[@data-e2e='follow-button']//button"
             ]
         elif job_type == 'tiktok_like':
             targets = ["//button[@data-e2e='like-icon']"]
         elif job_type == 'tiktok_comment':
             return auto_comment()
+        else:
+            targets = []
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 5).until(
+                btn = WebDriverWait(driver, 8).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
                 driver.execute_script("arguments[0].click();", btn)
                 
-                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()}")
-                time.sleep(0.2)
+                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} NGAY!")
+                time.sleep(0.3)   # ← Rất ngắn, chuyển trang luôn
                 return True
             except:
                 continue
 
-        print(f"{red}❌ Không tìm thấy nút")
+        print(f"{red}❌ Không tìm thấy nút {job_type}")
         return False
 
     except Exception as e:
         if "no such window" in str(e).lower():
-            print(f"{red}Chrome đóng! Mở lại...")
+            print(f"{red}⚠️ Chrome đóng! Mở lại...")
             init_browser()
             time.sleep(2)
             return auto_click(link, job_type)
+        print(f"{red}⚠️ Lỗi: {e}")
         return False
 
 def auto_comment():
+    # Giữ nguyên như cũ
     try:
-        comment_btn = WebDriverWait(driver, 8).until(EC.element_to_be_clickable((By.XPATH, "//button[@data-e2e='comment-icon']")))
+        comment_btn = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//button[@data-e2e='comment-icon']")))
         driver.execute_script("arguments[0].click();", comment_btn)
-        time.sleep(1.5)
-        comment_input = WebDriverWait(driver, 6).until(EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']")))
+        print(f"{luc}✅ Đã mở comment")
+        time.sleep(2)
+
+        comment_input = WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']")))
+        driver.execute_script("arguments[0].focus();", comment_input)
         comment_input.send_keys("Hay lắm ❤️")
-        time.sleep(0.8)
+        time.sleep(1)
+
         send_btn = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Gửi')]")))
         driver.execute_script("arguments[0].click();", send_btn)
         print(f"{luc}✅ Đã comment")
-        time.sleep(1.5)
+        time.sleep(2)
         return True
     except:
         return False
 
-# ====================== MAIN ======================
+# ====================== MAIN TOOL ======================
 def main():
     global driver
     dem = 0
@@ -225,10 +260,12 @@ def main():
 
     while True:
         if os.path.exists('configtds.txt'):
-            token = open('configtds.txt','r').read().strip()
+            with open('configtds.txt', 'r') as f: 
+                token = f.read().strip()
         else:
             token = input(f'{thanh_xau}{luc}Nhập Access Token TDS: {vang}')
-            open('configtds.txt','w').write(token)
+            with open('configtds.txt', 'w') as f: 
+                f.write(token)
 
         tds = TraoDoiSub(token)
         data = tds.profile()
@@ -238,21 +275,22 @@ def main():
             break
         else:
             print(red + 'Token sai!')
-            if os.path.exists('configtds.txt'): os.remove('configtds.txt')
+            if os.path.exists('configtds.txt'): 
+                os.remove('configtds.txt')
 
     tiktok_id = input(f'{thanh_xau}{luc}Nhập ID TikTok muốn chạy: {vang}').strip()
     res_set = tds.set_tiktok_run(tiktok_id)
     if res_set and 'success' in str(res_set):
-        print(f'{luc}✅ Đã cấu hình nick thành công!')
+        print(f'{luc}✅ Đã cấu hình nick {vang}{tiktok_id}{luc} thành công!')
     else:
-        print(red + '❌ Cấu hình thất bại!'); return
+        print(red + '❌ Cấu hình nick thất bại!'); return
 
     init_browser()
 
     while True:
         banner()
         print(f'{thanh_xau}{luc}Tên TK: {vang}{user} {red}| {luc}Xu: {vang}{xu}')
-        print(f'{thanh_xau}{luc}1 → Like | 2 → Follow | 3 → Comment')
+        print(f'{thanh_xau}{luc}1 → Tim (Like) | 2 → Follow | 3 → Comment')
         nhiem_vu = input(f'{thanh_xau}{luc}Chọn: {vang}').strip()
         dl = int(input(f'{thanh_xau}{luc}Delay (giây): {vang}'))
         nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job: {vang}'))
@@ -264,8 +302,10 @@ def main():
 
         while True:
             listjob = tds.get_job(job_type)
-            try: jobs = listjob.json().get('data', [])
-            except: jobs = []
+            try: 
+                jobs = listjob.json().get('data', [])
+            except: 
+                jobs = []
 
             if not jobs:
                 print(red + 'Hết job, đang chờ...', end='\r')
@@ -280,7 +320,7 @@ def main():
                 if tds.cache(job_id, cache_type):
                     tg = datetime.now().strftime('%H:%M:%S')
                     print(f'{vang}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE {red}| {trang}{job_id}')
-                    time.sleep(dl)
+                    time.sleep(dl)          # Delay do bạn nhập
                     if dem % nv_nhan == 0:
                         tds.nhan_xu(nhan_type)
                 else:
@@ -319,13 +359,13 @@ class TraoDoiSub:
     def nhan_xu(self, nhan_type):
         global total
         try:
-            url = f"https://traodoisub.com/api/coin/?type={nhan_type}&id={nhan_type}_API&access_token={self.token}"
+            url = f"{self.base}coin/?type={nhan_type}&id={nhan_type}_API&access_token={self.token}"
             data = requests.get(url, timeout=10).json()
             if 'data' in data:
                 xuthem = data['data'].get('xu_them', 0)
                 xu_hien_tai = data['data'].get('xu', 0)
                 total += int(xuthem)
-                print(f'\n{lam}✅ NHẬN THÀNH CÔNG {red}| {luc}Cộng: {vang}{xuthem} {luc}Xu {red}| {luc}Tổng: {vang}{total} {luc}Xu {red}| {vang}{xu_hien_tai}')
+                print(f'\n{lam}Nhận Thành Công {red}| {luc}Cộng: {vang}{xuthem} {luc}Xu {red}| {luc}Tổng: {vang}{total} {luc}Xu {red}| {vang}{xu_hien_tai}')
                 return True
             return False
         except: return False
@@ -334,5 +374,6 @@ if __name__ == "__main__":
     try: 
         main()
     except KeyboardInterrupt: 
-        if driver: driver.quit()
+        if driver: 
+            driver.quit()
         sys.exit()
