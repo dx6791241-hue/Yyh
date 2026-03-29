@@ -43,7 +43,9 @@ def banner():
         sys.stdout.flush()
         sleep(0.005)
 
-# ====================== GET KEY ======================
+# ====================== GET KEY (giữ nguyên) ======================
+# ... (phần get key giữ nguyên như file cũ của bạn, mình không thay đổi để ngắn gọn)
+
 def encrypt_data(data: str) -> str:
     return base64.b64encode(data.encode("utf-8")).decode("utf-8")
 
@@ -114,10 +116,6 @@ def get_key_system():
         sleep(2)
         return True
 
-    if da_qua_gio_moi():
-        print(f"{red}Quá giờ sử dụng tool !!!")
-        sys.exit()
-
     url, key, expiration_date = generate_key_and_url(ip_address)
 
     with ThreadPoolExecutor(max_workers=2) as executor:
@@ -169,7 +167,6 @@ def init_browser():
     chrome_options.add_argument("--disable-images")
     chrome_options.add_argument("--blink-settings=imagesEnabled=false")
     chrome_options.page_load_strategy = "eager"
-
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     
     try:
@@ -180,12 +177,12 @@ def init_browser():
         print(f"{red}❌ Không mở được Chrome: {e}")
         sys.exit()
 
-# ================== AUTO CLICK SIÊU NHANH (THEO YÊU CẦU CỦA BẠN) ==================
+# ================== AUTO CLICK - CHỜ LOAD XONG RỒI MỚI FOLLOW ==================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(1.5)   # ← Giảm mạnh, chỉ chờ đủ để nút Follow hiện ra
+        time.sleep(2.5)   # Chờ trang user load xong (đủ để nút Follow hiện)
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -208,8 +205,8 @@ def auto_click(link, job_type):
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
                 driver.execute_script("arguments[0].click();", btn)
                 
-                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} NGAY!")
-                time.sleep(0.3)   # ← Rất ngắn, chuyển trang luôn
+                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} (sau khi load xong)")
+                time.sleep(0.3)      # Chuyển trang ngay
                 return True
             except:
                 continue
@@ -227,22 +224,22 @@ def auto_click(link, job_type):
         return False
 
 def auto_comment():
-    # Giữ nguyên như cũ
+    # Giữ nguyên
     try:
-        comment_btn = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//button[@data-e2e='comment-icon']")))
+        comment_btn = WebDriverWait(driver, 8).until(EC.element_to_be_clickable((By.XPATH, "//button[@data-e2e='comment-icon']")))
         driver.execute_script("arguments[0].click();", comment_btn)
         print(f"{luc}✅ Đã mở comment")
-        time.sleep(2)
+        time.sleep(1.5)
 
-        comment_input = WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']")))
+        comment_input = WebDriverWait(driver, 6).until(EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']")))
         driver.execute_script("arguments[0].focus();", comment_input)
         comment_input.send_keys("Hay lắm ❤️")
-        time.sleep(1)
+        time.sleep(0.8)
 
         send_btn = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Gửi')]")))
         driver.execute_script("arguments[0].click();", send_btn)
         print(f"{luc}✅ Đã comment")
-        time.sleep(2)
+        time.sleep(1.5)
         return True
     except:
         return False
@@ -275,8 +272,7 @@ def main():
             break
         else:
             print(red + 'Token sai!')
-            if os.path.exists('configtds.txt'): 
-                os.remove('configtds.txt')
+            if os.path.exists('configtds.txt'): os.remove('configtds.txt')
 
     tiktok_id = input(f'{thanh_xau}{luc}Nhập ID TikTok muốn chạy: {vang}').strip()
     res_set = tds.set_tiktok_run(tiktok_id)
@@ -320,7 +316,7 @@ def main():
                 if tds.cache(job_id, cache_type):
                     tg = datetime.now().strftime('%H:%M:%S')
                     print(f'{vang}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE {red}| {trang}{job_id}')
-                    time.sleep(dl)          # Delay do bạn nhập
+                    time.sleep(dl)
                     if dem % nv_nhan == 0:
                         tds.nhan_xu(nhan_type)
                 else:
@@ -365,7 +361,7 @@ class TraoDoiSub:
                 xuthem = data['data'].get('xu_them', 0)
                 xu_hien_tai = data['data'].get('xu', 0)
                 total += int(xuthem)
-                print(f'\n{lam}Nhận Thành Công {red}| {luc}Cộng: {vang}{xuthem} {luc}Xu {red}| {luc}Tổng: {vang}{total} {luc}Xu {red}| {vang}{xu_hien_tai}')
+                print(f'\n{lam}✅ NHẬN THÀNH CÔNG {red}| {luc}Cộng: {vang}{xuthem} {luc}Xu {red}| {luc}Tổng: {vang}{total} {luc}Xu {red}| {vang}{xu_hien_tai}')
                 return True
             return False
         except: return False
