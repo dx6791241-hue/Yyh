@@ -19,7 +19,7 @@ lam = "\033[1;36m"
 
 thanh_xau = red + "[" + trang + "=.=" + red + "] " + trang + "=> "
 
-# ====================== BANNER ======================
+# ====================== BANNER GỐC CỦA BẠN (KHÔNG ĐỔI) ======================
 def banner():
     os.system('cls' if os.name == 'nt' else 'clear')
     ban = r'''
@@ -43,7 +43,7 @@ def banner():
         sys.stdout.flush()
         sleep(0.005)
 
-# ====================== GET KEY (giữ nguyên) ======================
+# ====================== GET KEY ======================
 def encrypt_data(data: str) -> str:
     return base64.b64encode(data.encode("utf-8")).decode("utf-8")
 
@@ -154,12 +154,12 @@ def init_browser():
         print(f"{red}Không mở được Chrome!")
         sys.exit()
 
-# ================== AUTO CLICK - LOAD XONG RỒI MỚI FOLLOW (6 GIÂY/JOB) ==================
+# ================== AUTO CLICK - NHANH (6 GIÂY/JOB) ==================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(1.8)   # Chờ load trang user xong
+        time.sleep(1.0)   # Load trang
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -173,14 +173,14 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 6).until(
+                btn = WebDriverWait(driver, 5).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
                 driver.execute_script("arguments[0].click();", btn)
                 
-                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} (sau khi load xong)")
-                time.sleep(0.3)   # Chuyển job ngay
+                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()}")
+                time.sleep(0.2)
                 return True
             except:
                 continue
@@ -197,7 +197,6 @@ def auto_click(link, job_type):
         return False
 
 def auto_comment():
-    # Giữ nguyên (comment không cần quá nhanh)
     try:
         comment_btn = WebDriverWait(driver, 8).until(EC.element_to_be_clickable((By.XPATH, "//button[@data-e2e='comment-icon']")))
         driver.execute_script("arguments[0].click();", comment_btn)
@@ -283,7 +282,7 @@ def main():
                     print(f'{vang}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE {red}| {trang}{job_id}')
                     time.sleep(dl)
                     if dem % nv_nhan == 0:
-                        tds.nhan_xu(nhan_type)   # ← ĐÃ SỬA ĐÚNG REQUEST CỦA BẠN
+                        tds.nhan_xu(nhan_type)
                 else:
                     print(red + f'Lỗi Cache ID: {job_id}')
 
@@ -317,7 +316,6 @@ class TraoDoiSub:
             return "success" in r.text.lower() or "cache" in r.text.lower()
         except: return False
 
-    # ================== HÀM NHẬN XU ĐÃ SỬA ĐÚNG THEO REQUEST BẠN ĐƯA ==================
     def nhan_xu(self, nhan_type):
         global total
         try:
