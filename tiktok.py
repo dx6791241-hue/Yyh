@@ -155,7 +155,8 @@ def init_browser():
         print(f"{red}Không mở được Chrome!")
         sys.exit()
 
-# ================== AUTO CLICK - CHẬM LẠI ĐỂ TRÁNH "THAO TÁC QUÁ NHANH" ==================
+
+# ================== AUTO CLICK - TỐC ĐỘ VỪA PHẢI (7-8 GIÂY/JOB) ==================
 def auto_click(link, job_type):
     global driver
     try:
@@ -181,7 +182,7 @@ def auto_click(link, job_type):
                 driver.execute_script("arguments[0].click();", btn)
                 
                 print(f"{luc}✅ ĐÃ CLICK {job_type.upper()}")
-                time.sleep(4.0)   # ← GIỮ TRANG 4 GIÂY ĐỂ TDS DUYỆT, TRÁNH QUÁ NHANH
+                time.sleep(3.0)   # Giữ trang 3 giây để TDS duyệt
                 return True
             except:
                 continue
