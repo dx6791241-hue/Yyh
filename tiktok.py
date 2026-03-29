@@ -316,10 +316,9 @@ class TraoDoiSub:
             return "success" in r.text.lower() or "cache" in r.text.lower()
         except: return False
 
-        def nhan_xu(self, nhan_type):
+    def nhan_xu(self, nhan_type):
         global total
         try:
-            # Request đúng theo những gì bạn gửi
             url = f"https://traodoisub.com/api/coin/?type={nhan_type}&id={nhan_type}_API&access_token={self.token}"
             data = requests.get(url, timeout=10).json()
             
