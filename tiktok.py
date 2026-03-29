@@ -155,12 +155,12 @@ def init_browser():
         print(f"{red}Không mở được Chrome!")
         sys.exit()
 
-# ================== AUTO CLICK - BẤM NHANH NHƯNG GIỮ TRANG 3-4 GIÂY ==================
+# ================== AUTO CLICK - CHẬM LẠI ĐỂ TRÁNH "THAO TÁC QUÁ NHANH" ==================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(1.5)   # Load trang
+        time.sleep(2.0)   # Chờ load trang user
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -181,7 +181,7 @@ def auto_click(link, job_type):
                 driver.execute_script("arguments[0].click();", btn)
                 
                 print(f"{luc}✅ ĐÃ CLICK {job_type.upper()}")
-                time.sleep(3.5)   # ← GIỮ TRANG 3.5 GIÂY ĐỂ TDS DUYỆT
+                time.sleep(4.0)   # ← GIỮ TRANG 4 GIÂY ĐỂ TDS DUYỆT, TRÁNH QUÁ NHANH
                 return True
             except:
                 continue
