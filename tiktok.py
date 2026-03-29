@@ -19,7 +19,7 @@ lam = "\033[1;36m"
 
 thanh_xau = red + "[" + trang + "=.=" + red + "] " + trang + "=> "
 
-# ====================== BANNER GỐC ======================
+# ====================== BANNER GỐC (KHÔNG ĐỔI) ======================
 def banner():
     os.system('cls' if os.name == 'nt' else 'clear')
     ban = r'''
@@ -43,7 +43,7 @@ def banner():
         sys.stdout.flush()
         sleep(0.005)
 
-# ====================== GET KEY ======================
+# ====================== GET KEY (GIỮ NGUYÊN) ======================
 def encrypt_data(data: str) -> str:
     return base64.b64encode(data.encode("utf-8")).decode("utf-8")
 
@@ -124,7 +124,7 @@ def get_key_system():
                         return True
                     print(f'{red}Key sai!')
 
-# ====================== SELENIUM ======================
+# ====================== SELENIUM (GIỮ NGUYÊN) ======================
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -133,6 +133,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+total = 0
 driver = None
 
 def init_browser():
@@ -154,12 +155,11 @@ def init_browser():
         print(f"{red}Không mở được Chrome!")
         sys.exit()
 
-# ================== AUTO CLICK - 7 GIÂY/JOB ==================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(2.2)   # Chờ load trang user
+        time.sleep(1.8)
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -173,14 +173,13 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 5).until(
+                btn = WebDriverWait(driver, 6).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
                 driver.execute_script("arguments[0].click();", btn)
-                
                 print(f"{luc}✅ ĐÃ CLICK {job_type.upper()}")
-                time.sleep(1.0)     # Chờ sau khi click
+                time.sleep(0.3)
                 return True
             except:
                 continue
@@ -212,7 +211,7 @@ def auto_comment():
     except:
         return False
 
-# ====================== MAIN ======================
+# ====================== MAIN (GIỮ NGUYÊN) ======================
 def main():
     global driver
     dem = 0
@@ -297,43 +296,42 @@ class TraoDoiSub:
             return r.json().get('data')
         except: return None
 
+    # CÁI 1: Đặt cấu hình nick
     def set_tiktok_run(self, tiktok_id):
         try:
-            url = f"{self.base}?fields=tiktok_run&id={tiktok_id}&access_token={self.token}"
+            url = f"https://traodoisub.com/api/?fields=tiktok_run&id={tiktok_id}&access_token={self.token}"
             return requests.get(url, timeout=10).json()
         except: return None
 
+    # CÁI 2: Lấy danh sách nhiệm vụ
     def get_job(self, job_type):
         try:
-            url = f"{self.base}?fields={job_type}&access_token={self.token}"
+            url = f"https://traodoisub.com/api/?fields={job_type}&access_token={self.token}"
             return requests.get(url, timeout=10)
         except: return None
 
+    # CÁI 3: Gửi duyệt nhiệm vụ (Cache)
     def cache(self, job_id, cache_type):
         try:
-            url = f"{self.base}coin/?type={cache_type}&id={job_id}&access_token={self.token}"
+            url = f"https://traodoisub.com/api/coin/?type={cache_type}&id={job_id}&access_token={self.token}"
             r = requests.get(url, timeout=10)
             return "success" in r.text.lower() or "cache" in r.text.lower()
         except: return False
 
+    # CÁI 4: Nhận xu (ĐÃ SỬA ĐÚNG THEO REQUEST BẠN GỬI)
     def nhan_xu(self, nhan_type):
         global total
         try:
             url = f"https://traodoisub.com/api/coin/?type={nhan_type}&id={nhan_type}_API&access_token={self.token}"
             data = requests.get(url, timeout=10).json()
-            
             if 'data' in data:
                 xuthem = data['data'].get('xu_them', 0)
                 xu_hien_tai = data['data'].get('xu', 0)
                 total += int(xuthem)
                 print(f'\n{lam}✅ NHẬN THÀNH CÔNG {red}| {luc}Cộng: {vang}{xuthem} {luc}Xu {red}| {luc}Tổng: {vang}{total} {luc}Xu {red}| {vang}{xu_hien_tai}')
                 return True
-            else:
-                print(f"{red}❌ Nhận xu thất bại (không có data)")
-                return False
-        except Exception as e:
-            print(f"{red}❌ Lỗi nhận xu: {e}")
             return False
+        except: return False
 
 if __name__ == "__main__":
     try: 
