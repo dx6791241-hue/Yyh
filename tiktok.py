@@ -124,7 +124,7 @@ def get_key_system():
                         return True
                     print(f'{red}Key sai!')
 
-# ====================== SELENIUM (GIỮ NGUYÊN) ======================
+# ====================== SELENIUM ======================
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -155,11 +155,12 @@ def init_browser():
         print(f"{red}Không mở được Chrome!")
         sys.exit()
 
+# ================== AUTO CLICK KIỂU A - BẤM FOLLOW NHANH NHẤT CÓ THỂ ==================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(1.8)
+        time.sleep(1.2)   # Load nhanh
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -173,13 +174,14 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 6).until(
+                btn = WebDriverWait(driver, 5).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
                 driver.execute_script("arguments[0].click();", btn)
-                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()}")
-                time.sleep(0.3)
+                
+                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} NGAY!")
+                time.sleep(0.2)   # Chuyển trang liền
                 return True
             except:
                 continue
@@ -296,29 +298,25 @@ class TraoDoiSub:
             return r.json().get('data')
         except: return None
 
-    # CÁI 1: Đặt cấu hình nick
     def set_tiktok_run(self, tiktok_id):
         try:
-            url = f"https://traodoisub.com/api/?fields=tiktok_run&id={tiktok_id}&access_token={self.token}"
+            url = f"{self.base}?fields=tiktok_run&id={tiktok_id}&access_token={self.token}"
             return requests.get(url, timeout=10).json()
         except: return None
 
-    # CÁI 2: Lấy danh sách nhiệm vụ
     def get_job(self, job_type):
         try:
-            url = f"https://traodoisub.com/api/?fields={job_type}&access_token={self.token}"
+            url = f"{self.base}?fields={job_type}&access_token={self.token}"
             return requests.get(url, timeout=10)
         except: return None
 
-    # CÁI 3: Gửi duyệt nhiệm vụ (Cache)
     def cache(self, job_id, cache_type):
         try:
-            url = f"https://traodoisub.com/api/coin/?type={cache_type}&id={job_id}&access_token={self.token}"
+            url = f"{self.base}coin/?type={cache_type}&id={job_id}&access_token={self.token}"
             r = requests.get(url, timeout=10)
             return "success" in r.text.lower() or "cache" in r.text.lower()
         except: return False
 
-    # CÁI 4: Nhận xu (ĐÃ SỬA ĐÚNG THEO REQUEST BẠN GỬI)
     def nhan_xu(self, nhan_type):
         global total
         try:
