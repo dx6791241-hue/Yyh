@@ -19,7 +19,7 @@ lam = "\033[1;36m"
 
 thanh_xau = red + "[" + trang + "=.=" + red + "] " + trang + "=> "
 
-# ====================== BANNER MỚI ======================
+# ====================== BANNER ======================
 def banner():
     os.system('cls' if os.name == 'nt' else 'clear')
     ban = r'''
@@ -43,7 +43,7 @@ def banner():
         sys.stdout.flush()
         sleep(0.005)
 
-# ====================== PHẦN GET KEY ======================
+# ====================== GET KEY ======================
 def encrypt_data(data: str) -> str:
     return base64.b64encode(data.encode("utf-8")).decode("utf-8")
 
@@ -61,8 +61,6 @@ def display_ip_address(ip_address):
     if ip_address:
         banner()
         print(f"\033[1;97m[\033[1;91m<>\033[1;97m] \033[1;31mĐịa chỉ IP : {ip_address}")
-    else:
-        print("Không thể lấy địa chỉ IP của thiết bị.")
 
 def luu_thong_tin_ip(ip, key, expiration_date):
     data = {ip: {'key': key, 'expiration_date': expiration_date.isoformat()}}
@@ -70,21 +68,17 @@ def luu_thong_tin_ip(ip, key, expiration_date):
     with open('ip_key.json', 'w') as file:
         file.write(encrypted_data)
 
-def tai_thong_tin_ip():
+def kiem_tra_ip(ip):
     try:
         with open('ip_key.json', 'r') as file:
             encrypted_data = file.read()
         data = json.loads(decrypt_data(encrypted_data))
-        return data
+        if ip in data:
+            expiration_date = datetime.fromisoformat(data[ip]['expiration_date'])
+            if expiration_date > datetime.now():
+                return data[ip]['key']
     except:
-        return None
-
-def kiem_tra_ip(ip):
-    data = tai_thong_tin_ip()
-    if data and ip in data:
-        expiration_date = datetime.fromisoformat(data[ip]['expiration_date'])
-        if expiration_date > datetime.now():
-            return data[ip]['key']
+        pass
     return None
 
 def generate_key_and_url(ip_address):
@@ -95,11 +89,6 @@ def generate_key_and_url(ip_address):
     expiration_date = datetime.now().replace(hour=23, minute=59, second=0, microsecond=0)
     url = f'https://deltagetkey.blogspot.com/2026/02/get-key.html?ma={key}'
     return url, key, expiration_date
-
-def da_qua_gio_moi():
-    now = datetime.now()
-    midnight = now.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-    return now >= midnight
 
 def get_shortened_link_phu(url):
     try:
@@ -115,7 +104,6 @@ def get_shortened_link_phu(url):
 def get_key_system():
     ip_address = get_ip_address()
     display_ip_address(ip_address)
-
     if not ip_address:
         print(f"{red}Không lấy được IP!")
         sys.exit()
@@ -159,7 +147,7 @@ def get_key_system():
                     else:
                         print(f'{red}Key Sai, Vượt Lại: {link_key}')
 
-# ====================== SELENIUM PART (Giữ nguyên đã fix) ======================
+# ====================== SELENIUM ======================
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -178,9 +166,9 @@ def init_browser():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--disable-images")          # Tắt hình ảnh
+    chrome_options.add_argument("--disable-images")
     chrome_options.add_argument("--blink-settings=imagesEnabled=false")
-    chrome_options.page_load_strategy = "eager"              # Load nhanh hơn (không chờ hết trang)
+    chrome_options.page_load_strategy = "eager"
 
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     
@@ -192,34 +180,21 @@ def init_browser():
         print(f"{red}❌ Không mở được Chrome: {e}")
         sys.exit()
 
-# ================== AUTO CLICK SIÊU NHANH + CHỐNG LỖI WINDOW CLOSED ==================
+# ================== AUTO CLICK SIÊU NHANH (THEO YÊU CẦU CỦA BẠN) ==================
 def auto_click(link, job_type):
     global driver
     try:
-        # Tối ưu tốc độ load trang
-        driver.execute_script("window.stop();")  # Dừng load trang thừa
         driver.get(link)
-        time.sleep(4)   # ← Giảm từ 6s xuống 4s
+        time.sleep(1.5)   # ← Giảm mạnh, chỉ chờ đủ để nút Follow hiện ra
 
-        # Không cần chờ video nữa để nhanh hơn (nếu lỗi thì tăng lại 3s)
-        try:
-            WebDriverWait(driver, 8).until(
-                EC.presence_of_element_located((By.TAG_NAME, "video"))
-            )
-        except:
-            pass
-
-        if job_type == 'tiktok_like':
-            targets = [
-                "//button[@data-e2e='like-icon']",
-                "//button[contains(., 'Like') or contains(., 'Thích')]"
-            ]
-        elif job_type == 'tiktok_follow':
+        if job_type == 'tiktok_follow':
             targets = [
                 "//button[contains(., 'Follow') or contains(., 'Theo dõi')]",
                 "//button[@data-e2e='follow-button']",
                 "//div[@data-e2e='follow-button']//button"
             ]
+        elif job_type == 'tiktok_like':
+            targets = ["//button[@data-e2e='like-icon']"]
         elif job_type == 'tiktok_comment':
             return auto_comment()
         else:
@@ -227,15 +202,14 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 10).until(
+                btn = WebDriverWait(driver, 8).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                time.sleep(0.2)   # Giảm chờ scroll
                 driver.execute_script("arguments[0].click();", btn)
                 
-                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} - NHANH!")
-                time.sleep(0.8)   # ← Giảm mạnh từ 1s xuống 0.8s
+                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()} NGAY!")
+                time.sleep(0.3)   # ← Rất ngắn, chuyển trang luôn
                 return True
             except:
                 continue
@@ -244,35 +218,28 @@ def auto_click(link, job_type):
         return False
 
     except Exception as e:
-        error_msg = str(e).lower()
-        if "no such window" in error_msg or "target window already closed" in error_msg:
+        if "no such window" in str(e).lower():
             print(f"{red}⚠️ Chrome đóng! Mở lại...")
             init_browser()
             time.sleep(2)
             return auto_click(link, job_type)
-        else:
-            print(f"{red}⚠️ Lỗi: {e}")
-            return False
+        print(f"{red}⚠️ Lỗi: {e}")
+        return False
 
 def auto_comment():
+    # Giữ nguyên như cũ
     try:
-        comment_btn = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[@data-e2e='comment-icon']"))
-        )
+        comment_btn = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//button[@data-e2e='comment-icon']")))
         driver.execute_script("arguments[0].click();", comment_btn)
         print(f"{luc}✅ Đã mở comment")
         time.sleep(2)
 
-        comment_input = WebDriverWait(driver, 8).until(
-            EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']"))
-        )
+        comment_input = WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']")))
         driver.execute_script("arguments[0].focus();", comment_input)
         comment_input.send_keys("Hay lắm ❤️")
         time.sleep(1)
 
-        send_btn = WebDriverWait(driver, 5).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Gửi')]"))
-        )
+        send_btn = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Gửi')]")))
         driver.execute_script("arguments[0].click();", send_btn)
         print(f"{luc}✅ Đã comment")
         time.sleep(2)
@@ -285,15 +252,12 @@ def main():
     global driver
     dem = 0
 
-    # Chạy Get Key trước
     if not get_key_system():
         sys.exit()
 
     banner()
     print(f"{luc}Dev:Deltatrash09(Duong Khoi)")
-    print("SDT:0949557645")
 
-    # Login TDS
     while True:
         if os.path.exists('configtds.txt'):
             with open('configtds.txt', 'r') as f: 
@@ -345,7 +309,7 @@ def main():
 
             if not jobs:
                 print(red + 'Hết job, đang chờ...', end='\r')
-                time.sleep(8)
+                time.sleep(5)
                 continue
 
             for job in jobs:
@@ -356,7 +320,7 @@ def main():
                 if tds.cache(job_id, cache_type):
                     tg = datetime.now().strftime('%H:%M:%S')
                     print(f'{vang}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE {red}| {trang}{job_id}')
-                    time.sleep(dl)
+                    time.sleep(dl)          # Delay do bạn nhập
                     if dem % nv_nhan == 0:
                         tds.nhan_xu(nhan_type)
                 else:
