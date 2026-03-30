@@ -194,7 +194,7 @@ def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(2.0)   # Load trang ổn định
+        time.sleep(4.0)   # Load lâu hơn để trang ổn định
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -202,8 +202,7 @@ def auto_click(link, job_type):
                 "//button[@data-e2e='follow-button']",
                 "//button[contains(@class, 'follow')]",
                 "//button[@aria-label='Follow' or @aria-label='Theo dõi']",
-                "//div[contains(@class, 'follow')]//button",
-                "//span[contains(text(), 'Follow')]/parent::button"
+                "//div[contains(@class, 'follow')]//button"
             ]
         elif job_type == 'tiktok_like':
             targets = ["//button[@data-e2e='like-icon']"]
@@ -212,37 +211,53 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 12).until(
+                btn = WebDriverWait(driver, 15).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 
-                # Scroll + Click JS mạnh + dispatch event
-                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                time.sleep(0.6)
+                # Scroll mượt
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", btn)
+                time.sleep(0.8)
                 
+                # Click mạnh + giả lập đầy đủ event
                 driver.execute_script("""
-                    let el = arguments[0];
-                    el.click();
-                    el.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
-                    el.dispatchEvent(new MouseEvent('mouseup', {bubbles: true}));
-                    el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+                    let button = arguments[0];
+                    button.focus();
+                    
+                    // Simulate full mouse events
+                    let events = ['mousedown', 'mouseup', 'click'];
+                    events.forEach(eventType => {
+                        let evt = new MouseEvent(eventType, {
+                            bubbles: true,
+                            cancelable: true,
+                            view: window,
+                            buttons: 1,
+                            button: 0
+                        });
+                        button.dispatchEvent(evt);
+                    });
+                    
+                    // Additional click
+                    button.click();
                 """, btn)
                 
-                print(f"{luc}✅ ĐÃ CLICK FOLLOW (JS strong)")
-                time.sleep(3.5)   # Giữ trang lâu để TikTok ghi nhận
+                print(f"{luc}✅ ĐÃ CLICK FOLLOW (JS strong + events)")
+                
+                time.sleep(5.5)   # Giữ trang lâu nhất có thể để TikTok ghi nhận thật
                 return True
-            except:
+                
+            except Exception as inner_e:
                 continue
 
         print(f"{red}❌ Không tìm thấy nút Follow")
-        time.sleep(2.5)
+        time.sleep(3)
         return False
 
     except Exception as e:
         if "no such window" in str(e).lower() or "target window already closed" in str(e).lower():
             print(f"{red}⚠️ Chrome đóng! Mở lại...")
             init_browser()
-            time.sleep(3)
+            time.sleep(4)
             return auto_click(link, job_type)
         print(f"{red}⚠️ Lỗi: {e}")
         return False
