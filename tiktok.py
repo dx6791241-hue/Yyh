@@ -126,6 +126,7 @@ def get_key_system():
 
 # ====================== SELENIUM ======================
 from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
@@ -193,15 +194,14 @@ def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(3.0)
+        time.sleep(3.2)   # Load trang
 
         if job_type == 'tiktok_follow':
             targets = [
                 "//button[contains(., 'Follow') or contains(., 'Theo dõi')]",
                 "//button[@data-e2e='follow-button']",
                 "//button[contains(@class, 'follow')]",
-                "//button[@aria-label='Follow' or @aria-label='Theo dõi']",
-                "//div[contains(@class, 'follow')]//button"
+                "//button[@aria-label='Follow' or @aria-label='Theo dõi']"
             ]
         elif job_type == 'tiktok_like':
             targets = ["//button[@data-e2e='like-icon']"]
@@ -210,12 +210,21 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, target)))
-                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                time.sleep(0.5)
-                driver.execute_script("arguments[0].click();", btn)
-                print(f"{luc}✅ ĐÃ CLICK FOLLOW")
-                time.sleep(3.5)
+                btn = WebDriverWait(driver, 12).until(
+                    EC.element_to_be_clickable((By.XPATH, target))
+                )
+                
+                # Di chuột thật + hover + click như người
+                actions = ActionChains(driver)
+                actions.move_to_element_with_offset(btn, random.randint(-5, 5), random.randint(-5, 5))
+                actions.pause(random.uniform(0.3, 0.7))
+                actions.move_to_element(btn)
+                actions.pause(random.uniform(0.4, 0.8))
+                actions.click()
+                actions.perform()
+                
+                print(f"{luc}✅ ĐÃ CLICK FOLLOW (real mouse click)")
+                time.sleep(4.8)   # Giữ trang lâu hơn để TikTok ghi nhận
                 return True
             except:
                 continue
