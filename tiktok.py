@@ -196,54 +196,69 @@ def auto_comment():
         return False
 
 def auto_follow():
-    """Thực hiện follow và xác nhận thành công"""
+    """Thực hiện follow và xác nhận thành công - xử lý lỗi element not interactable"""
     try:
-        # Đợi nút Follow xuất hiện
+        # 1. Đợi nút Follow xuất hiện và visible
         follow_btn = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//button[contains(., 'Follow') or contains(., 'Theo dõi')]"))
+            EC.visibility_of_element_located((By.XPATH, "//button[contains(., 'Follow') or contains(., 'Theo dõi')]"))
         )
         
-        # Cuộn đến nút để chắc chắn nằm trong viewport
+        # 2. Cuộn đến nút và đợi layout ổn định
+        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", follow_btn)
+        time.sleep(0.8)
+        
+        # 3. Thử click bằng JavaScript trước (tránh bị che)
+        driver.execute_script("arguments[0].click();", follow_btn)
+        print(f"{luc}📌 Đã click nút Follow bằng JS")
+        
+        # 4. Kiểm tra kết quả sau click
+        time.sleep(2)
+        
+        # Cố gắng lấy lại element (có thể đã thay đổi)
+        try:
+            new_btn = driver.find_element(By.XPATH, "//button[contains(., 'Follow') or contains(., 'Theo dõi')]")
+            btn_text = new_btn.text
+        except:
+            btn_text = ""
+        
+        if "Following" in btn_text or "Đang theo dõi" in btn_text:
+            print(f"{luc}✅ Follow thành công! (text đã thay đổi)")
+            return True
+        
+        # 5. Nếu chưa thành công, thử lại với ActionChains (di chuyển chuột tự nhiên)
+        print(f"{vang}⚠️ Click JS chưa thành công, thử lại với ActionChains...")
+        
+        # Đợi thêm và scroll lại
+        time.sleep(1)
         driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", follow_btn)
         time.sleep(0.5)
         
-        # Di chuyển chuột tự nhiên
         actions = ActionChains(driver)
-        actions.move_to_element_with_offset(follow_btn, random.randint(-5, 5), random.randint(-5, 5))
+        actions.move_to_element_with_offset(follow_btn, random.randint(-3, 3), random.randint(-3, 3))
         actions.pause(random.uniform(0.2, 0.4))
-        actions.move_to_element(follow_btn)
-        actions.pause(random.uniform(0.3, 0.5))
         actions.click()
         actions.perform()
-        print(f"{luc}📌 Đã click nút Follow")
         
-        # Kiểm tra sau click: đợi text thay đổi thành "Following" hoặc "Đang theo dõi"
+        time.sleep(2)
+        
+        # Kiểm tra lại
         try:
-            WebDriverWait(driver, 8).until(
-                lambda d: "Following" in follow_btn.text or "Đang theo dõi" in follow_btn.text
-            )
-            print(f"{luc}✅ Follow thành công! (text đã thay đổi)")
-            return True
-        except:
-            # Nếu không thay đổi text, thử kiểm tra nút có bị stale (biến mất) không
-            try:
-                WebDriverWait(driver, 5).until(EC.staleness_of(follow_btn))
-                print(f"{luc}✅ Follow thành công! (nút đã biến mất)")
+            final_btn = driver.find_element(By.XPATH, "//button[contains(., 'Follow') or contains(., 'Theo dõi')]")
+            if "Following" in final_btn.text or "Đang theo dõi" in final_btn.text:
+                print(f"{luc}✅ Follow thành công sau ActionChains!")
                 return True
-            except:
-                print(f"{red}⚠️ Không xác nhận được follow, thử click bằng JS...")
-                driver.execute_script("arguments[0].click();", follow_btn)
-                time.sleep(3)
-                # Kiểm tra lại text
-                if "Following" in follow_btn.text or "Đang theo dõi" in follow_btn.text:
-                    print(f"{luc}✅ Follow thành công sau JS click!")
-                    return True
-                else:
-                    print(f"{red}❌ Follow thất bại, không thấy thay đổi")
-                    return False
+        except:
+            # Nếu không tìm thấy nút nữa (đã biến mất) => cũng thành công
+            print(f"{luc}✅ Follow thành công! (nút đã biến mất)")
+            return True
+        
+        print(f"{red}❌ Follow thất bại sau nhiều lần thử")
+        return False
+        
     except Exception as e:
         print(f"{red}❌ Lỗi follow: {e}")
         return False
+
 
 def auto_like():
     """Thực hiện like và xác nhận thành công"""
