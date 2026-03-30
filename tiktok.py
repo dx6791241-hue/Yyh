@@ -195,13 +195,15 @@ def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(2.3)   # Load trang user (theo video khoảng 2-3 giây)
+        time.sleep(3.0)   # Load lâu hơn để nút hiện rõ
 
         if job_type == 'tiktok_follow':
             targets = [
                 "//button[contains(., 'Follow') or contains(., 'Theo dõi')]",
                 "//button[@data-e2e='follow-button']",
-                "//button[contains(@class, 'follow')]"
+                "//button[contains(@class, 'follow')]",
+                "//button[@aria-label='Follow' or @aria-label='Theo dõi']",
+                "//div[contains(@class, 'follow')]//button"
             ]
         elif job_type == 'tiktok_like':
             targets = ["//button[@data-e2e='like-icon']"]
@@ -210,26 +212,29 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 7).until(
+                btn = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+                time.sleep(0.5)
                 driver.execute_script("arguments[0].click();", btn)
                 
                 print(f"{luc}✅ ĐÃ CLICK FOLLOW")
-                time.sleep(2)   # Giữ trang 3.2 giây sau khi click (theo video)
+                time.sleep(2.5)   # Giữ trang 4 giây để TikTok ghi nhận
                 return True
             except:
                 continue
 
         print(f"{red}❌ Không tìm thấy nút Follow")
+        time.sleep(2)   # Nghỉ nếu miss nút
         return False
 
     except Exception as e:
-        if "no such window" in str(e).lower():
-            print(f"{red}Chrome đóng! Mở lại...")
+        error_str = str(e).lower()
+        if "no such window" in error_str or "target window already closed" in error_str:
+            print(f"{red}⚠️ Chrome đóng! Mở lại...")
             init_browser()
-            time.sleep(2)
+            time.sleep(3)
             return auto_click(link, job_type)
         print(f"{red}⚠️ Lỗi: {e}")
         return False
