@@ -328,6 +328,54 @@ def main():
                 else:
                     print(red + f'Lỗi Cache ID: {job_id}')
 
+    # ====================== PHẦN MỚI - CHỜ CHỌN NHIỆM VỤ ======================
+    while True:
+        banner()
+        print(f'{thanh_xau}{luc}Tên TK: {vang}{user} {red}| {luc}Xu: {vang}{xu}')
+        print(f'{thanh_xau}{luc}1 → Like | 2 → Follow | 3 → Comment')
+        
+        nhiem_vu = input(f'{thanh_xau}{luc}Chọn: {vang}').strip()
+        
+        if nhiem_vu not in ['1','2','3']:
+            print(red + "Chọn sai, nhập lại!")
+            continue
+
+        dl = int(input(f'{thanh_xau}{luc}Delay (giây) - Khuyến nghị 3-5: {vang}'))
+        nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job: {vang}'))
+
+        if nhiem_vu == '1': job_type, cache_type, nhan_type = 'tiktok_like', 'TIKTOK_LIKE_CACHE', 'TIKTOK_LIKE'
+        elif nhiem_vu == '2': job_type, cache_type, nhan_type = 'tiktok_follow', 'TIKTOK_FOLLOW_CACHE', 'TIKTOK_FOLLOW'
+        elif nhiem_vu == '3': job_type, cache_type, nhan_type = 'tiktok_comment', 'TIKTOK_COMMENT_CACHE', 'TIKTOK_COMMENT'
+
+        print(f"{lam}Đang bắt đầu farm {job_type.upper()}... (Delay = {dl}s)")
+        time.sleep(3)   # Nghỉ 3 giây trước khi lấy job đầu tiên
+
+        while True:
+            listjob = tds.get_job(job_type)
+            try: 
+                jobs = listjob.json().get('data', [])
+            except: 
+                jobs = []
+
+            if not jobs:
+                print(red + 'Hết job, đang chờ 8 giây...', end='\r')
+                time.sleep(8)
+                continue
+
+            for job in jobs:
+                job_id, link = job['id'], job['link']
+                auto_click(link, job_type)
+                dem += 1
+                
+                if tds.cache(job_id, cache_type):
+                    tg = datetime.now().strftime('%H:%M:%S')
+                    print(f'{vang}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE {red}| {trang}{job_id}')
+                    time.sleep(dl)   # Delay đúng như bạn nhập
+                    if dem % nv_nhan == 0:
+                        tds.nhan_xu(nhan_type)
+                else:
+                    print(red + f'Lỗi Cache ID: {job_id}')
+
     def set_tiktok_run(self, tiktok_id):
         try:
             url = f"{self.base}?fields=tiktok_run&id={tiktok_id}&access_token={self.token}"
