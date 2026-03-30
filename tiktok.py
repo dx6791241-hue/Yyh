@@ -139,6 +139,7 @@ driver = None
 def init_browser():
     global driver
     chrome_options = Options()
+    
     chrome_options.add_argument("--user-data-dir=C:\\ChromeProfileTDS")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
@@ -147,20 +148,30 @@ def init_browser():
     chrome_options.add_argument("--blink-settings=imagesEnabled=false")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--start-maximized")
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_experimental_option('useAutomationExtension', False)
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-notifications")
+    
+    # Anti-detect mạnh hơn
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    
     chrome_options.page_load_strategy = "eager"
 
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+        
+        # Anti-detect JS (rất quan trọng)
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-        print(f"{luc}✅ Chrome đã mở với profile mới!")
+        driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]})")
+        driver.execute_script("Object.defineProperty(navigator, 'languages', {get: () => ['vi-VN', 'vi']})")
+        
+        print(f"{luc}✅ Chrome đã mở (anti-detect mạnh)!")
         return driver
     except Exception as e:
         print(f"{red}❌ Không mở được Chrome: {e}")
         sys.exit()
+
 
 def auto_comment():
     try:
