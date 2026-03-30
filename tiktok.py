@@ -239,6 +239,7 @@ def auto_click(link, job_type):
         print(f"{red}⚠️ Lỗi: {e}")
         return False
         
+# ====================== MAIN TOOL - ĐÃ SỬA KHÔNG TỰ LẤY JOB NGAY ======================
 def main():
     global driver
     dem = 0
@@ -249,12 +250,15 @@ def main():
     banner()
     print(f"{luc}Dev:Deltatrash09(Duong Khoi)")
 
+    # Login TDS
     while True:
         if os.path.exists('configtds.txt'):
-            token = open('configtds.txt','r').read().strip()
+            with open('configtds.txt', 'r') as f: 
+                token = f.read().strip()
         else:
             token = input(f'{thanh_xau}{luc}Nhập Access Token TDS: {vang}')
-            open('configtds.txt','w').write(token)
+            with open('configtds.txt', 'w') as f: 
+                f.write(token)
 
         tds = TraoDoiSub(token)
         data = tds.profile()
@@ -264,38 +268,50 @@ def main():
             break
         else:
             print(red + 'Token sai!')
-            if os.path.exists('configtds.txt'): os.remove('configtds.txt')
+            if os.path.exists('configtds.txt'): 
+                os.remove('configtds.txt')
 
     tiktok_id = input(f'{thanh_xau}{luc}Nhập ID TikTok muốn chạy: {vang}').strip()
     res_set = tds.set_tiktok_run(tiktok_id)
     if res_set and 'success' in str(res_set):
-        print(f'{luc}✅ Đã cấu hình nick thành công!')
+        print(f'{luc}✅ Đã cấu hình nick {vang}{tiktok_id}{luc} thành công!')
     else:
-        print(red + '❌ Cấu hình thất bại!'); return
+        print(red + '❌ Cấu hình nick thất bại!'); return
 
     init_browser()
 
+    # ====================== PHẦN MỚI - CHỜ CHỌN NHIỆM VỤ ======================
     while True:
         banner()
         print(f'{thanh_xau}{luc}Tên TK: {vang}{user} {red}| {luc}Xu: {vang}{xu}')
         print(f'{thanh_xau}{luc}1 → Like | 2 → Follow | 3 → Comment')
+        
         nhiem_vu = input(f'{thanh_xau}{luc}Chọn: {vang}').strip()
-        dl = int(input(f'{thanh_xau}{luc}Delay (giây): {vang}'))
+        
+        if nhiem_vu not in ['1','2','3']:
+            print(red + "Chọn sai, nhập lại!")
+            continue
+
+        dl = int(input(f'{thanh_xau}{luc}Delay (giây) - Khuyến nghị 3-5: {vang}'))
         nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job: {vang}'))
 
         if nhiem_vu == '1': job_type, cache_type, nhan_type = 'tiktok_like', 'TIKTOK_LIKE_CACHE', 'TIKTOK_LIKE'
         elif nhiem_vu == '2': job_type, cache_type, nhan_type = 'tiktok_follow', 'TIKTOK_FOLLOW_CACHE', 'TIKTOK_FOLLOW'
         elif nhiem_vu == '3': job_type, cache_type, nhan_type = 'tiktok_comment', 'TIKTOK_COMMENT_CACHE', 'TIKTOK_COMMENT'
-        else: continue
+
+        print(f"{lam}Đang bắt đầu farm {job_type.upper()}... (Delay = {dl}s)")
+        time.sleep(3)   # Nghỉ 3 giây trước khi lấy job đầu tiên
 
         while True:
             listjob = tds.get_job(job_type)
-            try: jobs = listjob.json().get('data', [])
-            except: jobs = []
+            try: 
+                jobs = listjob.json().get('data', [])
+            except: 
+                jobs = []
 
             if not jobs:
-                print(red + 'Hết job, đang chờ...', end='\r')
-                time.sleep(5)
+                print(red + 'Hết job, đang chờ 8 giây...', end='\r')
+                time.sleep(8)
                 continue
 
             for job in jobs:
@@ -306,22 +322,11 @@ def main():
                 if tds.cache(job_id, cache_type):
                     tg = datetime.now().strftime('%H:%M:%S')
                     print(f'{vang}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE {red}| {trang}{job_id}')
-                    time.sleep(dl)
+                    time.sleep(dl)   # Delay đúng như bạn nhập
                     if dem % nv_nhan == 0:
                         tds.nhan_xu(nhan_type)
                 else:
                     print(red + f'Lỗi Cache ID: {job_id}')
-
-class TraoDoiSub:
-    def __init__(self, token):
-        self.token = token
-        self.base = "https://traodoisub.com/api/"
-
-    def profile(self):
-        try:
-            r = requests.get(f"{self.base}?fields=profile&access_token={self.token}", timeout=10)
-            return r.json().get('data')
-        except: return None
 
     def set_tiktok_run(self, tiktok_id):
         try:
