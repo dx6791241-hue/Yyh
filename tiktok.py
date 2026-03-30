@@ -220,7 +220,7 @@ def auto_click(link, job_type):
                 driver.execute_script("arguments[0].click();", btn)
                 
                 print(f"{luc}✅ ĐÃ CLICK FOLLOW")
-                time.sleep(2.5)   # Giữ trang 4 giây để TikTok ghi nhận
+                time.sleep(3.5)   # Giữ trang 4 giây để TikTok ghi nhận
                 return True
             except:
                 continue
