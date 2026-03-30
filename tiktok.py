@@ -19,7 +19,7 @@ lam = "\033[1;36m"
 
 thanh_xau = red + "[" + trang + "=.=" + red + "] " + trang + "=> "
 
-# ====================== BANNER GỐC ======================
+# ====================== BANNER ======================
 def banner():
     os.system('cls' if os.name == 'nt' else 'clear')
     ban = r'''
@@ -139,8 +139,6 @@ driver = None
 def init_browser():
     global driver
     chrome_options = Options()
-    
-    # Tối ưu chống detect
     chrome_options.add_argument("--user-data-dir=C:\\ChromeProfileTDS")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
@@ -149,30 +147,20 @@ def init_browser():
     chrome_options.add_argument("--blink-settings=imagesEnabled=false")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--start-maximized")
-    
-    # Thêm các tùy chọn chống Google detect
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option('useAutomationExtension', False)
-    
-    # Giả lập như người dùng thật
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-notifications")
-    
     chrome_options.page_load_strategy = "eager"
 
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-        
-        # Thêm script chống detect
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-        
         print(f"{luc}✅ Chrome đã mở với profile mới!")
         return driver
     except Exception as e:
         print(f"{red}❌ Không mở được Chrome: {e}")
         sys.exit()
-
-# ================== AUTO CLICK - TỐC ĐỘ VỪA PHẢI (8-9 GIÂY/JOB) ==================
 
 def auto_comment():
     try:
@@ -190,12 +178,11 @@ def auto_comment():
     except:
         return False
 
-# ====================== M# ================== AUTO CLICK - BẮT CHƯỚC THEO VIDEO ==================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(3.0)   # Load lâu hơn để nút hiện rõ
+        time.sleep(3.0)
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -212,169 +199,40 @@ def auto_click(link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, target))
-                )
+                btn = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, target)))
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
                 time.sleep(0.5)
                 driver.execute_script("arguments[0].click();", btn)
-                
                 print(f"{luc}✅ ĐÃ CLICK FOLLOW")
-                time.sleep(3.5)   # Giữ trang 4 giây để TikTok ghi nhận
+                time.sleep(3.5)
                 return True
             except:
                 continue
 
         print(f"{red}❌ Không tìm thấy nút Follow")
-        time.sleep(2)   # Nghỉ nếu miss nút
+        time.sleep(2)
         return False
 
     except Exception as e:
-        error_str = str(e).lower()
-        if "no such window" in error_str or "target window already closed" in error_str:
+        if "no such window" in str(e).lower() or "target window already closed" in str(e).lower():
             print(f"{red}⚠️ Chrome đóng! Mở lại...")
             init_browser()
             time.sleep(3)
             return auto_click(link, job_type)
         print(f"{red}⚠️ Lỗi: {e}")
         return False
-        
-# ====================== MAIN TOOL - ĐÃ SỬA KHÔNG TỰ LẤY JOB NGAY ======================
-def main():
-    global driver
-    dem = 0
 
-    if not get_key_system():
-        sys.exit()
+# ====================== CLASS TRAODOISUB ======================
+class TraoDoiSub:
+    def __init__(self, token):
+        self.token = token
+        self.base = "https://traodoisub.com/api/"
 
-    banner()
-    print(f"{luc}Dev:Deltatrash09(Duong Khoi)")
-
-    # Login TDS
-    while True:
-        if os.path.exists('configtds.txt'):
-            with open('configtds.txt', 'r') as f: 
-                token = f.read().strip()
-        else:
-            token = input(f'{thanh_xau}{luc}Nhập Access Token TDS: {vang}')
-            with open('configtds.txt', 'w') as f: 
-                f.write(token)
-
-        tds = TraoDoiSub(token)
-        data = tds.profile()
-        if data:
-            print(lam + ' Đăng nhập TDS thành công!')
-            user, xu = data.get('user'), data.get('xu')
-            break
-        else:
-            print(red + 'Token sai!')
-            if os.path.exists('configtds.txt'): 
-                os.remove('configtds.txt')
-
-    tiktok_id = input(f'{thanh_xau}{luc}Nhập ID TikTok muốn chạy: {vang}').strip()
-    res_set = tds.set_tiktok_run(tiktok_id)
-    if res_set and 'success' in str(res_set):
-        print(f'{luc}✅ Đã cấu hình nick {vang}{tiktok_id}{luc} thành công!')
-    else:
-        print(red + '❌ Cấu hình nick thất bại!'); return
-
-    init_browser()
-
-    # ====================== PHẦN MỚI - CHỜ CHỌN NHIỆM VỤ ======================
-    while True:
-        banner()
-        print(f'{thanh_xau}{luc}Tên TK: {vang}{user} {red}| {luc}Xu: {vang}{xu}')
-        print(f'{thanh_xau}{luc}1 → Like | 2 → Follow | 3 → Comment')
-        
-        nhiem_vu = input(f'{thanh_xau}{luc}Chọn: {vang}').strip()
-        
-        if nhiem_vu not in ['1','2','3']:
-            print(red + "Chọn sai, nhập lại!")
-            continue
-
-        dl = int(input(f'{thanh_xau}{luc}Delay (giây) - Khuyến nghị 3-5: {vang}'))
-        nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job: {vang}'))
-
-        if nhiem_vu == '1': job_type, cache_type, nhan_type = 'tiktok_like', 'TIKTOK_LIKE_CACHE', 'TIKTOK_LIKE'
-        elif nhiem_vu == '2': job_type, cache_type, nhan_type = 'tiktok_follow', 'TIKTOK_FOLLOW_CACHE', 'TIKTOK_FOLLOW'
-        elif nhiem_vu == '3': job_type, cache_type, nhan_type = 'tiktok_comment', 'TIKTOK_COMMENT_CACHE', 'TIKTOK_COMMENT'
-
-        print(f"{lam}Đang bắt đầu farm {job_type.upper()}... (Delay = {dl}s)")
-        time.sleep(3)   # Nghỉ 3 giây trước khi lấy job đầu tiên
-
-        while True:
-            listjob = tds.get_job(job_type)
-            try: 
-                jobs = listjob.json().get('data', [])
-            except: 
-                jobs = []
-
-            if not jobs:
-                print(red + 'Hết job, đang chờ 8 giây...', end='\r')
-                time.sleep(8)
-                continue
-
-            for job in jobs:
-                job_id, link = job['id'], job['link']
-                auto_click(link, job_type)
-                dem += 1
-                
-                if tds.cache(job_id, cache_type):
-                    tg = datetime.now().strftime('%H:%M:%S')
-                    print(f'{vang}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE {red}| {trang}{job_id}')
-                    time.sleep(dl)   # Delay đúng như bạn nhập
-                    if dem % nv_nhan == 0:
-                        tds.nhan_xu(nhan_type)
-                else:
-                    print(red + f'Lỗi Cache ID: {job_id}')
-
-    # ====================== PHẦN MỚI - CHỜ CHỌN NHIỆM VỤ ======================
-    while True:
-        banner()
-        print(f'{thanh_xau}{luc}Tên TK: {vang}{user} {red}| {luc}Xu: {vang}{xu}')
-        print(f'{thanh_xau}{luc}1 → Like | 2 → Follow | 3 → Comment')
-        
-        nhiem_vu = input(f'{thanh_xau}{luc}Chọn: {vang}').strip()
-        
-        if nhiem_vu not in ['1','2','3']:
-            print(red + "Chọn sai, nhập lại!")
-            continue
-
-        dl = int(input(f'{thanh_xau}{luc}Delay (giây) - Khuyến nghị 3-5: {vang}'))
-        nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job: {vang}'))
-
-        if nhiem_vu == '1': job_type, cache_type, nhan_type = 'tiktok_like', 'TIKTOK_LIKE_CACHE', 'TIKTOK_LIKE'
-        elif nhiem_vu == '2': job_type, cache_type, nhan_type = 'tiktok_follow', 'TIKTOK_FOLLOW_CACHE', 'TIKTOK_FOLLOW'
-        elif nhiem_vu == '3': job_type, cache_type, nhan_type = 'tiktok_comment', 'TIKTOK_COMMENT_CACHE', 'TIKTOK_COMMENT'
-
-        print(f"{lam}Đang bắt đầu farm {job_type.upper()}... (Delay = {dl}s)")
-        time.sleep(3)   # Nghỉ 3 giây trước khi lấy job đầu tiên
-
-        while True:
-            listjob = tds.get_job(job_type)
-            try: 
-                jobs = listjob.json().get('data', [])
-            except: 
-                jobs = []
-
-            if not jobs:
-                print(red + 'Hết job, đang chờ 8 giây...', end='\r')
-                time.sleep(8)
-                continue
-
-            for job in jobs:
-                job_id, link = job['id'], job['link']
-                auto_click(link, job_type)
-                dem += 1
-                
-                if tds.cache(job_id, cache_type):
-                    tg = datetime.now().strftime('%H:%M:%S')
-                    print(f'{vang}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE {red}| {trang}{job_id}')
-                    time.sleep(dl)   # Delay đúng như bạn nhập
-                    if dem % nv_nhan == 0:
-                        tds.nhan_xu(nhan_type)
-                else:
-                    print(red + f'Lỗi Cache ID: {job_id}')
+    def profile(self):
+        try:
+            r = requests.get(f"{self.base}?fields=profile&access_token={self.token}", timeout=10)
+            return r.json().get('data')
+        except: return None
 
     def set_tiktok_run(self, tiktok_id):
         try:
@@ -408,6 +266,93 @@ def main():
                 return True
             return False
         except: return False
+
+# ====================== MAIN ======================
+def main():
+    global driver
+    dem = 0
+
+    if not get_key_system():
+        sys.exit()
+
+    banner()
+    print(f"{luc}Dev:Deltatrash09(Duong Khoi)")
+
+    while True:
+        if os.path.exists('configtds.txt'):
+            with open('configtds.txt', 'r') as f: 
+                token = f.read().strip()
+        else:
+            token = input(f'{thanh_xau}{luc}Nhập Access Token TDS: {vang}')
+            with open('configtds.txt', 'w') as f: 
+                f.write(token)
+
+        tds = TraoDoiSub(token)
+        data = tds.profile()
+        if data:
+            print(lam + ' Đăng nhập TDS thành công!')
+            user, xu = data.get('user'), data.get('xu')
+            break
+        else:
+            print(red + 'Token sai!')
+            if os.path.exists('configtds.txt'): 
+                os.remove('configtds.txt')
+
+    tiktok_id = input(f'{thanh_xau}{luc}Nhập ID TikTok muốn chạy: {vang}').strip()
+    res_set = tds.set_tiktok_run(tiktok_id)
+    if res_set and 'success' in str(res_set):
+        print(f'{luc}✅ Đã cấu hình nick {vang}{tiktok_id}{luc} thành công!')
+    else:
+        print(red + '❌ Cấu hình nick thất bại!'); return
+
+    init_browser()
+
+    while True:
+        banner()
+        print(f'{thanh_xau}{luc}Tên TK: {vang}{user} {red}| {luc}Xu: {vang}{xu}')
+        print(f'{thanh_xau}{luc}1 → Like | 2 → Follow | 3 → Comment')
+        
+        nhiem_vu = input(f'{thanh_xau}{luc}Chọn: {vang}').strip()
+        
+        if nhiem_vu not in ['1','2','3']:
+            print(red + "Chọn sai, nhập lại!")
+            continue
+
+        dl = int(input(f'{thanh_xau}{luc}Delay (giây) - Khuyến nghị 3-5: {vang}'))
+        nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job: {vang}'))
+
+        if nhiem_vu == '1': job_type, cache_type, nhan_type = 'tiktok_like', 'TIKTOK_LIKE_CACHE', 'TIKTOK_LIKE'
+        elif nhiem_vu == '2': job_type, cache_type, nhan_type = 'tiktok_follow', 'TIKTOK_FOLLOW_CACHE', 'TIKTOK_FOLLOW'
+        elif nhiem_vu == '3': job_type, cache_type, nhan_type = 'tiktok_comment', 'TIKTOK_COMMENT_CACHE', 'TIKTOK_COMMENT'
+
+        print(f"{lam}Đang bắt đầu farm {job_type.upper()}... (Delay = {dl}s)")
+        time.sleep(3)
+
+        while True:
+            listjob = tds.get_job(job_type)
+            try: 
+                jobs = listjob.json().get('data', [])
+            except: 
+                jobs = []
+
+            if not jobs:
+                print(red + 'Hết job, đang chờ 8 giây...', end='\r')
+                time.sleep(8)
+                continue
+
+            for job in jobs:
+                job_id, link = job['id'], job['link']
+                auto_click(link, job_type)
+                dem += 1
+                
+                if tds.cache(job_id, cache_type):
+                    tg = datetime.now().strftime('%H:%M:%S')
+                    print(f'{vang}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE {red}| {trang}{job_id}')
+                    time.sleep(dl)
+                    if dem % nv_nhan == 0:
+                        tds.nhan_xu(nhan_type)
+                else:
+                    print(red + f'Lỗi Cache ID: {job_id}')
 
 if __name__ == "__main__":
     try: 
