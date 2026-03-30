@@ -200,7 +200,7 @@ def auto_click(link, job_type):
                 driver.execute_script("arguments[0].click();", btn)
                 
                 print(f"{luc}✅ ĐÃ CLICK FOLLOW")
-                time.sleep(3.2)   # Giữ trang 3.2 giây sau khi click (theo video)
+                time.sleep(2)   # Giữ trang 3.2 giây sau khi click (theo video)
                 return True
             except:
                 continue
