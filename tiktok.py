@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-import 
 import os
 import sys
 import requests
 import json
 import time
 import base64
+import random
 from datetime import datetime, timedelta
 from time import sleep
 from concurrent.futures import ThreadPoolExecutor
@@ -153,17 +153,14 @@ def init_browser():
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-notifications")
     
-    # Anti-detect mạnh hơn
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option('useAutomationExtension', False)
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     
     chrome_options.page_load_strategy = "eager"
 
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
         
-        # Anti-detect JS (rất quan trọng)
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]})")
         driver.execute_script("Object.defineProperty(navigator, 'languages', {get: () => ['vi-VN', 'vi']})")
@@ -173,7 +170,6 @@ def init_browser():
     except Exception as e:
         print(f"{red}❌ Không mở được Chrome: {e}")
         sys.exit()
-
 
 def auto_comment():
     try:
@@ -191,11 +187,12 @@ def auto_comment():
     except:
         return False
 
+# ====================== AUTO CLICK - ACTIONCHAINS (NHANH NHẤT CÓ THỂ) ======================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(2.8)   # Load trang nhanh
+        time.sleep(2.8)
 
         if job_type == 'tiktok_follow':
             targets = [
@@ -215,18 +212,17 @@ def auto_click(link, job_type):
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 
-                # Di chuột ảo nhanh nhưng tự nhiên
+                # Di chuột ảo nhanh + tự nhiên
                 actions = ActionChains(driver)
-                actions.move_to_element_with_offset(btn, random.randint(-8, 8), random.randint(-6, 6))
-                actions.pause(random.uniform(0.25, 0.45))
+                actions.move_to_element_with_offset(btn, random.randint(-10, 10), random.randint(-8, 8))
+                actions.pause(random.uniform(0.2, 0.4))
                 actions.move_to_element(btn)
-                actions.pause(random.uniform(0.35, 0.55))
+                actions.pause(random.uniform(0.3, 0.5))
                 actions.click()
                 actions.perform()
                 
                 print(f"{luc}✅ ĐÃ CLICK FOLLOW (Mouse Action)")
-                
-                time.sleep(3.8)   # Giữ trang vừa đủ để ghi nhận thật
+                time.sleep(3.7)   # Giữ trang để TikTok ghi nhận
                 return True
             except:
                 continue
@@ -243,6 +239,7 @@ def auto_click(link, job_type):
             return auto_click(link, job_type)
         print(f"{red}⚠️ Lỗi: {e}")
         return False
+
 # ====================== CLASS TRAODOISUB ======================
 class TraoDoiSub:
     def __init__(self, token):
