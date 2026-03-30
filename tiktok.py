@@ -156,46 +156,6 @@ def init_browser():
         sys.exit()
 
 # ================== AUTO CLICK - TỐC ĐỘ VỪA PHẢI (8-9 GIÂY/JOB) ==================
-def auto_click(link, job_type):
-    global driver
-    try:
-        driver.get(link)
-        time.sleep(2.2)   # Load trang
-
-        if job_type == 'tiktok_follow':
-            targets = [
-                "//button[contains(., 'Follow') or contains(., 'Theo dõi')]",
-                "//button[@data-e2e='follow-button']"
-            ]
-        elif job_type == 'tiktok_like':
-            targets = ["//button[@data-e2e='like-icon']"]
-        elif job_type == 'tiktok_comment':
-            return auto_comment()
-
-        for target in targets:
-            try:
-                btn = WebDriverWait(driver, 6).until(
-                    EC.element_to_be_clickable((By.XPATH, target))
-                )
-                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                driver.execute_script("arguments[0].click();", btn)
-                
-                print(f"{luc}✅ ĐÃ CLICK {job_type.upper()}")
-                time.sleep(3.8)   # Giữ trang 3.8 giây để TDS/TikTok ghi nhận
-                return True
-            except:
-                continue
-
-        print(f"{red}❌ Không tìm thấy nút")
-        return False
-
-    except Exception as e:
-        if "no such window" in str(e).lower():
-            print(f"{red}Chrome đóng! Mở lại...")
-            init_browser()
-            time.sleep(2)
-            return auto_click(link, job_type)
-        return False
 
 def auto_comment():
     try:
@@ -213,7 +173,50 @@ def auto_comment():
     except:
         return False
 
-# ====================== MAIN ======================
+# ====================== M# ================== AUTO CLICK - BẮT CHƯỚC THEO VIDEO ==================
+def auto_click(link, job_type):
+    global driver
+    try:
+        driver.get(link)
+        time.sleep(2.3)   # Load trang user (theo video khoảng 2-3 giây)
+
+        if job_type == 'tiktok_follow':
+            targets = [
+                "//button[contains(., 'Follow') or contains(., 'Theo dõi')]",
+                "//button[@data-e2e='follow-button']",
+                "//button[contains(@class, 'follow')]"
+            ]
+        elif job_type == 'tiktok_like':
+            targets = ["//button[@data-e2e='like-icon']"]
+        elif job_type == 'tiktok_comment':
+            return auto_comment()
+
+        for target in targets:
+            try:
+                btn = WebDriverWait(driver, 7).until(
+                    EC.element_to_be_clickable((By.XPATH, target))
+                )
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+                driver.execute_script("arguments[0].click();", btn)
+                
+                print(f"{luc}✅ ĐÃ CLICK FOLLOW")
+                time.sleep(3.2)   # Giữ trang 3.2 giây sau khi click (theo video)
+                return True
+            except:
+                continue
+
+        print(f"{red}❌ Không tìm thấy nút Follow")
+        return False
+
+    except Exception as e:
+        if "no such window" in str(e).lower():
+            print(f"{red}Chrome đóng! Mở lại...")
+            init_browser()
+            time.sleep(2)
+            return auto_click(link, job_type)
+        print(f"{red}⚠️ Lỗi: {e}")
+        return False
+        
 def main():
     global driver
     dem = 0
