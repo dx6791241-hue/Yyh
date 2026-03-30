@@ -125,7 +125,7 @@ def get_key_system():
                         return True
                     print(f'{red}Key sai!')
 
-# ====================== SELENIUM ======================
+# ====================== SELENIUM + STEALTH ======================
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
@@ -134,6 +134,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium_stealth import stealth   # Cần pip install selenium-stealth
 
 total = 0
 driver = None
@@ -141,43 +142,29 @@ driver = None
 def init_browser():
     global driver
     chrome_options = Options()
-    
     chrome_options.add_argument("--user-data-dir=C:\\ChromeProfileTDS")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument("--disable-images")
-    chrome_options.add_argument("--blink-settings=imagesEnabled=false")
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument("--disable-infobars")
-    chrome_options.add_argument("--disable-notifications")
-    chrome_options.add_argument("--disable-features=VizDisplayCompositor,IsolateOrigins,site-per-process")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--disable-software-rasterizer")
-    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-    
-    # Anti-detect mạnh hơn
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_experimental_option('useAutomationExtension', False)
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    
     chrome_options.page_load_strategy = "eager"
 
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
         
-        # Anti-detect JS (rất quan trọng)
-        driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-        driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]})")
-        driver.execute_script("Object.defineProperty(navigator, 'languages', {get: () => ['vi-VN', 'vi']})")
-        
-        print(f"{luc}✅ Chrome đã mở (anti-detect mạnh)!")
+        # Áp dụng selenium-stealth mạnh
+        stealth(driver,
+                languages=["vi-VN", "vi", "en-US"],
+                vendor="Google Inc.",
+                platform="Win32",
+                webgl_vendor="Intel Inc.",
+                renderer="Intel Iris OpenGL Engine",
+                fix_hairline=True)
+
+        print(f"{luc}✅ Chrome Stealth đã mở (che giấu tốt)!")
         return driver
     except Exception as e:
         print(f"{red}❌ Không mở được Chrome: {e}")
         sys.exit()
-
 
 def auto_comment():
     try:
@@ -195,114 +182,47 @@ def auto_comment():
     except:
         return False
 
-def auto_follow():
-    """Thực hiện follow và xác nhận thành công - xử lý lỗi element not interactable"""
-    try:
-        # 1. Đợi nút Follow xuất hiện và visible
-        follow_btn = WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, "//button[contains(., 'Follow') or contains(., 'Theo dõi')]"))
-        )
-        
-        # 2. Cuộn đến nút và đợi layout ổn định
-        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", follow_btn)
-        time.sleep(0.8)
-        
-        # 3. Thử click bằng JavaScript trước (tránh bị che)
-        driver.execute_script("arguments[0].click();", follow_btn)
-        print(f"{luc}📌 Đã click nút Follow bằng JS")
-        
-        # 4. Kiểm tra kết quả sau click
-        time.sleep(2)
-        
-        # Cố gắng lấy lại element (có thể đã thay đổi)
-        try:
-            new_btn = driver.find_element(By.XPATH, "//button[contains(., 'Follow') or contains(., 'Theo dõi')]")
-            btn_text = new_btn.text
-        except:
-            btn_text = ""
-        
-        if "Following" in btn_text or "Đang theo dõi" in btn_text:
-            print(f"{luc}✅ Follow thành công! (text đã thay đổi)")
-            return True
-        
-        # 5. Nếu chưa thành công, thử lại với ActionChains (di chuyển chuột tự nhiên)
-        print(f"{vang}⚠️ Click JS chưa thành công, thử lại với ActionChains...")
-        
-        # Đợi thêm và scroll lại
-        time.sleep(1)
-        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", follow_btn)
-        time.sleep(0.5)
-        
-        actions = ActionChains(driver)
-        actions.move_to_element_with_offset(follow_btn, random.randint(-3, 3), random.randint(-3, 3))
-        actions.pause(random.uniform(0.2, 0.4))
-        actions.click()
-        actions.perform()
-        
-        time.sleep(2)
-        
-        # Kiểm tra lại
-        try:
-            final_btn = driver.find_element(By.XPATH, "//button[contains(., 'Follow') or contains(., 'Theo dõi')]")
-            if "Following" in final_btn.text or "Đang theo dõi" in final_btn.text:
-                print(f"{luc}✅ Follow thành công sau ActionChains!")
-                return True
-        except:
-            # Nếu không tìm thấy nút nữa (đã biến mất) => cũng thành công
-            print(f"{luc}✅ Follow thành công! (nút đã biến mất)")
-            return True
-        
-        print(f"{red}❌ Follow thất bại sau nhiều lần thử")
-        return False
-        
-    except Exception as e:
-        print(f"{red}❌ Lỗi follow: {e}")
-        return False
-
-
-def auto_like():
-    """Thực hiện like và xác nhận thành công"""
-    try:
-        like_btn = WebDriverWait(driver, 8).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[@data-e2e='like-icon']"))
-        )
-        driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", like_btn)
-        time.sleep(0.5)
-        
-        # Click tự nhiên
-        actions = ActionChains(driver)
-        actions.move_to_element_with_offset(like_btn, random.randint(-3, 3), random.randint(-3, 3))
-        actions.pause(random.uniform(0.2, 0.4))
-        actions.click()
-        actions.perform()
-        
-        # Kiểm tra màu sắc hoặc class (like đã được active)
-        time.sleep(2)
-        # Nếu button có class chứa 'active' hoặc 'liked' thì thành công
-        if "active" in like_btn.get_attribute("class") or "liked" in like_btn.get_attribute("class"):
-            print(f"{luc}✅ Like thành công!")
-            return True
-        else:
-            print(f"{red}❌ Like thất bại")
-            return False
-    except Exception as e:
-        print(f"{red}❌ Lỗi like: {e}")
-        return False
-
+# ====================== AUTO CLICK - ACTIONCHAINS + STEALTH ======================
 def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(3)   # Load trang
-        
+        time.sleep(3.2)
+
         if job_type == 'tiktok_follow':
-            return auto_follow()
+            targets = [
+                "//button[contains(., 'Follow') or contains(., 'Theo dõi')]",
+                "//button[@data-e2e='follow-button']",
+                "//button[contains(@class, 'follow')]",
+                "//button[@aria-label='Follow' or @aria-label='Theo dõi']"
+            ]
         elif job_type == 'tiktok_like':
-            return auto_like()
+            targets = ["//button[@data-e2e='like-icon']"]
         elif job_type == 'tiktok_comment':
             return auto_comment()
-        else:
-            return False
+
+        for target in targets:
+            try:
+                btn = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, target))
+                )
+                
+                actions = ActionChains(driver)
+                actions.move_to_element(btn)
+                actions.pause(0.45)
+                actions.click()
+                actions.perform()
+                
+                print(f"{luc}✅ ĐÃ CLICK FOLLOW")
+                time.sleep(4.3)   # Giữ trang đủ lâu
+                return True
+            except:
+                continue
+
+        print(f"{red}❌ Không tìm thấy nút Follow")
+        time.sleep(2)
+        return False
+
     except Exception as e:
         if "no such window" in str(e).lower() or "target window already closed" in str(e).lower():
             print(f"{red}⚠️ Chrome đóng! Mở lại...")
@@ -408,7 +328,7 @@ def main():
             print(red + "Chọn sai, nhập lại!")
             continue
 
-        dl = int(input(f'{thanh_xau}{luc}Delay (giây) - Khuyến nghị 3-5: {vang}'))
+        dl = int(input(f'{thanh_xau}{luc}Delay (giây) - Khuyến nghị ≥ 4 với acc mới: {vang}'))
         nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job: {vang}'))
 
         if nhiem_vu == '1': job_type, cache_type, nhan_type = 'tiktok_like', 'TIKTOK_LIKE_CACHE', 'TIKTOK_LIKE'
@@ -416,6 +336,7 @@ def main():
         elif nhiem_vu == '3': job_type, cache_type, nhan_type = 'tiktok_comment', 'TIKTOK_COMMENT_CACHE', 'TIKTOK_COMMENT'
 
         print(f"{lam}Đang bắt đầu farm {job_type.upper()}... (Delay = {dl}s)")
+        print(f"{red}⚠️ CẢNH BÁO: Acc mới nên dùng Delay ≥ 4 giây để tránh shadowban và fake click!")
         time.sleep(3)
 
         while True:
