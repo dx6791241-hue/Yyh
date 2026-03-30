@@ -187,7 +187,7 @@ def auto_comment():
     except:
         return False
 
-# ====================== AUTO CLICK - ACTIONCHAINS (NHANH NHẤT CÓ THỂ) ======================
+# ====================== AUTO CLICK - ACTIONCHAINS NHANH ======================
 def auto_click(link, job_type):
     global driver
     try:
@@ -212,7 +212,7 @@ def auto_click(link, job_type):
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 
-                # Di chuột ảo nhanh + tự nhiên
+                # Di chuột ảo nhanh
                 actions = ActionChains(driver)
                 actions.move_to_element_with_offset(btn, random.randint(-10, 10), random.randint(-8, 8))
                 actions.pause(random.uniform(0.2, 0.4))
@@ -222,7 +222,7 @@ def auto_click(link, job_type):
                 actions.perform()
                 
                 print(f"{luc}✅ ĐÃ CLICK FOLLOW (Mouse Action)")
-                time.sleep(3.7)   # Giữ trang để TikTok ghi nhận
+                time.sleep(3.7)
                 return True
             except:
                 continue
