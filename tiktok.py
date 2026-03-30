@@ -194,14 +194,16 @@ def auto_click(link, job_type):
     global driver
     try:
         driver.get(link)
-        time.sleep(3.2)   # Load trang
+        time.sleep(2.0)   # Load trang ổn định
 
         if job_type == 'tiktok_follow':
             targets = [
                 "//button[contains(., 'Follow') or contains(., 'Theo dõi')]",
                 "//button[@data-e2e='follow-button']",
                 "//button[contains(@class, 'follow')]",
-                "//button[@aria-label='Follow' or @aria-label='Theo dõi']"
+                "//button[@aria-label='Follow' or @aria-label='Theo dõi']",
+                "//div[contains(@class, 'follow')]//button",
+                "//span[contains(text(), 'Follow')]/parent::button"
             ]
         elif job_type == 'tiktok_like':
             targets = ["//button[@data-e2e='like-icon']"]
@@ -214,23 +216,26 @@ def auto_click(link, job_type):
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 
-                # Di chuột thật + hover + click như người
-                actions = ActionChains(driver)
-                actions.move_to_element_with_offset(btn, random.randint(-5, 5), random.randint(-5, 5))
-                actions.pause(random.uniform(0.3, 0.7))
-                actions.move_to_element(btn)
-                actions.pause(random.uniform(0.4, 0.8))
-                actions.click()
-                actions.perform()
+                # Scroll + Click JS mạnh + dispatch event
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+                time.sleep(0.6)
                 
-                print(f"{luc}✅ ĐÃ CLICK FOLLOW (real mouse click)")
-                time.sleep(4.8)   # Giữ trang lâu hơn để TikTok ghi nhận
+                driver.execute_script("""
+                    let el = arguments[0];
+                    el.click();
+                    el.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+                    el.dispatchEvent(new MouseEvent('mouseup', {bubbles: true}));
+                    el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+                """, btn)
+                
+                print(f"{luc}✅ ĐÃ CLICK FOLLOW (JS strong)")
+                time.sleep(3.5)   # Giữ trang lâu để TikTok ghi nhận
                 return True
             except:
                 continue
 
         print(f"{red}❌ Không tìm thấy nút Follow")
-        time.sleep(2)
+        time.sleep(2.5)
         return False
 
     except Exception as e:
@@ -241,7 +246,6 @@ def auto_click(link, job_type):
             return auto_click(link, job_type)
         print(f"{red}⚠️ Lỗi: {e}")
         return False
-
 # ====================== CLASS TRAODOISUB ======================
 class TraoDoiSub:
     def __init__(self, token):
