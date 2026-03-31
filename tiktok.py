@@ -183,6 +183,7 @@ def auto_comment():
         return False
 
 # ====================== AUTO CLICK - ACTIONCHAINS + STEALTH ======================
+# ====================== AUTO CLICK + REFRESH KIỂM TRA ======================
 def auto_click(link, job_type):
     global driver
     try:
@@ -214,7 +215,24 @@ def auto_click(link, job_type):
                 actions.perform()
                 
                 print(f"{luc}✅ ĐÃ CLICK FOLLOW")
-                time.sleep(4.3)   # Giữ trang đủ lâu
+                time.sleep(4.0)
+
+                # === PHẦN MỚI: REFRESH TRANG ĐỂ KIỂM TRA ===
+                print(f"{lam}🔄 Đang refresh trang để kiểm tra follow thật...")
+                driver.refresh()
+                time.sleep(3.5)
+
+                # Kiểm tra lại nút sau khi refresh
+                try:
+                    still_follow_btn = driver.find_elements(By.XPATH, 
+                        "//button[contains(., 'Follow') or contains(., 'Theo dõi')]")
+                    if still_follow_btn:
+                        print(f"{red}❌ Fake Click! Follow chưa được ghi nhận thật (sau refresh vẫn là Follow)")
+                    else:
+                        print(f"{luc}✅ Follow đã được ghi nhận thật (sau refresh nút đã thay đổi)")
+                except:
+                    print(f"{lam}⚠️ Không kiểm tra được nút sau refresh")
+
                 return True
             except:
                 continue
@@ -231,7 +249,6 @@ def auto_click(link, job_type):
             return auto_click(link, job_type)
         print(f"{red}⚠️ Lỗi: {e}")
         return False
-
 # ====================== CLASS TRAODOISUB ======================
 class TraoDoiSub:
     def __init__(self, token):
