@@ -107,61 +107,81 @@ def init_browser():
     return driver
 
 # ================== AUTO FOLLOW - CLICK NGAY KHI VÀO TRANG ==================
+# ================== AUTO FOLLOW - CLICK NGAY + TĂNG ỔN ĐỊNH ==================
 def auto_follow(driver, link):
     try:
-        print(f"{luc}Đang mở trang user TikTok...")
+        print(f"{luc}Đang mở trang user: {trang}{link[:60]}...")
         driver.get(link)
-        time.sleep(5)                    # Giảm thời gian chờ
+        
+        # Tăng thời gian load trang TikTok (rất quan trọng)
+        time.sleep(7)
 
-        # Các XPath Follow phổ biến
+        # Danh sách XPath Follow mới nhất & phổ biến hơn (2026)
         follow_xpaths = [
             "//button[contains(text(), 'Follow') or contains(text(), 'Theo dõi')]",
             "//div[@data-e2e='follow-button']//button",
             "//button[@data-e2e='follow-button']",
-            "//button[contains(@class, 'follow')]"
+            "//button[contains(@class, 'follow') or contains(@class, 'Follow')]",
+            "//button//span[contains(text(), 'Follow')]",
+            "//button[@type='button' and contains(., 'Follow')]"
         ]
 
         clicked = False
-        for xp in follow_xpaths:
+        for i, xp in enumerate(follow_xpaths, 1):
             try:
-                btn = WebDriverWait(driver, 8).until(
+                print(f"{lam}Thử XPath {i}...")
+                btn = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.XPATH, xp))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+                time.sleep(1)
                 driver.execute_script("arguments[0].click();", btn)
-                print(f"{luc}✅ Đã click Follow ngay!")
+                print(f"{luc}✅ Đã click Follow thành công!")
                 clicked = True
-                time.sleep(3)
+                time.sleep(4)
                 break
             except:
                 continue
 
         if not clicked:
-            print(f"{red}❌ Không tìm thấy nút Follow")
+            print(f"{red}❌ Không tìm thấy nút Follow sau nhiều lần thử.")
+            # Thử click bằng JavaScript toàn bộ button chứa chữ Follow
+            try:
+                driver.execute_script("""
+                    let buttons = document.querySelectorAll('button');
+                    for (let btn of buttons) {
+                        if (btn.innerText.includes('Follow') || btn.innerText.includes('Theo dõi')) {
+                            btn.scrollIntoView({block: 'center'});
+                            btn.click();
+                            console.log('Clicked via JS');
+                            return true;
+                        }
+                    }
+                """)
+                print(f"{luc}✅ Đã thử click bằng JavaScript!")
+                time.sleep(4)
+            except:
+                pass
 
-        # Refresh kiểm tra
-        print(f"{luc}Đang refresh để kiểm tra...")
+        # === Refresh để kiểm tra ===
+        print(f"{luc}Đang refresh trang để kiểm tra Follow...")
         driver.refresh()
-        time.sleep(5)
+        time.sleep(6)
 
-        still_follow = any(
-            WebDriverWait(driver, 6).until(EC.presence_of_element_located((By.XPATH, xp)))
-            for xp in follow_xpaths
-            if True  # try-except bên trong
-        )  # Đơn giản hóa kiểm tra
-
-        # Kiểm tra lại sau refresh (phiên bản an toàn hơn)
+        # Kiểm tra nút Follow còn không
         still_show = False
         for xp in follow_xpaths:
             try:
-                WebDriverWait(driver, 6).until(EC.presence_of_element_located((By.XPATH, xp)))
+                WebDriverWait(driver, 8).until(
+                    EC.presence_of_element_located((By.XPATH, xp))
+                )
                 still_show = True
                 break
             except:
                 continue
 
         if still_show:
-            print(f"{vang}⚠️ Sau refresh vẫn còn nút Follow → Có thể chưa follow được")
+            print(f"{vang}⚠️ Sau refresh vẫn thấy nút Follow → Có thể chưa follow được (hoặc đã follow rồi)")
         else:
             print(f"{luc}✅ Có vẻ đã Follow thành công!")
 
@@ -169,7 +189,7 @@ def auto_follow(driver, link):
         return True
 
     except Exception as e:
-        print(f"{red}⚠️ Lỗi Follow: {e}")
+        print(f"{red}⚠️ Lỗi nghiêm trọng khi Follow: {e}")
         return False
 
 
