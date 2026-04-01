@@ -108,8 +108,8 @@ def init_browser():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--start-maximized")
-
+    chrome_options.add_argument("--remote-debugging-pipe")   # Fix DevToolsActivePort
+    
     try:
         print(f"{luc}Đang khởi tạo browser...")
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
@@ -118,7 +118,7 @@ def init_browser():
         return driver
     except Exception as e:
         print(f"{red}❌ Không mở được browser: {e}")
-        print(f"{vang}Gợi ý: Đóng hết Chrome đang chạy rồi thử lại.")
+        print(f"{vang}Đã thử fix DevToolsActivePort. Nếu vẫn lỗi, hãy thử xóa thư mục ChromeProfileTDS rồi chạy lại.")
         input("Nhấn Enter để thoát...")
         sys.exit()
 
