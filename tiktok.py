@@ -99,10 +99,12 @@ def init_browser():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
-    
+    chrome_options.add_argument("--start-maximized")
+
     try:
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-        print(f"{luc}✅ Browser đã mở thành công (Profile được giữ nguyên)")
+        driver.set_page_load_timeout(60)      # Tăng timeout load trang
+        print(f"{luc}✅ Browser đã mở thành công (Profile giữ nguyên)")
         return driver
     except Exception as e:
         print(f"{red}❌ Lỗi mở browser: {e}")
@@ -111,82 +113,89 @@ def init_browser():
 # ================== AUTO CLICK - PHIÊN BẢN MẠNH HƠN ==================
 def auto_click(driver, link, job_type):
     try:
-        print(f"{luc}Đang mở link: {trang}{link[:70]}...")
-        driver.set_page_load_timeout(40)   # Ngăn kẹt vô thời hạn
+        print(f"{luc}Đang mở link job...")
+        
+        # Bỏ qua lỗi load trang chậm
+        driver.set_page_load_timeout(45)
         driver.get(link)
-        time.sleep(10)                     # Tăng thời gian chờ load TikTok
+        
+        print(f"{luc}Đang chờ trang TikTok load...")
+        time.sleep(12)   # Tăng thời gian chờ load (rất quan trọng)
 
         if job_type == 'tiktok_follow':
-            print(f"{luc}Đang thử click Follow ngay...")
-            
+            print(f"{luc}Đang thử click Follow ngay lập tức...")
+
             follow_xpaths = [
                 "//button[contains(text(), 'Follow') or contains(text(), 'Theo dõi')]",
                 "//div[@data-e2e='follow-button']//button",
                 "//button[@data-e2e='follow-button']",
-                "//button[contains(@class, 'follow')]"
+                "//button[contains(@class, 'follow') or contains(@class, 'Follow')]"
             ]
 
             clicked = False
             for i, xp in enumerate(follow_xpaths, 1):
                 try:
                     print(f"{lam}  Thử XPath {i}...")
-                    btn = WebDriverWait(driver, 12).until(
+                    btn = WebDriverWait(driver, 15).until(
                         EC.element_to_be_clickable((By.XPATH, xp))
                     )
                     driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+                    time.sleep(1.5)
                     driver.execute_script("arguments[0].click();", btn)
                     print(f"{luc}✅ Đã click Follow thành công!")
                     clicked = True
-                    time.sleep(4)
+                    time.sleep(5)
                     break
                 except:
                     continue
 
             if not clicked:
-                print(f"{red}❌ Không click được bằng XPath, thử JavaScript...")
+                print(f"{red}❌ XPath không tìm thấy, thử JavaScript...")
                 try:
                     driver.execute_script("""
-                        let btns = document.querySelectorAll('button');
-                        for (let b of btns) {
-                            if (b.innerText && (b.innerText.includes('Follow') || b.innerText.includes('Theo dõi'))) {
-                                b.scrollIntoView({block: 'center'});
-                                b.click();
+                        let buttons = document.querySelectorAll('button');
+                        for (let btn of buttons) {
+                            if (btn.innerText && (btn.innerText.includes('Follow') || btn.innerText.includes('Theo dõi'))) {
+                                btn.scrollIntoView({block: 'center'});
+                                btn.click();
                                 return true;
                             }
                         }
                     """)
                     print(f"{luc}✅ Đã click Follow bằng JavaScript!")
-                    time.sleep(4)
+                    time.sleep(5)
                 except:
-                    print(f"{red}❌ JavaScript cũng không click được")
+                    print(f"{red}❌ JavaScript cũng thất bại")
 
-            # Kiểm tra sau refresh
-            print(f"{luc}Đang refresh để kiểm tra...")
+            # Refresh kiểm tra
+            print(f"{luc}Đang refresh trang để kiểm tra...")
             driver.refresh()
-            time.sleep(7)
+            time.sleep(8)
 
             still_show = False
             for xp in follow_xpaths:
                 try:
-                    WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, xp)))
+                    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xp)))
                     still_show = True
                     break
                 except:
                     continue
 
             if still_show:
-                print(f"{vang}⚠️ Sau refresh vẫn còn nút Follow → Có thể chưa follow được")
+                print(f"{vang}⚠️ Sau refresh vẫn còn nút Follow")
             else:
                 print(f"{luc}✅ Có vẻ đã Follow thành công!")
 
             return True
 
-        # Like và Comment giữ nguyên
+        # Like
         elif job_type == 'tiktok_like':
             targets = [
                 "//button[@data-e2e='like-icon']",
                 "//button[contains(@aria-label, 'Like') or contains(@aria-label, 'Thích')]"
             ]
+
+        # Comment
         elif job_type == 'tiktok_comment':
             return auto_comment(driver)
         else:
@@ -194,8 +203,7 @@ def auto_click(driver, link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, target)))
-                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+                btn = WebDriverWait(driver, 12).until(EC.element_to_be_clickable((By.XPATH, target)))
                 driver.execute_script("arguments[0].click();", btn)
                 print(f"{luc}✅ Đã click {job_type.upper()} thành công")
                 time.sleep(3)
@@ -207,7 +215,8 @@ def auto_click(driver, link, job_type):
         return False
 
     except Exception as e:
-        print(f"{red}⚠️ Lỗi khi xử lý job: {e}")
+        print(f"{red}⚠️ Lỗi xử lý job: {str(e)[:120]}")
+        time.sleep(5)   # Tránh lặp lỗi quá nhanh
         return False
 
 
