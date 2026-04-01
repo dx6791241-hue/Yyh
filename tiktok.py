@@ -100,16 +100,28 @@ class TraoDoiSub:
 
 def init_browser():
     chrome_options = Options()
-    # Sửa đường dẫn Profile để chạy được trên cả Windows và Linux
-    profile_dir = "ChromeProfileTDS" if may == "pc" else "./ChromeProfileTDS"
-    chrome_options.add_argument(f"--user-data-dir={profile_dir}")
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    
+    # Profile vẫn giữ (để lưu đăng nhập TikTok)
+    chrome_options.add_argument("--user-data-dir=ChromeProfileTDS")
+    
+    # Các flag quan trọng để khắc phục lỗi DevToolsActivePort
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")           # Thêm cái này
+    chrome_options.add_argument("--remote-debugging-pipe") # Giải pháp mới nhất cho ChromeDriver >= 117
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-    return driver
+    # Tắt một số tính năng gây crash
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    
+    try:
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+        print(f"{luc}✅ Browser khởi tạo thành công!")
+        return driver
+    except Exception as e:
+        print(f"{red}❌ Không khởi tạo được browser: {e}")
+        print(f"{vang}Gợi ý: Đóng hết Chrome đang chạy rồi thử lại.")
+        sys.exit()
 
 # ================== AUTO CLICK (Like - Follow - Comment) ==================
 def auto_click(driver, link, job_type):
