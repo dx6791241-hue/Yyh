@@ -114,37 +114,27 @@ def init_browser():
 # ================== AUTO CLICK (Like - Follow - Comment) ==================
 def auto_click(driver, link, job_type):
     try:
+        print(f"{luc}Đang mở link: {trang}{link[:70]}...")
+        driver.set_page_load_timeout(30)   # Giới hạn thời gian load trang
         driver.get(link)
-        time.sleep(8)
+        
+        time.sleep(6)  # Chờ cơ bản
 
-        # Đợi video load
-        try:
-            WebDriverWait(driver, 15).until(
-                EC.presence_of_element_located((By.TAG_NAME, "video"))
-            )
-        except:
-            pass
-
-        if job_type == 'tiktok_like':
-            targets = [
-                "//button[@data-e2e='like-icon']",
-                "//button[contains(@aria-label, 'Like') or contains(@aria-label, 'Thích')]",
-                "//div[contains(@class, 'like')]//button"
-            ]
-        elif job_type == 'tiktok_follow':
-            targets = [
-                "//button[contains(text(), 'Follow') or contains(text(), 'Theo dõi')]",
-                "//div[@data-e2e='follow-button']//button",
-                "//button[@data-e2e='follow-button']"
-            ]
+        if job_type == 'tiktok_follow':
+            return auto_follow(driver, link)
         elif job_type == 'tiktok_comment':
             return auto_comment(driver)
+        elif job_type == 'tiktok_like':
+            targets = [
+                "//button[@data-e2e='like-icon']",
+                "//button[contains(@aria-label, 'Like') or contains(@aria-label, 'Thích')]"
+            ]
         else:
             targets = []
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 10).until(
+                btn = WebDriverWait(driver, 12).until(
                     EC.element_to_be_clickable((By.XPATH, target))
                 )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
@@ -159,7 +149,7 @@ def auto_click(driver, link, job_type):
         return False
 
     except Exception as e:
-        print(f"{red}⚠️ Lỗi trình duyệt: {e}")
+        print(f"{red}⚠️ Lỗi khi mở trang: {e}")
         return False
 
 
