@@ -3,8 +3,8 @@ import requests
 import os
 import sys
 import time
-import shutil
 import random
+import shutil
 from sys import platform
 from datetime import datetime
 
@@ -28,13 +28,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-total = 0
+total = 0          # tổng xu nhận được trong phiên
 may = 'mb' if platform[0:3] == 'lin' else 'pc'
 
 def banner():
     os.system("cls" if os.name == "nt" else "clear")
     ban = f"""
-                                                                         
       ,--.'|                       ___                                         ,--.'|        
    ,--,  | :                     ,--.'|_                           ,---.   ,--,:  : |        
 ,---.'|  : '                     |  | :,'   ,---.    __  ,-.      /__./|,`--.'`|  ' :        
@@ -139,6 +138,7 @@ def init_browser():
         input("Nhấn Enter để thoát...")
         sys.exit()
 
+# ================== CÁC HÀNH ĐỘNG ==================
 def click_follow(driver):
     follow_xpaths = [
         "//button[contains(text(), 'Follow') or contains(text(), 'Theo dõi')]",
@@ -157,7 +157,7 @@ def click_follow(driver):
                 continue
         return False
 
-    # Thử click tối đa 2 lần
+    # Thử tối đa 2 lần
     for attempt in range(2):
         clicked = False
         for xp in follow_xpaths:
@@ -170,16 +170,34 @@ def click_follow(driver):
                 break
             except:
                 continue
+
+        if not clicked:
+            # Thử click bằng JS
+            try:
+                driver.execute_script("""
+                    let btns = document.querySelectorAll('button');
+                    for (let b of btns) {
+                        if (b.innerText && (b.innerText.includes('Follow') || b.innerText.includes('Theo dõi'))) {
+                            b.scrollIntoView({block: 'center'});
+                            b.click();
+                        }
+                    }
+                """)
+                print(f"{luc}✅ Đã click Follow bằng JS! (lần {attempt+1})")
+                clicked = True
+            except:
+                pass
+
         if not clicked:
             print(f"{red}❌ Không tìm thấy nút follow")
             return False
 
-        time.sleep(2)
+        time.sleep(2)            # chờ một chút trước khi refresh
         driver.refresh()
-        time.sleep(4)
+        time.sleep(4)            # đợi reload
 
         if not is_follow_button_present():
-            print(f"{luc}✅ Follow thành công!")
+            print(f"{luc}✅ Follow thành công sau lần thử {attempt+1}!")
             return True
         else:
             print(f"{vang}⚠️ Lần {attempt+1}: sau refresh vẫn còn nút Follow, thử lại sau {5*(attempt+1)}s")
@@ -207,6 +225,7 @@ def click_like(driver):
 
 def click_comment(driver):
     try:
+        # Mở comment
         comment_icon_xpaths = [
             "//button[@data-e2e='comment-icon']",
             "//button[contains(@aria-label, 'Comment') or contains(@aria-label, 'Bình luận')]"
@@ -224,6 +243,7 @@ def click_comment(driver):
 
         time.sleep(2)
 
+        # Nhập comment
         input_xpaths = [
             "//div[@contenteditable='true']",
             "//div[@data-e2e='comment-input']//div[@contenteditable='true']",
@@ -241,6 +261,7 @@ def click_comment(driver):
             except:
                 continue
 
+        # Gửi comment
         send_xpaths = [
             "//button[contains(text(), 'Send') or contains(text(), 'Gửi')]",
             "//button[@data-e2e='comment-post-button']"
@@ -264,8 +285,7 @@ def auto_click(driver, link, job_type):
     try:
         print(f"{luc}Mở link: {trang}{link[:50]}...")
         driver.get(link)
-        # Chờ 4 giây để trang load cơ bản
-        time.sleep(4)
+        time.sleep(4)   # đợi load cơ bản
 
         if job_type == 'tiktok_follow':
             return click_follow(driver)
@@ -279,13 +299,10 @@ def auto_click(driver, link, job_type):
         print(f"{red}⚠️ Lỗi khi xử lý job: {e}")
         return False
 
+# ================== MAIN ==================
 def main():
     global total
-    dem = 0          # Số job đã xử lý (thành công hay không)
-    success_dem = 0  # Số job thành công
-    fail_count = 0   # Số lần thất bại liên tiếp
-    max_fail = 5
-
+    dem = 0          # số job thành công (đã cache)
     banner()
 
     # ================== ĐĂNG NHẬP TDS ==================
@@ -327,11 +344,8 @@ def main():
         print(f'{thanh_xau}{luc}Tên TK: {vang}{user} {red}| {luc}Xu: {vang}{xu}')
         print(f'{thanh_xau}{luc}1 → Tim (Like) | 2 → Follow | 3 → Comment')
         nhiem_vu = input(f'{thanh_xau}{luc}Chọn: {vang}').strip()
-        dl_input = input(f'{thanh_xau}{luc}Delay (giây, mặc định random 5-12): {vang}').strip()
-        if dl_input:
-            dl = int(dl_input)
-        else:
-            dl = None
+        dl_min = int(input(f'{thanh_xau}{luc}Delay tối thiểu (giây): {vang}'))
+        dl_max = int(input(f'{thanh_xau}{luc}Delay tối đa (giây): {vang}'))
         nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job thành công: {vang}'))
 
         if nhiem_vu == '1':
@@ -345,6 +359,8 @@ def main():
             continue
 
         print(f"{luc}Đang chạy job {job_type.upper()}... (Nhấn Ctrl + C để dừng)")
+        fail_count = 0
+        MAX_FAIL = 5
 
         while True:
             listjob = tds.get_job(job_type)
@@ -365,32 +381,29 @@ def main():
                 print(f"{vang}[{dem+1}] {luc}Đang làm job: {trang}{job_id}")
 
                 success = auto_click(driver, link, job_type)
-                dem += 1
-                if success:
-                    success_dem += 1
-                    fail_count = 0
-                else:
-                    fail_count += 1
-                    if fail_count >= max_fail:
-                        print(f"{red}⚠️ Thất bại {max_fail} lần liên tiếp. Có thể tài khoản bị giới hạn. Dừng 60 giây...")
-                        time.sleep(60)
-                        fail_count = 0
-
                 if success and tds.cache(job_id, cache_type):
+                    dem += 1
                     tg = datetime.now().strftime('%H:%M:%S')
                     print(f'{luc}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE THÀNH CÔNG {red}| {trang}{job_id}')
-                    # Delay ngẫu nhiên nếu không nhập
-                    if dl is None:
-                        delay = random.randint(5, 12)
-                    else:
-                        delay = dl
-                    time.sleep(delay)
+                    fail_count = 0   # reset lỗi
 
-                    if success_dem % nv_nhan == 0 and success_dem > 0:
-                        print(f"{luc}Đạt {success_dem} job thành công, tiến hành nhận xu...")
+                    if dem % nv_nhan == 0:
                         tds.nhan_xu(nhan_type)
+
+                    # Delay ngẫu nhiên giữa các job
+                    delay = random.randint(dl_min, dl_max)
+                    if delay > 0:
+                        print(f"{vang}Chờ {delay} giây...")
+                        time.sleep(delay)
                 else:
-                    print(f"{red}Lỗi cache job ID: {job_id}")
+                    print(f"{red}Lỗi job ID: {job_id} (không cache)")
+                    fail_count += 1
+                    if fail_count >= MAX_FAIL:
+                        print(f"{red}⚠️ Đã thất bại {MAX_FAIL} job liên tiếp. Có thể tài khoản bị giới hạn hoặc cần xác thực.")
+                        print(f"{vang}Gợi ý: Kiểm tra lại tài khoản TikTok, tăng delay, hoặc xóa thư mục ChromeProfileTDS và đăng nhập lại.")
+                        print(f"{vang}Bạn có thể dùng ứng dụng TikTok trên máy tính (nếu có) để giảm bị phát hiện bot.")
+                        input("Nhấn Enter để tiếp tục...")
+                        fail_count = 0
 
 if __name__ == "__main__":
     try:
