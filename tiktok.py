@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests, os, sys, time
+from sys import platform
 from datetime import datetime
 
 # ================== MÀU SẮC ==================
@@ -8,6 +9,7 @@ luc = "\033[1;32m"
 trang = "\033[1;37m"
 red = "\033[1;31m"
 vang = "\033[1;33m"
+tim = "\033[1;35m"
 lam = "\033[1;36m"
 
 thanh_xau = red + "[" + trang + "=.=" + red + "] " + trang + "=> "
@@ -22,10 +24,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 total = 0
+may = 'mb' if platform[0:3] == 'lin' else 'pc'
 
 def banner():
     os.system("cls" if os.name == "nt" else "clear")
     ban = f"""
+                                                                         
       ,--.'|                       ___                                         ,--.'|        
    ,--,  | :                     ,--.'|_                           ,---.   ,--,:  : |        
 ,---.'|  : '                     |  | :,'   ,---.    __  ,-.      /__./|,`--.'`|  ' :        
@@ -94,10 +98,11 @@ class TraoDoiSub:
         except:
             return False
 
-# ================== KHỞI TẠO BROWSER (GIỮ NGUYÊN PROFILE) ==================
 def init_browser():
     chrome_options = Options()
-    chrome_options.add_argument("--user-data-dir=ChromeProfileTDS")   # Giữ cookie & đăng nhập
+    # Sửa đường dẫn Profile để chạy được trên cả Windows và Linux
+    profile_dir = "ChromeProfileTDS" if may == "pc" else "./ChromeProfileTDS"
+    chrome_options.add_argument(f"--user-data-dir={profile_dir}")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument("--no-sandbox")
@@ -106,104 +111,32 @@ def init_browser():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     return driver
 
-# ================== AUTO FOLLOW - CLICK NGAY KHI VÀO TRANG ==================
-# ================== AUTO FOLLOW - CLICK NGAY + TĂNG ỔN ĐỊNH ==================
-def auto_follow(driver, link):
-    try:
-        print(f"{luc}Đang mở trang user: {trang}{link[:60]}...")
-        driver.get(link)
-        
-        # Tăng thời gian load trang TikTok (rất quan trọng)
-        time.sleep(7)
-
-        # Danh sách XPath Follow mới nhất & phổ biến hơn (2026)
-        follow_xpaths = [
-            "//button[contains(text(), 'Follow') or contains(text(), 'Theo dõi')]",
-            "//div[@data-e2e='follow-button']//button",
-            "//button[@data-e2e='follow-button']",
-            "//button[contains(@class, 'follow') or contains(@class, 'Follow')]",
-            "//button//span[contains(text(), 'Follow')]",
-            "//button[@type='button' and contains(., 'Follow')]"
-        ]
-
-        clicked = False
-        for i, xp in enumerate(follow_xpaths, 1):
-            try:
-                print(f"{lam}Thử XPath {i}...")
-                btn = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, xp))
-                )
-                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                time.sleep(1)
-                driver.execute_script("arguments[0].click();", btn)
-                print(f"{luc}✅ Đã click Follow thành công!")
-                clicked = True
-                time.sleep(4)
-                break
-            except:
-                continue
-
-        if not clicked:
-            print(f"{red}❌ Không tìm thấy nút Follow sau nhiều lần thử.")
-            # Thử click bằng JavaScript toàn bộ button chứa chữ Follow
-            try:
-                driver.execute_script("""
-                    let buttons = document.querySelectorAll('button');
-                    for (let btn of buttons) {
-                        if (btn.innerText.includes('Follow') || btn.innerText.includes('Theo dõi')) {
-                            btn.scrollIntoView({block: 'center'});
-                            btn.click();
-                            console.log('Clicked via JS');
-                            return true;
-                        }
-                    }
-                """)
-                print(f"{luc}✅ Đã thử click bằng JavaScript!")
-                time.sleep(4)
-            except:
-                pass
-
-        # === Refresh để kiểm tra ===
-        print(f"{luc}Đang refresh trang để kiểm tra Follow...")
-        driver.refresh()
-        time.sleep(6)
-
-        # Kiểm tra nút Follow còn không
-        still_show = False
-        for xp in follow_xpaths:
-            try:
-                WebDriverWait(driver, 8).until(
-                    EC.presence_of_element_located((By.XPATH, xp))
-                )
-                still_show = True
-                break
-            except:
-                continue
-
-        if still_show:
-            print(f"{vang}⚠️ Sau refresh vẫn thấy nút Follow → Có thể chưa follow được (hoặc đã follow rồi)")
-        else:
-            print(f"{luc}✅ Có vẻ đã Follow thành công!")
-
-        time.sleep(2)
-        return True
-
-    except Exception as e:
-        print(f"{red}⚠️ Lỗi nghiêm trọng khi Follow: {e}")
-        return False
-
-
-# ================== HÀM CHUNG ==================
+# ================== AUTO CLICK (Like - Follow - Comment) ==================
 def auto_click(driver, link, job_type):
-    if job_type == 'tiktok_follow':
-        return auto_follow(driver, link)
-    
-    # Like và Comment giữ nguyên như code cũ của bạn
     try:
         driver.get(link)
         time.sleep(8)
+
+        # Đợi video load
+        try:
+            WebDriverWait(driver, 15).until(
+                EC.presence_of_element_located((By.TAG_NAME, "video"))
+            )
+        except:
+            pass
+
         if job_type == 'tiktok_like':
-            targets = ["//button[@data-e2e='like-icon']", "//button[contains(@aria-label, 'Like') or contains(@aria-label, 'Thích')]"]
+            targets = [
+                "//button[@data-e2e='like-icon']",
+                "//button[contains(@aria-label, 'Like') or contains(@aria-label, 'Thích')]",
+                "//div[contains(@class, 'like')]//button"
+            ]
+        elif job_type == 'tiktok_follow':
+            targets = [
+                "//button[contains(text(), 'Follow') or contains(text(), 'Theo dõi')]",
+                "//div[@data-e2e='follow-button']//button",
+                "//button[@data-e2e='follow-button']"
+            ]
         elif job_type == 'tiktok_comment':
             return auto_comment(driver)
         else:
@@ -211,7 +144,9 @@ def auto_click(driver, link, job_type):
 
         for target in targets:
             try:
-                btn = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, target)))
+                btn = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, target))
+                )
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
                 driver.execute_script("arguments[0].click();", btn)
                 print(f"{luc}✅ Đã click {job_type.upper()} thành công")
@@ -219,16 +154,18 @@ def auto_click(driver, link, job_type):
                 return True
             except:
                 continue
+
         print(f"{red}❌ Không tìm thấy nút {job_type}")
         return False
+
     except Exception as e:
-        print(f"{red}⚠️ Lỗi: {e}")
+        print(f"{red}⚠️ Lỗi trình duyệt: {e}")
         return False
 
 
 def auto_comment(driver):
-    # Giữ nguyên hàm comment của bạn
     try:
+        # Click mở comment
         comment_icon_xpaths = [
             "//button[@data-e2e='comment-icon']",
             "//button[contains(@aria-label, 'Comment') or contains(@aria-label, 'Bình luận')]"
@@ -248,35 +185,46 @@ def auto_comment(driver):
 
         time.sleep(3)
 
+        # Nhập comment
         input_xpaths = [
             "//div[@contenteditable='true']",
+            "//div[@data-e2e='comment-input']//div[@contenteditable='true']",
             "//textarea[contains(@placeholder, 'Bình luận')]"
         ]
 
         for xp in input_xpaths:
             try:
                 comment_input = WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, xp)))
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", comment_input)
                 driver.execute_script("arguments[0].focus();", comment_input)
-                comment_input.send_keys("Hay lắm ❤️")
+                
+                cmt = "Hay lắm ❤️"
+                comment_input.send_keys(cmt)
                 time.sleep(1.5)
                 break
             except:
                 continue
 
-        send_xpaths = ["//button[contains(text(), 'Send') or contains(text(), 'Gửi')]"]
+        # Gửi comment
+        send_xpaths = [
+            "//button[contains(text(), 'Send') or contains(text(), 'Gửi')]",
+            "//button[@data-e2e='comment-post-button']"
+        ]
         for xp in send_xpaths:
             try:
                 send_btn = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xp)))
                 driver.execute_script("arguments[0].click();", send_btn)
-                print(f"{luc}✅ Đã comment: Hay lắm ❤️")
+                print(f"{luc}✅ Đã comment: {cmt}")
                 time.sleep(3)
                 return True
             except:
                 continue
 
+        print(f"{red}❌ Không gửi được comment")
         return False
+
     except Exception as e:
-        print(f"{red}⚠️ Lỗi comment: {e}")
+        print(f"{red}⚠️ Lỗi auto comment: {e}")
         return False
 
 
@@ -285,7 +233,7 @@ def main():
     dem = 0
     banner()
 
-    # Đăng nhập TDS
+    # ================== ĐĂNG NHẬP TDS ==================
     while True:
         if os.path.exists('configtds.txt'):
             with open('configtds.txt', 'r', encoding='utf-8') as f:
@@ -307,6 +255,7 @@ def main():
             if os.path.exists('configtds.txt'):
                 os.remove('configtds.txt')
 
+    # ================== CẤU HÌNH TIKTOK ID ==================
     tiktok_id = input(f'{thanh_xau}{luc}Nhập ID TikTok muốn chạy: {vang}').strip()
     res_set = tds.set_tiktok_run(tiktok_id)
     if res_set and 'success' in str(res_set).lower():
@@ -317,10 +266,11 @@ def main():
 
     driver = init_browser()
 
+    # ================== CHẾ ĐỘ CHẠY ==================
     while True:
         banner()
         print(f'{thanh_xau}{luc}Tên TK: {vang}{user} {red}| {luc}Xu: {vang}{xu}')
-        print(f'{thanh_xau}{luc}1 → Like | 2 → Follow | 3 → Comment')
+        print(f'{thanh_xau}{luc}1 → Tim (Like) | 2 → Follow | 3 → Comment')
         nhiem_vu = input(f'{thanh_xau}{luc}Chọn: {vang}').strip()
         dl = int(input(f'{thanh_xau}{luc}Delay (giây): {vang}'))
         nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job: {vang}'))
@@ -332,9 +282,10 @@ def main():
         elif nhiem_vu == '3':
             job_type, cache_type, nhan_type = 'tiktok_comment', 'TIKTOK_COMMENT_CACHE', 'TIKTOK_COMMENT'
         else:
+            print(f"{red}Lựa chọn không hợp lệ!")
             continue
 
-        print(f"{luc}Đang chạy job {job_type.upper()}...")
+        print(f"{luc}Đang chạy job {job_type.upper()}... (Nhấn Ctrl + C để dừng)")
 
         while True:
             listjob = tds.get_job(job_type)
@@ -361,6 +312,7 @@ def main():
                     tg = datetime.now().strftime('%H:%M:%S')
                     print(f'{luc}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE THÀNH CÔNG {red}| {trang}{job_id}')
                     time.sleep(dl)
+                    
                     if dem % nv_nhan == 0:
                         tds.nhan_xu(nhan_type)
                 else:
@@ -372,3 +324,5 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print(f"\n{red}Đã dừng chương trình!")
         sys.exit()
+    except Exception as e:
+        print(f"{red}Lỗi không xác định: {e}")
