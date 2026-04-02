@@ -28,7 +28,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-total = 0          # tổng xu nhận được trong phiên
+total = 0
 may = 'mb' if platform[0:3] == 'lin' else 'pc'
 
 def banner():
@@ -138,73 +138,56 @@ def init_browser():
         input("Nhấn Enter để thoát...")
         sys.exit()
 
-# ================== CÁC HÀNH ĐỘNG ==================
+# ================== FOLLOW CHÍNH XÁC (KHÔNG REFRESH) ==================
 def click_follow(driver):
-    follow_xpaths = [
-        "//button[contains(text(), 'Follow') or contains(text(), 'Theo dõi')]",
-        "//div[@data-e2e='follow-button']//button",
-        "//button[@data-e2e='follow-button']",
-        "//button[contains(@class, 'follow')]"
-    ]
+    # XPath cho nút follow (dạng chưa follow)
+    follow_btn_xpath = "//button[contains(text(),'Follow') or contains(text(),'Theo dõi')]"
+    # XPath cho nút following (đã follow)
+    following_btn_xpath = "//button[contains(text(),'Following') or contains(text(),'Đang theo dõi')]"
 
-    def is_follow_button_present():
-        for xp in follow_xpaths:
+    # Đợi một trong hai nút xuất hiện
+    try:
+        # Ưu tiên kiểm tra đã follow chưa (tránh click lại nếu đã follow từ trước)
+        following_btn = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, following_btn_xpath))
+        )
+        print(f"{luc}✅ Đã follow từ trước (không cần click)")
+        return True
+    except:
+        pass
+
+    try:
+        # Tìm nút follow
+        follow_btn = WebDriverWait(driver, 8).until(
+            EC.element_to_be_clickable((By.XPATH, follow_btn_xpath))
+        )
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", follow_btn)
+        driver.execute_script("arguments[0].click();", follow_btn)
+        print(f"{luc}✅ Đã click Follow!")
+
+        # Chờ nút biến mất hoặc chuyển thành Following (tối đa 5 giây)
+        try:
+            WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.XPATH, following_btn_xpath))
+            )
+            print(f"{luc}✅ Xác nhận đã follow (nút chuyển thành Following)")
+            return True
+        except:
+            # Nếu không thấy Following, kiểm tra lại nút follow có còn không
             try:
-                btn = driver.find_element(By.XPATH, xp)
-                if btn.is_displayed():
+                still_follow = driver.find_element(By.XPATH, follow_btn_xpath)
+                if still_follow.is_displayed():
+                    print(f"{red}❌ Click không thành công, nút Follow vẫn hiện")
+                    return False
+                else:
+                    print(f"{luc}✅ Follow thành công (nút follow biến mất)")
                     return True
             except:
-                continue
+                print(f"{luc}✅ Follow thành công (không tìm thấy nút follow)")
+                return True
+    except Exception as e:
+        print(f"{red}❌ Lỗi khi follow: {e}")
         return False
-
-    # Thử tối đa 2 lần
-    for attempt in range(2):
-        clicked = False
-        for xp in follow_xpaths:
-            try:
-                btn = WebDriverWait(driver, 8).until(EC.element_to_be_clickable((By.XPATH, xp)))
-                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                driver.execute_script("arguments[0].click();", btn)
-                print(f"{luc}✅ Đã click Follow! (lần {attempt+1})")
-                clicked = True
-                break
-            except:
-                continue
-
-        if not clicked:
-            # Thử click bằng JS
-            try:
-                driver.execute_script("""
-                    let btns = document.querySelectorAll('button');
-                    for (let b of btns) {
-                        if (b.innerText && (b.innerText.includes('Follow') || b.innerText.includes('Theo dõi'))) {
-                            b.scrollIntoView({block: 'center'});
-                            b.click();
-                        }
-                    }
-                """)
-                print(f"{luc}✅ Đã click Follow bằng JS! (lần {attempt+1})")
-                clicked = True
-            except:
-                pass
-
-        if not clicked:
-            print(f"{red}❌ Không tìm thấy nút follow")
-            return False
-
-        time.sleep(2)            # chờ một chút trước khi refresh
-        driver.refresh()
-        time.sleep(4)            # đợi reload
-
-        if not is_follow_button_present():
-            print(f"{luc}✅ Follow thành công sau lần thử {attempt+1}!")
-            return True
-        else:
-            print(f"{vang}⚠️ Lần {attempt+1}: sau refresh vẫn còn nút Follow, thử lại sau {5*(attempt+1)}s")
-            time.sleep(5 * (attempt + 1))
-
-    print(f"{red}❌ Follow thất bại sau 2 lần thử")
-    return False
 
 def click_like(driver):
     like_xpaths = [
@@ -302,10 +285,10 @@ def auto_click(driver, link, job_type):
 # ================== MAIN ==================
 def main():
     global total
-    dem = 0          # số job thành công (đã cache)
+    dem = 0
     banner()
 
-    # ================== ĐĂNG NHẬP TDS ==================
+    # Đăng nhập TDS
     while True:
         if os.path.exists('configtds.txt'):
             with open('configtds.txt', 'r', encoding='utf-8') as f:
@@ -327,7 +310,7 @@ def main():
             if os.path.exists('configtds.txt'):
                 os.remove('configtds.txt')
 
-    # ================== CẤU HÌNH TIKTOK ID ==================
+    # Cấu hình TikTok ID
     tiktok_id = input(f'{thanh_xau}{luc}Nhập ID TikTok muốn chạy: {vang}').strip()
     res_set = tds.set_tiktok_run(tiktok_id)
     if res_set and 'success' in str(res_set).lower():
@@ -338,13 +321,13 @@ def main():
 
     driver = init_browser()
 
-    # ================== CHẾ ĐỘ CHẠY ==================
+    # Chọn chế độ
     while True:
         banner()
         print(f'{thanh_xau}{luc}Tên TK: {vang}{user} {red}| {luc}Xu: {vang}{xu}')
         print(f'{thanh_xau}{luc}1 → Tim (Like) | 2 → Follow | 3 → Comment')
         nhiem_vu = input(f'{thanh_xau}{luc}Chọn: {vang}').strip()
-        dl_min = int(input(f'{thanh_xau}{luc}Delay tối thiểu (giây): {vang}'))
+        dl_min = int(input(f'{thanh_xau}{luc}Delay tối thiểu (giây, 0 để không delay): {vang}'))
         dl_max = int(input(f'{thanh_xau}{luc}Delay tối đa (giây): {vang}'))
         nv_nhan = int(input(f'{thanh_xau}{luc}Nhận xu sau bao nhiêu job thành công: {vang}'))
 
@@ -385,23 +368,21 @@ def main():
                     dem += 1
                     tg = datetime.now().strftime('%H:%M:%S')
                     print(f'{luc}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE THÀNH CÔNG {red}| {trang}{job_id}')
-                    fail_count = 0   # reset lỗi
+                    fail_count = 0
 
                     if dem % nv_nhan == 0:
                         tds.nhan_xu(nhan_type)
 
-                    # Delay ngẫu nhiên giữa các job
-                    delay = random.randint(dl_min, dl_max)
-                    if delay > 0:
+                    if dl_min > 0:
+                        delay = random.randint(dl_min, dl_max)
                         print(f"{vang}Chờ {delay} giây...")
                         time.sleep(delay)
                 else:
                     print(f"{red}Lỗi job ID: {job_id} (không cache)")
                     fail_count += 1
                     if fail_count >= MAX_FAIL:
-                        print(f"{red}⚠️ Đã thất bại {MAX_FAIL} job liên tiếp. Có thể tài khoản bị giới hạn hoặc cần xác thực.")
-                        print(f"{vang}Gợi ý: Kiểm tra lại tài khoản TikTok, tăng delay, hoặc xóa thư mục ChromeProfileTDS và đăng nhập lại.")
-                        print(f"{vang}Bạn có thể dùng ứng dụng TikTok trên máy tính (nếu có) để giảm bị phát hiện bot.")
+                        print(f"{red}⚠️ Đã thất bại {MAX_FAIL} job liên tiếp.")
+                        print(f"{vang}Gợi ý: Kiểm tra tài khoản TikTok, tăng delay, hoặc xóa thư mục ChromeProfileTDS.")
                         input("Nhấn Enter để tiếp tục...")
                         fail_count = 0
 
