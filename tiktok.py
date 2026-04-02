@@ -5,6 +5,7 @@ import sys
 import time
 import random
 import shutil
+import traceback
 from sys import platform
 from datetime import datetime
 
@@ -138,56 +139,80 @@ def init_browser():
         input("Nhấn Enter để thoát...")
         sys.exit()
 
-# ================== FOLLOW CHÍNH XÁC (KHÔNG REFRESH) ==================
+# ================== FOLLOW CHÍNH XÁC ==================
 def click_follow(driver):
-    # XPath cho nút follow (dạng chưa follow)
-    follow_btn_xpath = "//button[contains(text(),'Follow') or contains(text(),'Theo dõi')]"
-    # XPath cho nút following (đã follow)
-    following_btn_xpath = "//button[contains(text(),'Following') or contains(text(),'Đang theo dõi')]"
+    # Các xpath cho nút Follow (chưa follow)
+    follow_xpaths = [
+        "//button[contains(text(), 'Follow')]",
+        "//button[contains(text(), 'Theo dõi')]",
+        "//div[@data-e2e='follow-button']//button",
+        "//button[@data-e2e='follow-button']",
+        "//button[contains(@class, 'follow')]",
+        "//button[contains(@class, 'css-') and contains(text(), 'Follow')]",
+        "//button[contains(@class, 'Button') and contains(text(), 'Follow')]"
+    ]
+    # Các xpath cho nút Following (đã follow)
+    following_xpaths = [
+        "//button[contains(text(), 'Following')]",
+        "//button[contains(text(), 'Đang theo dõi')]",
+        "//button[contains(@class, 'following')]"
+    ]
 
-    # Đợi một trong hai nút xuất hiện
-    try:
-        # Ưu tiên kiểm tra đã follow chưa (tránh click lại nếu đã follow từ trước)
-        following_btn = WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.XPATH, following_btn_xpath))
-        )
-        print(f"{luc}✅ Đã follow từ trước (không cần click)")
-        return True
-    except:
-        pass
-
-    try:
-        # Tìm nút follow
-        follow_btn = WebDriverWait(driver, 8).until(
-            EC.element_to_be_clickable((By.XPATH, follow_btn_xpath))
-        )
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", follow_btn)
-        driver.execute_script("arguments[0].click();", follow_btn)
-        print(f"{luc}✅ Đã click Follow!")
-
-        # Chờ nút biến mất hoặc chuyển thành Following (tối đa 5 giây)
+    # Kiểm tra nếu đã follow từ trước
+    for xp in following_xpaths:
         try:
-            WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.XPATH, following_btn_xpath))
-            )
-            print(f"{luc}✅ Xác nhận đã follow (nút chuyển thành Following)")
-            return True
-        except:
-            # Nếu không thấy Following, kiểm tra lại nút follow có còn không
-            try:
-                still_follow = driver.find_element(By.XPATH, follow_btn_xpath)
-                if still_follow.is_displayed():
-                    print(f"{red}❌ Click không thành công, nút Follow vẫn hiện")
-                    return False
-                else:
-                    print(f"{luc}✅ Follow thành công (nút follow biến mất)")
-                    return True
-            except:
-                print(f"{luc}✅ Follow thành công (không tìm thấy nút follow)")
+            btn = driver.find_element(By.XPATH, xp)
+            if btn.is_displayed():
+                print(f"{luc}✅ Đã follow từ trước (không cần click)")
                 return True
-    except Exception as e:
-        print(f"{red}❌ Lỗi khi follow: {e}")
-        return False
+        except:
+            pass
+
+    # Tìm và click follow
+    for xp in follow_xpaths:
+        try:
+            btn = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xp)))
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+            driver.execute_script("arguments[0].click();", btn)
+            print(f"{luc}✅ Đã click Follow (xpath: {xp})")
+            time.sleep(2)
+
+            # Kiểm tra kết quả: nút biến mất hoặc thành Following
+            # Cách 1: đợi nút follow biến mất
+            try:
+                WebDriverWait(driver, 3).until(EC.invisibility_of_element_located((By.XPATH, xp)))
+                print(f"{luc}✅ Nút Follow đã biến mất → thành công")
+                return True
+            except:
+                pass
+
+            # Cách 2: kiểm tra nút Following xuất hiện
+            for fxp in following_xpaths:
+                try:
+                    if driver.find_element(By.XPATH, fxp).is_displayed():
+                        print(f"{luc}✅ Đã chuyển thành nút Following → thành công")
+                        return True
+                except:
+                    pass
+
+            # Nếu vẫn thấy nút follow (không biến mất) → thất bại
+            try:
+                if driver.find_element(By.XPATH, xp).is_displayed():
+                    print(f"{red}⚠️ Click nhưng nút Follow vẫn hiện → follow thất bại")
+                    return False
+            except:
+                pass
+
+            # Mặc định coi như thành công nếu không có bằng chứng thất bại
+            print(f"{luc}✅ Follow thành công (không phát hiện nút Follow còn)")
+            return True
+
+        except Exception as e:
+            print(f"{vang}Thử xpath {xp} thất bại: {e}")
+            continue
+
+    print(f"{red}❌ Không tìm thấy nút Follow sau tất cả các xpath")
+    return False
 
 def click_like(driver):
     like_xpaths = [
@@ -208,7 +233,6 @@ def click_like(driver):
 
 def click_comment(driver):
     try:
-        # Mở comment
         comment_icon_xpaths = [
             "//button[@data-e2e='comment-icon']",
             "//button[contains(@aria-label, 'Comment') or contains(@aria-label, 'Bình luận')]"
@@ -225,8 +249,6 @@ def click_comment(driver):
             return False
 
         time.sleep(2)
-
-        # Nhập comment
         input_xpaths = [
             "//div[@contenteditable='true']",
             "//div[@data-e2e='comment-input']//div[@contenteditable='true']",
@@ -244,7 +266,6 @@ def click_comment(driver):
             except:
                 continue
 
-        # Gửi comment
         send_xpaths = [
             "//button[contains(text(), 'Send') or contains(text(), 'Gửi')]",
             "//button[@data-e2e='comment-post-button']"
@@ -262,13 +283,14 @@ def click_comment(driver):
         return False
     except Exception as e:
         print(f"{red}⚠️ Lỗi auto comment: {e}")
+        traceback.print_exc()
         return False
 
 def auto_click(driver, link, job_type):
     try:
         print(f"{luc}Mở link: {trang}{link[:50]}...")
         driver.get(link)
-        time.sleep(4)   # đợi load cơ bản
+        time.sleep(5)   # tăng lên 5s để load
 
         if job_type == 'tiktok_follow':
             return click_follow(driver)
@@ -280,6 +302,7 @@ def auto_click(driver, link, job_type):
             return False
     except Exception as e:
         print(f"{red}⚠️ Lỗi khi xử lý job: {e}")
+        traceback.print_exc()
         return False
 
 # ================== MAIN ==================
@@ -360,7 +383,6 @@ def main():
             for job in jobs:
                 job_id = job.get('id')
                 link = job.get('link')
-
                 print(f"{vang}[{dem+1}] {luc}Đang làm job: {trang}{job_id}")
 
                 success = auto_click(driver, link, job_type)
@@ -369,10 +391,8 @@ def main():
                     tg = datetime.now().strftime('%H:%M:%S')
                     print(f'{luc}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE THÀNH CÔNG {red}| {trang}{job_id}')
                     fail_count = 0
-
                     if dem % nv_nhan == 0:
                         tds.nhan_xu(nhan_type)
-
                     if dl_min > 0:
                         delay = random.randint(dl_min, dl_max)
                         print(f"{vang}Chờ {delay} giây...")
@@ -394,3 +414,4 @@ if __name__ == "__main__":
         sys.exit()
     except Exception as e:
         print(f"{red}Lỗi không xác định: {e}")
+        traceback.print_exc()
