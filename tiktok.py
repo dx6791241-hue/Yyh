@@ -329,8 +329,6 @@ def main():
             continue
 
         print(f"{luc}Đang chạy job {job_type.upper()}... (Nhấn Ctrl + C để dừng)")
-        fail_count = 0
-        MAX_FAIL = 5
 
         while True:
             listjob = tds.get_job(job_type)
@@ -355,23 +353,15 @@ def main():
                     dem += 1
                     tg = datetime.now().strftime('%H:%M:%S')
                     print(f'{luc}[{dem}] {red}| {lam}{tg} {red}| {luc}CACHE THÀNH CÔNG {red}| {trang}{job_id}')
-                    fail_count = 0
-
                     if dem % nv_nhan == 0:
                         tds.nhan_xu(nhan_type)
-
                     delay = random.randint(dl_min, dl_max)
                     if delay > 0:
                         print(f"{vang}Chờ {delay} giây...")
                         time.sleep(delay)
                 else:
                     print(f"{red}Lỗi job ID: {job_id} (không cache)")
-                    fail_count += 1
-                    if fail_count >= MAX_FAIL:
-                        print(f"{red}⚠️ Đã thất bại {MAX_FAIL} job liên tiếp. Có thể tài khoản bị giới hạn hoặc cần xác thực.")
-                        print(f"{vang}Gợi ý: Kiểm tra lại tài khoản TikTok, tăng delay, hoặc xóa thư mục ChromeProfileTDS và đăng nhập lại.")
-                        input("Nhấn Enter để tiếp tục...")
-                        fail_count = 0
+                    # Không có xử lý fail_count hay dừng tool
 
 if __name__ == "__main__":
     try:
