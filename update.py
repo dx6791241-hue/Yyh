@@ -154,7 +154,6 @@ print("___________________________________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.1\033[1;31m] \033[1;32m SPAMSMS BETA \033[1;33m[\033[1;31mV1\033[1;33m]")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.2\033[1;31m] \033[1;32mTDS TIKTOK \033[1;33m[\033[1;31mV2\033[1;33m]")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.3\033[1;31m] \033[1;32mTOOL TDS FACEBOOK")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.4\033[1;31m] \033[1;32mTOOL ĐỔI MK TĐS")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.5\033[1;31m] \033[1;32mTOOL DOSS WEB V1")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.6\033[1;31m] \033[1;32mTOOL ĐÀO PROXY ")
 print("_____________________________________DỊCH VỤ _____________________________________________")
@@ -191,8 +190,6 @@ elif chon == '1.2':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/tiktok.py', 'TDS TIKTOK')
 elif chon == '1.3':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/facebook_tds.py', 'TOOL TDS FACEBOOK')
-elif chon == '1.4':
-    safe_exec('https://raw.githubusercontent.com/Khanh23047/Mktds/main/4.py', 'TOOL ĐỔI MK TĐS')
 elif chon == '1.5':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/text.py', 'TOOL DOSS WEB V1')
 elif chon == '1.6':
