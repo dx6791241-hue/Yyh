@@ -3252,7 +3252,7 @@ import time
 
 def spam_lien_tuc(phone, so_lan):
     functions = [
-        send_otp_via_vtvcab, send_otp_via_cashbar, send_otp_via_pizzacompany,
+        send_otp_via_cashbar, send_otp_via_pizzacompany,
         send_otp_via_sapo, send_otp_via_viettel, send_otp_via_medicare,
         send_otp_via_tv360, send_otp_via_dienmayxanh, send_otp_via_kingfoodmart,
         send_otp_via_mocha, send_otp_via_fptdk, send_otp_via_fptmk,
