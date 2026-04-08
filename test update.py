@@ -3276,7 +3276,7 @@ def spam_lien_tuc(phone, so_lan):
         send_otp_via_MOCA, send_otp_via_pantio, send_otp_via_Routine,
         send_otp_via_vayvnd, send_otp_via_tima, send_otp_via_moneygo,
         send_otp_via_takomo, send_otp_via_paynet, send_otp_via_pico,
-        send_otp_via_PNJ, send_otp_via_TINIWORLD,
+        send_otp_via_PNJ, send_otp_via_TINIWORLD
     ]
 
     print(f"{Fore.RED}🔥 BẮT ĐẦU SPAM {so_lan} LẦN LIÊN TỤC CHO SỐ: {phone}{Style.RESET_ALL}")
