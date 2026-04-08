@@ -3460,8 +3460,8 @@ if __name__ == "__main__":
 # ===================== TOOL CHÍNH =====================
 
 banner()
-print("Dev:Deltatrash09(Duong Khoi)")
-print("SDT:0949557645")
+print("Dev: Deltatrash09 (Duong Khoi)")
+print("SDT: 0949557645")
 print("___________________________________________________________")
 print("Chọn ngôn ngữ / Choose language")
 print("1. Tiếng Việt")
@@ -3470,7 +3470,7 @@ print("2. ภาษาไทย")
 lang = input("Nhập lựa chọn (1 hoặc 2): ")
 
 if lang == "1":
-    txt_code = "nhập code đi kid lỏ: "
+    txt_code = "Nhập code đi kid lỏ: "
     txt_wrong_code = "Code sai, biến hộ"
     txt_phone = "Nhập số điện thoại: "
     txt_block = "Sài tool của admin mà đòi spam sms của admin à con"
@@ -3485,7 +3485,7 @@ else:
     print("Lựa chọn không hợp lệ")
     quit()
 
-print("HectorVN Client Free Edition")
+print("\nHectorVN Client Free Edition")
 
 code = input(txt_code)
 if code != "obiiyeuem":
@@ -3499,9 +3499,13 @@ if phone == "0949557645":
 
 count = int(input(txt_count))
 
-for i in range(1, count + 1):
-    run(phone, i)
+# ===================== BẮT ĐẦU SPAM =====================
+print(f"\n{Fore.RED}🔥 BẮT ĐẦU SPAM {count} LẦN LIÊN TỤC CHO SỐ: {phone}{Style.RESET_ALL}")
+print("=" * 70)
 
+spam_lien_tuc(phone, count)   # ← Đây là hàm đã được định nghĩa sẵn ở trên
+
+print(f"\n{Fore.CYAN}🎉 HOÀN TẤT TOÀN BỘ {count} LẦN SPAM!{Style.RESET_ALL}")
 
 
 
