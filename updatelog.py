@@ -34,7 +34,7 @@ def show_update_log():
     print("╚════════════════════════════════════════════════════════════════════╝\033[0m\n")
 
     print("\033[1;32m[★] PHIÊN BẢN HIỆN TẠI: Multi Tool HectorVN v2.1\033[0m")
-    print("\033[1;97mDev: Deltatrash09 (Dương Khởi) | Hotline: 0949557645\033[0m\n")
+    print("\033[1;97mDev: Deltatrash09 (Dương Khôi) |  0949557645\033[0m\n")
 
     print("\033[1;36m══════════════════ CẬP NHẬT NỔI BẬT TUẦN NÀY ══════════════════\033[0m")
 
@@ -55,17 +55,15 @@ def show_update_log():
         print(f"\033[1;97m[{i:2d}]\033[0m {update}")
 
     print("\n\033[1;33m══════════════════ TUẦN SAU SẼ CẬP NHẬT ══════════════════\033[0m")
-    print("\033[1;97m(Update Tool vua thoat hiem X world)\033[0m\n")
+    print("\033[1;97m(Update TOOL VUA THOÁT HIỂM X WORLD)\033[0m\n")
 
-    print("• [ ] Thêm tính năng Spam Call (Voice) mới")
     print("• [ ] Cập nhật TDS TikTok  - Tăng tốc follow/like/comment")
     print("• [ ] Thêm anti-detect & random delay cho các tool spam")
     print("• [ ] Tối ưu TOOL DOSS WEB V2 (mạnh hơn)")
     print("• [ ] Hỗ trợ proxy SOCKS5/HTTP tốt hơn")
-    print("• [ ] ... (thêm những tính năng bạn muốn ở đây)")
 
     print("\n\033[1;31m• Lưu ý: Key chỉ dùng được trong ngày, sang ngày mới phải lấy lại.\033[0m")
-    print("\033[1;32m• Khuyến cáo khong dùng VPN/Proxy vuot link để tránh bị khoá IP.\033[0m\n")
+    print("\033[1;32m• Khuyến cáo không dùng VPN/Proxy vượt link để tránh bị khoá IP.\033[0m\n")
 
     print("\033[1;97mCảm ơn mọi người đã ủng hộ và sử dụng tool!\033[0m")
 
