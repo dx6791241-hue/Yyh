@@ -187,9 +187,9 @@ def safe_exec(url, tool_name):
 if chon == '1.1':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/spamsms1.py', 'SPAMSMS BETA')
 elif chon == '1.2':
-    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/tiktok.py', 'TDS TIKTOK')
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/tiktok.py', 'TDS TIKTOK(PC)')
 elif chon == '1.3':
-    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/facebook_tds.py', 'TOOL TDS FACEBOOK')
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/facebook_tds.py', 'TOOL TDS FACEBOOK(PC)')
 elif chon == '1.5':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/text.py', 'TOOL DOSS WEB V1')
 elif chon == '1.6':
