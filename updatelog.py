@@ -30,7 +30,7 @@ def banner():
 def show_update_log():
     banner()
     print("\033[1;33m╔════════════════════════════════════════════════════════════════════╗")
-    print("║               UPDATE LOG - TUẦN 06/04 - 12/04/2026                 ║")
+    print("║               UPDATE LOG - TUẦN 06/04 - 17/04/2026                 ║")
     print("╚════════════════════════════════════════════════════════════════════╝\033[0m\n")
 
     print("\033[1;32m[★] PHIÊN BẢN HIỆN TẠI: Multi Tool HectorVN v2.1\033[0m")
@@ -39,25 +39,17 @@ def show_update_log():
     print("\033[1;36m══════════════════ CẬP NHẬT NỔI BẬT TUẦN NÀY ══════════════════\033[0m")
 
     updates = [
-        "• Rework hoàn toàn SPAMSMS BETA (V1) - Tăng tốc độ, ổn định hơn, giảm lỗi",
-        "• Thêm tính năng Lọc Proxy Live (option 1.8) - Kiểm tra proxy chất lượng cao",
-        "• Xây dựng hệ thống Key theo IP mới (hết hạn 23:59 hàng ngày)",
-        "• Thêm cơ chế lưu key tự động vào file ip_key.json (mã hóa Base64)",
-        "• Thêm option Tạo Mail Ảo (1.7) vào menu chính",
-        "• Cải tiến banner + animation mượt mà, thêm thông báo debug lựa chọn",
-        "• Fix lỗi thời gian kiểm tra key và một số lỗi nhỏ khác",
+        "• UPDATE TOOL VUA THOÁT HIỂM XWORLD",
+
     ]
 
     for i, update in enumerate(updates, 1):
         print(f"\033[1;97m[{i:2d}]\033[0m {update}")
 
     print("\n\033[1;33m══════════════════ TUẦN SAU SẼ CẬP NHẬT ══════════════════\033[0m")
-    print("\033[1;97m(Update TOOL VUA THOÁT HIỂM X WORLD)\033[0m\n")
+    print("\033[1;97m(Update Tool golike )\033[0m\n")
 
-    print("• [ ] Cập nhật TDS TikTok  - Tăng tốc follow/like/comment")
-    print("• [ ] Thêm anti-detect & random delay cho các tool spam")
-    print("• [ ] Tối ưu TOOL DOSS WEB V2 (mạnh hơn)")
-    print("• [ ] Hỗ trợ proxy SOCKS5/HTTP tốt hơn")
+    print("• [ ] REWORK TOOL DDOS(MAYBE)")
 
     print("\n\033[1;31m• Lưu ý: Key chỉ dùng được trong ngày, sang ngày mới phải lấy lại.\033[0m")
     print("\033[1;32m• Khuyến cáo không dùng VPN/Proxy vượt link để tránh bị khoá IP.\033[0m\n")
