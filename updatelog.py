@@ -43,12 +43,9 @@ def show_update_log():
         "• Thêm tính năng Lọc Proxy Live (option 1.8) - Kiểm tra proxy chất lượng cao",
         "• Xây dựng hệ thống Key theo IP mới (hết hạn 23:59 hàng ngày)",
         "• Thêm cơ chế lưu key tự động vào file ip_key.json (mã hóa Base64)",
-        "• Cải thiện hàm rút gọn link qua link4m.co (nhanh và ổn định hơn)",
-        "• Tối ưu safe_exec(): kiểm tra code trước khi chạy, xử lý lỗi chi tiết",
         "• Thêm option Tạo Mail Ảo (1.7) vào menu chính",
         "• Cải tiến banner + animation mượt mà, thêm thông báo debug lựa chọn",
         "• Fix lỗi thời gian kiểm tra key và một số lỗi nhỏ khác",
-        "• Tăng tính bảo mật và ổn định khi tải tool từ GitHub raw"
     ]
 
     for i, update in enumerate(updates, 1):
