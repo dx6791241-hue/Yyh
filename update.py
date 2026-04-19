@@ -104,6 +104,45 @@ def get_shortened_link_phu(url):
             return {"status": "error", "message": "Không thể kết nối đến dịch vụ rút gọn URL."}
     except Exception as e:
         return {"status": "error", "message": f"Lỗi khi rút gọn URL: {e}"}
+        # ================== TỰ ĐỘNG CÀI ĐẶT THƯ VIỆN ==================
+def install_requirements():
+    print("\033[1;33mĐang kiểm tra và cài đặt các thư viện cần thiết...\033[0m")
+    
+    packages = [
+        "requests",
+        "colorama",
+        "selenium",
+        "webdriver-manager",      # webdriver_manager
+        "aiohttp",
+        "pystyle",
+        "yt-dlp",                 # yt_dlp
+        "pygame",
+        "rich",
+        "websocket-client",       # websocket
+        "pytz"                    # pytz (dùng trong vth.py)
+    ]
+    
+    import subprocess
+    import sys
+    
+    for package in packages:
+        try:
+            # Kiểm tra xem thư viện đã cài chưa
+            __import__(package.replace("-", "_"))  # yt-dlp → yt_dlp, webdriver-manager → webdriver_manager
+            print(f"\033[1;32m✓ {package} đã có sẵn\033[0m")
+        except ImportError:
+            print(f"\033[1;33mĐang cài đặt {package}...\033[0m")
+            try:
+                subprocess.check_call([sys.executable, "-m", "pip", "install", "--quiet", package])
+                print(f"\033[1;32m✓ Cài đặt thành công {package}\033[0m")
+            except subprocess.CalledProcessError:
+                print(f"\033[1;31m✗ Không thể cài {package}. Hãy chạy thủ công: pip install {package}\033[0m")
+    
+    print("\033[1;32mHoàn tất kiểm tra thư viện!\033[0m\n")
+
+# Gọi hàm này ngay khi chạy chương trình
+if __name__ == "__main__":
+    install_requirements()   
 
 def main_get_key():
     ip_address = get_ip_address()
