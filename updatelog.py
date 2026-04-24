@@ -40,6 +40,7 @@ def show_update_log():
 
     updates = [
         "• UPDATE TOOL VUA THOÁT HIỂM XWORLD",
+        "• [MINI UPDATE!!!] CHỨC NĂNG AUTO TẢI THƯ VIỆN PYTHON TRƯỚC KHI VÀO TOOL",
 
     ]
 
