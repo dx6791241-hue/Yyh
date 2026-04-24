@@ -2759,39 +2759,15 @@ def main():
 if __name__ == "__main__":
     main()
 # ===================== TOOL CHÍNH =====================
-
 banner()
 print("Dev:Deltatrash09(Duong Khoi)")
 print("SDT:0949557645")
 print("___________________________________________________________")
-print("Chọn ngôn ngữ / Choose language")
-print("1. Tiếng Việt")
-print("2. ภาษาไทย")
-
-lang = input("Nhập lựa chọn (1 hoặc 2): ")
-
-if lang == "1":
-    txt_code = "nhập code đi kid lỏ: "
-    txt_wrong_code = "Code sai, biến hộ"
-    txt_phone = "Nhập số điện thoại: "
-    txt_block = "Sài tool của admin mà đòi spam sms của admin à con"
-    txt_count = "Nhập số lần thực hiện: "
-elif lang == "2":
-    txt_code = "กรุณาใส่รหัสเข้าใช้งาน: "
-    txt_wrong_code = "รหัสไม่ถูกต้อง ออกไป"
-    txt_phone = "กรุณาใส่เบอร์โทรศัพท์: "
-    txt_block = "ไม่อนุญาตให้ใช้เบอร์นี้"
-    txt_count = "กรุณาใส่จำนวนครั้ง: "
-else:
-    print("Lựa chọn không hợp lệ")
-    quit()
-
 print("HectorVN Client Free Edition")
 
-code = input(txt_code)
-if code != "obiiyeuem":
-    print(txt_wrong_code)
-    quit()
+txt_phone = "Nhập số điện thoại: "
+txt_block = "Sài tool của admin mà đòi spam sms của admin à con"
+txt_count = "Nhập số lần thực hiện: "
 
 phone = input(txt_phone)
 if phone == "0949557645":
@@ -2802,7 +2778,6 @@ count = int(input(txt_count))
 
 print(f"{Fore.CYAN}Bắt đầu spam cho số: {phone} - {count} lần{Style.RESET_ALL}")
 spam_lien_tuc(phone, count)
-
 
 
 
