@@ -197,8 +197,10 @@ print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36
 print("_____________________________________DỊCH VỤ _____________________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.7\033[1;31m] \033[1;32m TẠO MAIL ẢO")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.8\033[1;31m] \033[1;32m LỌC PROXY LIVE")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.9\033[1;31m] \033[1;32m REG FB PRO5")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.0\033[1;31m] \033[1;32m AUTO LIKE,COMMENT BÀI VIẾT FB")
 print("_____________________________________HACK GAME_____________________________________________")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.9\033[1;31m] \033[1;32m VUA THOÁT HIỂM XWORLD ")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.1\033[1;31m] \033[1;32m VUA THOÁT HIỂM XWORLD ")
 print("_____________________________________OPTION_____________________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33mX\033[1;31m] \033[1;32m UPDATE LOG")
 
@@ -241,6 +243,10 @@ elif chon == '1.7':
 elif chon == '1.8':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/check_proxy.py', 'LỌC PROXY LIVE')
 elif chon == '1.9':
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/REGPRO5.py', 'REG FB PRO5')
+elif chon == '2.0':
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/testfb.py', 'AUTO LIKE,COMMENT BÀI VIẾT FB')
+elif chon == '2.1':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/vth.py', 'VUA THOÁT HIỂM XWORLD')
 elif chon == 'X':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/updatelog.py', 'UPDATE LOG')
