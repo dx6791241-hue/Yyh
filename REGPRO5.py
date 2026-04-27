@@ -253,6 +253,7 @@ class REGPRO5:
     def REG(self, bio: str, name: str) -> tuple:
         if not self.ready:
             return False, "Not logged in"
+
         payload = self.payload_builder.build(bio, name)
         headers = {
             "accept": "*/*",
@@ -261,23 +262,48 @@ class REGPRO5:
             "referer": "https://www.facebook.com/",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
             "x-fb-lsd": self.session.lsd,
-            "cookie" : self.cookie,
-            'x-fb-friendly-name': 'AdditionalProfilePlusCreationMutation',
+            "x-fb-friendly-name": "AdditionalProfilePlusCreationMutation",
+            "cookie": self.cookie,
         }
+
         try:
-            response = requests.post('https://www.facebook.com/api/graphql/', headers=headers, data=payload)
+            response = requests.post(
+                'https://www.facebook.com/api/graphql/', 
+                headers=headers, 
+                data=payload,
+                timeout=30
+            )
+
+            print(f"\033[1;33m[DEBUG] Status Code: {response.status_code}\033[0m")
+            print(f"\033[1;33m[DEBUG] Response Length: {len(response.text)} bytes\033[0m")
+            
+            # In ra 300 ký tự đầu để xem lỗi
+            preview = response.text[:300].replace('\n', ' ')
+            print(f"\033[1;31m[DEBUG] Response Preview: {preview}...\033[0m")
+
+            # Nếu không phải JSON (HTML hoặc rỗng)
+            if not response.text.strip().startswith('{'):
+                return False, f"Không phải JSON. Có thể bị block hoặc cookie die. Status: {response.status_code}"
+
             res_json = response.json()
             
+            # Debug đầy đủ data
+            print(f"\033[1;34m[DEBUG] Full JSON keys: {list(res_json.keys()) if isinstance(res_json, dict) else 'Not dict'}\033[0m")
+
             error_msg = res_json.get('data', {}).get('additional_profile_plus_create', {}).get('error_message')
             if error_msg:
                 return False, error_msg
-                
+
             page_id = res_json.get('data', {}).get('additional_profile_plus_create', {}).get('additional_profile', {}).get('id')
             if page_id:
                 return True, page_id
-            return False, "Không lấy được ID Page"
+
+            return False, "Không lấy được ID Page (có thể mutation lỗi)"
+
+        except requests.exceptions.JSONDecodeError as e:
+            return False, f"JSON Decode Error: {str(e)} - Response không phải JSON"
         except Exception as e:
-            return False, str(e)
+            return False, f"Lỗi exception: {str(e)}"
 
 # ================== MAIN LUỒNG HOẠT ĐỘNG ==================
 def main_get_key() -> bool:
