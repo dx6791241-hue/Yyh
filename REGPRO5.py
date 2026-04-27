@@ -231,7 +231,7 @@ class GenData:
             "av": self.session.user_id,
             "lsd" : self.session.lsd,
             'variables': '{"input":{"bio":"'+bio+'","categories":["'+str(category)+'"],"creation_source":"comet","name":"'+name+'","off_platform_creator_reachout_id":null,"page_referrer":"launch_point","actor_id":"'+self.session.user_id+'","client_mutation_id":"1"}}',
-            'doc_id' : '23863457623296585'
+            'doc_id' : '9868446276528106'
         }
         return payload
 
