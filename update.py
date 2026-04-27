@@ -237,7 +237,7 @@ elif chon == '1.3':
 elif chon == '1.5':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/text.py', 'TOOL DOSS WEB V1')
 elif chon == '1.6':
-    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/view_deobf.py', 'TOOL ĐÀO PROXY')
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/scan.py', 'TOOL ĐÀO PROXY')
 elif chon == '1.7':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/main/getmail.py', 'TẠO MAIL ẢO')
 elif chon == '1.8':
