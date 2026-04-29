@@ -231,7 +231,7 @@ class reg_pro5():
             'fb_api_req_friendly_name': 'AdditionalProfilePlusCreationMutation',
             'variables': '{"input":{"bio":"","categories":["181475575221097"],"creation_source":"comet","name":"'+name+'","page_referrer":"launch_point","actor_id":"'+self.id_acc+'","client_mutation_id":"1"}}',
             'server_timestamps': 'true',
-            'doc_id': '5903223909690825',
+            'doc_id': '23863457623296585',
         }
         
         response = requests.post('https://www.facebook.com/api/graphql/', headers=headers, data=data)     
