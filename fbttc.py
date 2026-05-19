@@ -9,6 +9,7 @@ import random
 import socket
 import subprocess
 import io
+import base64
 from datetime import datetime, timedelta
 from time import sleep, strftime
 from bs4 import BeautifulSoup
@@ -22,13 +23,9 @@ from rich.text import Text
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # =====================================================================
-# 🟩 KHU VỰC PASTE BANNER CỦA MÀY (BỎ BANNER VÀO ĐÂY)
-# =====================================================================
-# =====================================================================
-# 🟩 KHU VỰC PASTE BANNER CỦA MÀY (BỎ BANNER VÀO ĐÂY)
+# 🟩 KHU VỰC BANNER & GIAO DIỆN (UI) - GIỮ NGUYÊN HOẠT ĐỘNG
 # =====================================================================
 def banner():
-    # Thêm chữ r trước dấu 3 nháy để Python hiểu đây là chuỗi thô (Raw string), tránh lỗi nhảy ký tự \
     my_banner_text = r"""
       ,--.'|                       ___                                         ,--.'|        
    ,--,  | :                     ,--.'|_                           ,---.   ,--,:  : |        
@@ -45,19 +42,14 @@ def banner():
 '---'         `----'    `----'                                            '---'              
 """
 
-    # Đã bọc toàn bộ thông tin vào trong dấu nháy kép để tránh lỗi "leading zeros"
     my_info_text = f"""
     ═══════════════════════════════════════════════════════════════════
     [+] Dev       : Deltatrash09 (Duong Khoi)
     [+] SDT       : 0949557645
     ═══════════════════════════════════════════════════════════════════
     """
-    # Đổ màu Gradient siêu đẹp cho Banner của mày
     print(gradient_3(my_banner_text))
     print(gradient_2(my_info_text))
-
-# =====================================================================
-
 
 # =====================================================================
 #  MÀU SẮC & HIỆU ỨNG GRADIENT (HÀM BỔ TRỢ)
@@ -118,11 +110,18 @@ def thanhngang(so):
     print(trang + '═' * so)
 
 def Delay(value):
-    while value > 1:
+    while not(value <= 1):
         value -= 0.123
-        for ext in ["BANANAHUB   ", "BANANAHUB   ", " BANANAHUB   ", "  BANANAHUB ", "   BANANAHUB ", "    BANANAHUB "]:
-            print(f'{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [{vang}{ext}{v}]', '           ', end='\r')
-            sleep(0.015)
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [{vang}XXVL   {v}]''', '           ', end = '\r')
+        sleep(0.005)
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [ {vang}XXVL   {v}]''', '           ', end = '\r')
+        sleep(0.005)
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [  {vang}XXVL {v}]''', '            ', end = '\r')
+        sleep(0.005)
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [   {vang}XXVL {v}]''', '           ', end = '\r')
+        sleep(0.005)
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [    {vang}XXVL {v}]''', '           ', end = '\r')
+        sleep(0.005)
 
 def decode_base64(encoded_str):
     return base64.b64decode(encoded_str).decode('utf-8')
@@ -132,7 +131,7 @@ def encode_to_base64(_data):
 
 
 # =====================================================================
-#  LỚP ĐIỀU HƯỚNG & THAO TÁC FACEBOOK (API GRAPHQL)
+#  LỚP ĐIỀU HƯỚNG & THAO TÁC FACEBOOK (API GRAPHQL) - ĐÃ FIX INDENT
 # =====================================================================
 class Facebook:
     def __init__(self, cookie: str):
@@ -165,16 +164,21 @@ class Facebook:
             get = self.session.get('https://www.facebook.com/me', headers=self.headers).url
             url = 'https://www.facebook.com/' + get.split('%2F')[-2] + '/' if 'next=' in get else get
             response = self.session.get(url, headers=self.headers, params={"locale": "vi_VN"})
+            
             if '828281030927956' in response.text: return '956'
             if '1501092823525282' in response.text: return '282'
             if '601051028565049' in response.text: return 'spam'
-            data_split = response.text.split('"CurrentUserInitialData",[],{')
-            json_data = '{' + data_split[1].split('},')[0] + '}'
-            parsed_data = json.loads(json_data)
-            id, name = parsed_data.get('USER_ID', '0'), parsed_data.get('NAME', '')
-            if id == '0' and name == '': return 'cookieout'
-            return {'success': 200, 'id': id, 'name': name}
-        except:
+            
+            name_match = re.search(r'"NAME":"([^"]+)"', response.text)
+            if name_match:
+                name = name_match.group(1).encode('utf-8').decode('unicode_escape', errors='ignore')
+            else:
+                name = 'Clone Không Tên (Bypass)'
+                
+            if self.id:
+                return {'success': 200, 'id': self.id, 'name': name}
+            return 'cookieout'
+        except Exception as e:
             return 'cookieout'
         
     def likepage(self, id: str):
@@ -252,7 +256,7 @@ class Facebook:
 
 
 # =====================================================================
-#  LỚP KẾT NỐI API TƯƠNG TÁC CHÉO (100% GIỮ NGUYÊN HOẠT ĐỘNG)
+#  LỚP KẾT NỐI API TƯƠNG TÁC CHÉO
 # =====================================================================
 class TuongTacCheo(object):
     def __init__ (self, token):
@@ -499,7 +503,7 @@ def run_bot(ttc, checktoken, listCookie, list_nv, delay, JobbBlock, DelayBlock, 
                         print(luc+f" Đã Tìm Thấy {len(getjob.json())} Nhiệm Vụ {fields.title()}       ", end="\r")
                         for x in getjob.json():
                             nextDelay = False
-                            # Xử lý chạy cơ chế Facebook GraphQL
+                            
                             if random_nv in ["1", "2"]:
                                 trg_id = x['idfb'].split('_')[1] if '_' in x['idfb'] else x['idfb']
                                 fb.reaction(trg_id, "LIKE"); id_ = trg_id; id = x['idpost']
@@ -533,21 +537,19 @@ def run_bot(ttc, checktoken, listCookie, list_nv, delay, JobbBlock, DelayBlock, 
                                 trg_id = x['idpost'].split('_')[1] if '_' in x['idpost'] else x['idpost']
                                 fb.sharend(trg_id, json.loads(x["nd"])[0]); id_ = trg_id; id = x['idpost']
 
-                            # Nhận Xu từ hệ thống API TTC
                             nhanxu = ttc.nhanxu(id, fields)
                             if nhanxu.get('status') == 'success':
                                 nextDelay, msg, xu, JobFail, timejob = True, nhanxu['msg'], nhanxu['xu'], 0, datetime.now().strftime('%H:%M:%S')
                                 totalxu += int(msg.replace(' Xu', ''))
                                 stt += 1
                                 JobSuccess += 1
-                                print(f'{do}[ \033[1;36m{stt}{do} ] {do}[ {vang}TT-TOOL{do} ][ {xanh}{timejob}{do} ][ {vang}{type_name}{do} ][ {trang}{id_}{do} ][ {vang}{msg}{do} ][ {luc}{str(format(int(xu),","))} {do}]')
+                                print(f'{do}[ \033[1;36m{stt}{do} ] {do}[ {vang}HectorVN{do} ][ {xanh}{timejob}{do} ][ {vang}{type_name}{do} ][ {trang}{id_}{do} ][ {vang}{msg}{do} ][ {luc}{str(format(int(xu),","))} {do}]')
                                 if stt % 10 == 0:
                                     print(f'{trang}[{luc}Total Cookie Facebook: {vang}{len(listCookie)}{trang}] [{luc}Total Coin: {vang}{str(format(int(totalxu),","))}{trang}] [{luc}Tổng Xu: {vang}{str(format(int(xu),","))}{trang}]')
                             else:
                                 JobFail += 1
                                 print(f'{trang}[{do}{JobFail}{trang}] {trang}[{do}ERROR{trang}] {trang}{id_}', '            ', end="\r")
                             
-                            # Kiểm tra trạng thái tài khoản Facebook khi lỗi liên tiếp
                             if JobFail >= 20:
                                 check = fb.info()
                                 if 'spam' in check:
