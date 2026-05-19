@@ -112,15 +112,15 @@ def thanhngang(so):
 def Delay(value):
     while not(value <= 1):
         value -= 0.123
-        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [{vang}XXVL   {v}]''', '           ', end = '\r')
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [{vang}BANANAHUB   {v}]''', '           ', end = '\r')
         sleep(0.005)
-        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [ {vang}XXVL   {v}]''', '           ', end = '\r')
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [ {vang}BANANAHUB   {v}]''', '           ', end = '\r')
         sleep(0.005)
-        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [  {vang}XXVL {v}]''', '            ', end = '\r')
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [  {vang}BANANAHUB {v}]''', '            ', end = '\r')
         sleep(0.005)
-        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [   {vang}XXVL {v}]''', '           ', end = '\r')
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [   {vang}BANANAHUB {v}]''', '           ', end = '\r')
         sleep(0.005)
-        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [    {vang}XXVL {v}]''', '           ', end = '\r')
+        print(f'''{v}[{xanh}OBIIYEUEM{v}] [{xanh}DELAY{v}] [{xanh}{str(value)[0:6]}{v}] [    {vang}BANANAHUB {v}]''', '           ', end = '\r')
         sleep(0.005)
 
 def decode_base64(encoded_str):
