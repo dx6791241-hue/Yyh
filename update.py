@@ -190,8 +190,6 @@ print("Dev:Deltatrash09(Duong Khoi)")
 print("SDT:0949557645")
 print("___________________________MAIN________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.1\033[1;31m] \033[1;32m SPAMSMS BETA \033[1;33m[\033[1;31mV1\033[1;33m]")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.2\033[1;31m] \033[1;32mTDS TIKTOK(PC)\033[1;33m[\033[1;31mV2\033[1;33m]")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.3\033[1;31m] \033[1;32mTOOL TDS FACEBOOK(PC)")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.5\033[1;31m] \033[1;32mTOOL DOSS WEB V1")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.6\033[1;31m] \033[1;32mTOOL ĐÀO PROXY ")
 print("_____________________________________DỊCH VỤ _____________________________________________")
@@ -199,6 +197,10 @@ print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.8\033[1;31m] \033[1;32m LỌC PROXY LIVE")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.9\033[1;31m] \033[1;32m REG FB PRO5")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.0\033[1;31m] \033[1;32m AUTO LIKE,COMMENT BÀI VIẾT FB")
+print("_____________________________________TDS AND TTC,GOLIKE(UPDATE AND MORE)_____________________________________________")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.2\033[1;31m] \033[1;32mTDS TIKTOK(PC)\033[1;33m[\033[1;31mV2\033[1;33m]")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.3\033[1;31m] \033[1;32mTOOL FULL CHẾ ĐỘ TDS FACEBOOK(REWORK)")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.2\033[1;31m] \033[1;32mTOOL FULL CHẾ ĐỘ TTC FACEBOOK")
 print("_____________________________________HACK GAME_____________________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.1\033[1;31m] \033[1;32m VUA THOÁT HIỂM XWORLD ")
 print("_____________________________________OPTION_____________________________________________")
@@ -233,7 +235,7 @@ if chon == '1.1':
 elif chon == '1.2':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/tiktok.py', 'TDS TIKTOK(PC)')
 elif chon == '1.3':
-    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/facebook_tds.py', 'TOOL TDS FACEBOOK(PC)')
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/tdsfb.py', 'TOOL FULL CHẾ ĐỘ TDS FACEBOOK(REWORK)')
 elif chon == '1.5':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/text.py', 'TOOL DOSS WEB V1')
 elif chon == '1.6':
@@ -248,6 +250,8 @@ elif chon == '2.0':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/testfb.py', 'AUTO LIKE,COMMENT BÀI VIẾT FB')
 elif chon == '2.1':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/vth.py', 'VUA THOÁT HIỂM XWORLD')
+elif chon == '2.2':
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/fbttc.py', 'TOOL FULL CHẾ ĐỘ TTC FACEBOOK')
 elif chon == 'X':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/updatelog.py', 'UPDATE LOG')
 else:
