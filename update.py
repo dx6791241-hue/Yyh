@@ -206,6 +206,7 @@ print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.3\033[1;31m] \033[1;32mTOOL FULL CHẾ ĐỘ TDS FACEBOOK(REWORK)")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.2\033[1;31m] \033[1;32mTOOL FULL CHẾ ĐỘ TTC FACEBOOK")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.3\033[1;31m] \033[1;32mTOOL GOLIKE INSTAGRAM")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.4\033[1;31m] \033[1;32mĐỔI MK TDS")
 print("_____________________________________HACK GAME_____________________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.1\033[1;31m] \033[1;32m VUA THOÁT HIỂM XWORLD ")
 print("_____________________________________OPTION_____________________________________________")
@@ -259,6 +260,8 @@ elif chon == '2.2':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/fbttc.py', 'TOOL FULL CHẾ ĐỘ TTC FACEBOOK')
 elif chon == '2.3':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/ins.py', 'TOOL GOLIKE INSTAGRAM')
+elif chon == '2.4':
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/dmk.py', 'ĐỔI MK TDS')
 elif chon == 'X':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/updatelog.py', 'UPDATE LOG')
 else:
