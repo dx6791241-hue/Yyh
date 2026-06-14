@@ -200,11 +200,12 @@ print("_____________________________________DỊCH VỤ ________________________
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.7\033[1;31m] \033[1;32m TẠO MAIL ẢO")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.8\033[1;31m] \033[1;32m LỌC PROXY LIVE")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.9\033[1;31m] \033[1;32m REG FB PRO5")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.0\033[1;31m] \033[1;32m AUTO LIKE,COMMENT BÀI VIẾT FB")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.0\033[1;31m] \033[1;32m BUFF VIEW TIKTOK")
 print("_____________________________________TDS AND TTC,GOLIKE(UPDATE AND MORE)_____________________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.2\033[1;31m] \033[1;32mTDS TIKTOK(PC)\033[1;33m[\033[1;31mV2\033[1;33m]")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.3\033[1;31m] \033[1;32mTOOL FULL CHẾ ĐỘ TDS FACEBOOK(REWORK)")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.2\033[1;31m] \033[1;32mTOOL FULL CHẾ ĐỘ TTC FACEBOOK")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.3\033[1;31m] \033[1;32mTOOL GOLIKE INSTAGRAM")
 print("_____________________________________HACK GAME_____________________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.1\033[1;31m] \033[1;32m VUA THOÁT HIỂM XWORLD ")
 print("_____________________________________OPTION_____________________________________________")
@@ -251,11 +252,13 @@ elif chon == '1.8':
 elif chon == '1.9':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/REGPRO5.py', 'REG FB PRO5')
 elif chon == '2.0':
-    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/testfb.py', 'AUTO LIKE,COMMENT BÀI VIẾT FB')
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/toolviewV2.py', 'BUFF VIEW TIKTOK')
 elif chon == '2.1':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/vth.py', 'VUA THOÁT HIỂM XWORLD')
 elif chon == '2.2':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/fbttc.py', 'TOOL FULL CHẾ ĐỘ TTC FACEBOOK')
+elif chon == '2.3':
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/ins.py', 'TOOL GOLIKE INSTAGRAM')
 elif chon == 'X':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/updatelog.py', 'UPDATE LOG')
 else:
