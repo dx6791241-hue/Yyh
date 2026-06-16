@@ -109,8 +109,6 @@ def install_requirements():
     print("\033[1;33mĐang kiểm tra và cài đặt các thư viện cần thiết...\033[0m")
     
     packages = [
-        "pyautogui",
-        "pyperclip",
         "lxml",
         "certifi",
         "urllib3",
