@@ -58,12 +58,12 @@ def display_ip_address(ip_address):
 def luu_thong_tin_ip(ip, key, expiration_date):
     data = {ip: {'key': key, 'expiration_date': expiration_date.isoformat()}}
     encrypted_data = encrypt_data(json.dumps(data))
-    with open('ip_key.json', 'w') as file:
+    with open('ip_key.json', 'w', encoding='utf-8') as file:
         file.write(encrypted_data)
 
 def tai_thong_tin_ip():
     try:
-        with open('ip_key.json', 'r') as file:
+        with open('ip_key.json', 'r', encoding='utf-8') as file:
             encrypted_data = file.read()
         data = json.loads(decrypt_data(encrypted_data))
         return data
