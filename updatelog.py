@@ -30,7 +30,7 @@ def banner():
 def show_update_log():
     banner()
     print("\033[1;33m╔════════════════════════════════════════════════════════════════════╗")
-    print("║               UPDATE LOG - 14/06/2026                 ║")
+    print("║               UPDATE LOG - 8/5/2026                 ║")
     print("╚════════════════════════════════════════════════════════════════════╝\033[0m\n")
 
     print("\033[1;32m[★] PHIÊN BẢN HIỆN TẠI: Multi Tool HectorVN v2.1\033[0m")
@@ -39,9 +39,8 @@ def show_update_log():
     print("\033[1;36m══════════════════ CẬP NHẬT NỔI BẬT TUẦN NÀY ══════════════════\033[0m")
 
     updates = [
-        "• UPDATE TOOL GOLIKE INSTAGRAM",
-        "•  TOOL BUFF VIEW TIK TOK",
-        "• ĐỔI MK TRAO ĐỔI SUB ",
+        "• UPDATE TOOL AUTO CÀY ORB SỰ KIỆN DISCORD",
+        "• TOOL REG ACC NEXTDNS",
 
     ]
 
@@ -49,8 +48,10 @@ def show_update_log():
         print(f"\033[1;97m[{i:2d}]\033[0m {update}")
 
     print("\n\033[1;33m══════════════════ TUẦN SAU SẼ CẬP NHẬT ══════════════════\033[0m")
-    print("\033[1;97m(SẼ UPDATE THÊM NHIỀU CHỨC NĂNG NỮA\033[0m\n")
-
+    print("\033[1;97m(UPDATE TOOL ZEFOY\033[0m\n")
+    print("\033[1;97m(CÓ THỂ UPDATE TOOL AUTO UP LOCKET GOLD CHO BỌN KID THÍCH FLEX\033[0m\n")
+    print("\033[1;97m(CÓ THỂ TUI SẼ NGHỈ MỘT THỜI GIAN DÀI ĐỂ ÔN THI THPT QUỐC GIA,MONG MN THÔNG CẢM ,BAO GIỜ THI XONG TUI SẼ UPD CHO ANH EM\033[0m\n")
+    print("\033[1;97m(NẾU AE DÙNG TOOL GẶP LỖI GÌ THÌ HÃY REPORT BẰNG CÁCH VÀO ZÉP LÀO CỦA CỦA TÔI,TÔI CHỈ CÓ THỂ XỬ LÝ TRONG THẢNG 8 THÔI NGHEN\033[0m\n")
     print("\n\033[1;31m• Lưu ý: Key chỉ dùng được trong ngày, sang ngày mới phải lấy lại.\033[0m")
     print("\033[1;32m• Khuyến cáo không dùng VPN/Proxy vượt link để tránh bị khoá IP.\033[0m\n")
 
