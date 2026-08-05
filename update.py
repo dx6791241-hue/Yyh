@@ -197,7 +197,7 @@ banner()
 print("Dev:Deltatrash09(Duong Khoi)")
 print("SDT:0949557645")
 print("___________________________MAIN________________________________")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.1\033[1;31m] \033[1;32m SPAMSMS BETA \033[1;33m[\033[1;31mV1\033[1;33m]")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.1\033[1;31m] \033[1;32mTOOL SPAMSMS\033[1;33m[\033[1;31mV1\033[1;33m]")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.5\033[1;31m] \033[1;32mTOOL DOSS WEB V1")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.6\033[1;31m] \033[1;32mTOOL ĐÀO PROXY ")
 print("_____________________________________DỊCH VỤ _____________________________________________")
@@ -205,6 +205,8 @@ print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.8\033[1;31m] \033[1;32m LỌC PROXY LIVE")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.9\033[1;31m] \033[1;32m REG FB PRO5")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.0\033[1;31m] \033[1;32m BUFF VIEW TIKTOK")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.5\033[1;31m] \033[1;32m AUTO LÀM NHIỆM VỤ DISCORD LẤY ORB(NEW) ")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.6\033[1;31m] \033[1;32m REG SLL TÀI KHOẢN NEXTDNS")
 print("_____________________________________TDS AND TTC,GOLIKE(UPDATE AND MORE)_____________________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.2\033[1;31m] \033[1;32mTDS TIKTOK(PC)\033[1;33m[\033[1;31mV2\033[1;33m]")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.3\033[1;31m] \033[1;32mTOOL FULL CHẾ ĐỘ TDS FACEBOOK(REWORK)")
@@ -266,6 +268,10 @@ elif chon == '2.3':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/ins.py', 'TOOL GOLIKE INSTAGRAM')
 elif chon == '2.4':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/dmk.py', 'ĐỔI MK TDS')
+elif chon == '2.5':
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/quest_cli.py', 'AUTO LÀM NHIỆM VỤ DISCORD LẤY ORB(NEW)')
+elif chon == '2.6':
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/regdns.py', 'REG SLL TÀI KHOẢN NEXTDNS')
 elif chon == 'X':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/updatelog.py', 'UPDATE LOG')
 else:
