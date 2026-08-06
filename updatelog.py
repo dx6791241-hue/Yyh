@@ -49,6 +49,8 @@ def show_update_log():
 
     print("\n\033[1;33m══════════════════ TUẦN SAU SẼ CẬP NHẬT ══════════════════\033[0m")
     print("\033[1;97m(UPDATE TOOL ZEFOY\033[0m\n")
+    print("\033[1;97m(UPDATE TOOL ĐÀO VIA FACEBOOK\033[0m\n")
+    print("\033[1;97m(REWORK TOOL INSTAGRAM GOLIKE\033[0m\n")
     print("\033[1;97m(CÓ THỂ UPDATE TOOL AUTO UP LOCKET GOLD CHO BỌN KID THÍCH FLEX\033[0m\n")
     print("\033[1;97m(CÓ THỂ TUI SẼ NGHỈ MỘT THỜI GIAN DÀI ĐỂ ÔN THI THPT QUỐC GIA,MONG MN THÔNG CẢM ,BAO GIỜ THI XONG TUI SẼ UPD CHO ANH EM\033[0m\n")
     print("\033[1;97m(NẾU AE DÙNG TOOL GẶP LỖI GÌ THÌ HÃY REPORT BẰNG CÁCH VÀO ZÉP LÀO CỦA CỦA TÔI,TÔI CHỈ CÓ THỂ XỬ LÝ TRONG THẢNG 8 THÔI NGHEN\033[0m\n")
