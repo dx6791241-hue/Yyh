@@ -615,7 +615,6 @@ def main():
     print_banner()
     print(f"  {Fore.GREEN}▸ Nhap Token Discord{Style.RESET_ALL}")
     print(f"  {Fore.WHITE}  (Chuot phai de dan, Enter){Style.RESET_ALL}")
-    print(f"  {Fore.RED}  !!! Khong share token / khong dan len chat!{Style.RESET_ALL}")
 
     if len(sys.argv) > 1:
         token = sys.argv[1].strip()
