@@ -275,7 +275,7 @@ elif chon == '2.5':
 elif chon == '2.6':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/regdns.py', 'REG SLL TÀI KHOẢN NEXTDNS')
 elif chon == '2.7':
-    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/scanvia.py 100005010606512', 'ĐÀO VIA FACEBOOK')
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/scanvia.py', 'ĐÀO VIA FACEBOOK')
 elif chon == 'X':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/updatelog.py', 'UPDATE LOG')
 else:
