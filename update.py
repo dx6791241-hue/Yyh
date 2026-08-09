@@ -208,7 +208,7 @@ print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.0\033[1;31m] \033[1;32m BUFF VIEW TIKTOK")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.5\033[1;31m] \033[1;32m AUTO LÀM NHIỆM VỤ DISCORD LẤY ORB(NEW) ")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.6\033[1;31m] \033[1;32m REG SLL TÀI KHOẢN NEXTDNS")
-print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.7\033[1;31m] \033[1;32m ĐÀO VIA FACEBOOK")
+print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m2.7\033[1;31m] \033[1;32m ĐÀO VIA FACEBOOK(RECOMMEND NÊN SỬ DỤNG ĐIỆN THOẠI)")
 print("_____________________________________TDS AND TTC,GOLIKE(UPDATE AND MORE)_____________________________________________")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.2\033[1;31m] \033[1;32mTDS TIKTOK(PC)\033[1;33m[\033[1;31mV2\033[1;33m]")
 print("\033[1;31m[\033[1;37m<>\033[1;31m] \033[1;37m=> \033[1;32mNhập\033[1;36m Số \033[1;31m[\033[1;33m1.3\033[1;31m] \033[1;32mTOOL FULL CHẾ ĐỘ TDS FACEBOOK(REWORK)")
@@ -275,7 +275,7 @@ elif chon == '2.5':
 elif chon == '2.6':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/regdns.py', 'REG SLL TÀI KHOẢN NEXTDNS')
 elif chon == '2.7':
-    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/scanvia.py', 'ĐÀO VIA FACEBOOK')
+    safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/scanvia.py', 'ĐÀO VIA FACEBOOK(RECOMMEND NÊN SỬ DỤNG ĐIỆN THOẠI)')
 elif chon == 'X':
     safe_exec('https://raw.githubusercontent.com/dx6791241-hue/Yyh/refs/heads/main/updatelog.py', 'UPDATE LOG')
 else:
