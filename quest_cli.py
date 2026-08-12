@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
 Henxi Quest CLI — Discord Auto Quest
+v5.0 — parallel mode + progress bar
 """
 import os, sys, sqlite3, json, threading, time, random, base64, requests, re, traceback
 from datetime import datetime, timezone
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 try:
     from colorama import init, Fore, Style
@@ -16,7 +18,7 @@ except ImportError:
 
 
 def rgb_to_ansi(r, g, b):
-    return f"[38;2;{r};{g};{b}m"
+    return f"\033[38;2;{r};{g};{b}m"
 
 def gradient_3(text):
     start = (0, 255, 0)
@@ -28,7 +30,7 @@ def gradient_3(text):
         g = int(start[1] + (end[1] - start[1]) * t)
         b = int(start[2] + (end[2] - start[2]) * t)
         result += rgb_to_ansi(r, g, b) + char
-    return result + "[0m"
+    return result + "\033[0m"
 
 def gradient_2(text):
     start_color = (255, 87, 34)
@@ -49,7 +51,7 @@ def gradient_2(text):
             g = int(mid_color[1] + (end_color[1] - mid_color[1]) * t2)
             b = int(mid_color[2] + (end_color[2] - mid_color[2]) * t2)
         result += rgb_to_ansi(r, g, b) + char
-    return result + "[0m"
+    return result + "\033[0m"
 
 def gradient_1(text):
     start_color = (0, 128, 255)
@@ -70,7 +72,31 @@ def gradient_1(text):
             g = int(mid_color[1] + (end_color[1] - mid_color[1]) * t2)
             b = int(mid_color[2] + (end_color[2] - mid_color[2]) * t2)
         result += rgb_to_ansi(r, g, b) + char
-    return result + "[0m"
+    return result + "\033[0m"
+
+
+# ── Progress bar ──────────────────────────────────────────────────────────────
+SPINNER = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+ICONS   = ["⚔️", "🔥", "⚡", "💎", "🎯", "🏆", "✨", "🚀"]
+BAR_W   = 24
+
+_print_lock = threading.Lock()
+_progress_on_line = False  # đang giữ 1 dòng progress
+
+def progress_line(name, done, needed, spin_i, icon_i):
+    pct = min(100.0, (done / needed * 100) if needed else 0)
+    filled = int(BAR_W * pct / 100)
+    empty  = BAR_W - filled
+    bar = "█" * filled + "░" * empty
+    spin = SPINNER[spin_i % len(SPINNER)]
+    icon = ICONS[icon_i % len(ICONS)]
+    short = (name[:18] + "…") if len(name) > 19 else name
+    return (
+        f"  {icon} {spin} {Fore.CYAN}{short:<20}{Style.RESET_ALL} "
+        f"{Fore.GREEN}[{bar}]{Style.RESET_ALL} "
+        f"{Fore.YELLOW}{pct:5.1f}%{Style.RESET_ALL} "
+        f"{Fore.LIGHTBLACK_EX}{done:.0f}/{needed}s{Style.RESET_ALL}"
+    )
 
 
 # ── Config ────────────────────────────────────────────────────────────────────
@@ -81,6 +107,7 @@ HEARTBEAT_INTERVAL = 20
 VIDEO_SPEED = 7
 AUTO_ACCEPT = True
 DEBUG = False
+MAX_PARALLEL = 4  # tối đa quest chạy song song
 
 SUPPORTED_TASKS = [
     "WATCH_VIDEO", "WATCH_VIDEO_ON_MOBILE",
@@ -291,19 +318,94 @@ def get_app_id(quest):
 
 # ── Worker ────────────────────────────────────────────────────────────────────
 class QuestWorker(threading.Thread):
-    def __init__(self, token, username):
+    def __init__(self, token, username, parallel=False, max_workers=MAX_PARALLEL):
         super().__init__(daemon=True)
         self.token, self.username = token, username
+        self.parallel = parallel
+        self.max_workers = max(1, min(max_workers, 8))
         self._stop = threading.Event()
         self._api = WorkerAPI(token)
         self.completed_ids, self.skipped_ids = set(), set()
         self.first_scan = True
         self._rate_until = 0
         self.session_done = 0
+        self._active = {}  # qid -> {name, done, needed, spin, icon}
+        self._active_lock = threading.Lock()
 
     def _log(self, msg, color=Fore.WHITE):
+        global _progress_on_line
         t = datetime.now().strftime("%H:%M:%S")
-        print(f"{Fore.CYAN}[{t}]{Style.RESET_ALL} {Fore.MAGENTA}[{self.username}]{Style.RESET_ALL} {color}{msg}{Style.RESET_ALL}")
+        with _print_lock:
+            if _progress_on_line:
+                sys.stdout.write("\r\033[K\n")  # kết thúc dòng progress trước khi log
+                _progress_on_line = False
+            print(f"{Fore.CYAN}[{t}]{Style.RESET_ALL} {Fore.MAGENTA}[{self.username}]{Style.RESET_ALL} {color}{msg}{Style.RESET_ALL}")
+
+    def _render_progress(self):
+        """Chỉ 1 dòng, cập nhật tại chỗ bằng \\r — icon + spinner đổi liên tục."""
+        global _progress_on_line
+        with self._active_lock:
+            items = list(self._active.values())
+        if not items:
+            return
+        with _print_lock:
+            for it in items:
+                it["spin"] = (it.get("spin", 0) + 1) % len(SPINNER)
+                it["icon_i"] = (it.get("icon_i", 0) + 1) % len(ICONS)
+
+            if len(items) == 1:
+                it = items[0]
+                line = progress_line(
+                    it["name"], it["done"], it["needed"], it["spin"], it["icon_i"]
+                )
+            else:
+                # nhiều quest: gộp 1 dòng ngắn
+                parts = []
+                for it in items:
+                    pct = min(100.0, (it["done"] / it["needed"] * 100) if it["needed"] else 0)
+                    spin = SPINNER[it["spin"] % len(SPINNER)]
+                    icon = ICONS[it["icon_i"] % len(ICONS)]
+                    short = it["name"][:10]
+                    parts.append(f"{icon}{spin}{short}:{pct:.0f}%")
+                line = "  " + " │ ".join(parts)
+
+            # quan trọng: chỉ \r + clear, KHÔNG \n
+            sys.stdout.write(f"\r{line}\033[K")
+            sys.stdout.flush()
+            _progress_on_line = True
+
+    def _set_progress(self, qid, name, done, needed, icon=None):
+        with self._active_lock:
+            if qid not in self._active:
+                # icon index random start
+                start_i = random.randint(0, len(ICONS) - 1)
+                if isinstance(icon, str) and icon in ICONS:
+                    start_i = ICONS.index(icon)
+                self._active[qid] = {
+                    "name": name, "done": done, "needed": needed,
+                    "spin": 0, "icon_i": start_i,
+                }
+            else:
+                self._active[qid]["done"] = done
+                self._active[qid]["needed"] = needed
+                self._active[qid]["name"] = name
+        self._render_progress()
+
+    def _clear_progress(self, qid):
+        global _progress_on_line
+        with self._active_lock:
+            self._active.pop(qid, None)
+            remain = len(self._active)
+        with _print_lock:
+            if remain == 0 and _progress_on_line:
+                sys.stdout.write("\r\033[K\n")  # xóa dòng progress, xuống dòng
+                sys.stdout.flush()
+                _progress_on_line = False
+            elif remain > 0:
+                # còn quest khác → vẽ lại
+                pass
+        if remain > 0:
+            self._render_progress()
 
     def _handle_429(self, r, context=""):
         try: delay = float(r.json().get("retry_after", 60))
@@ -339,7 +441,8 @@ class QuestWorker(threading.Thread):
         line = "═" * 52
         print(f"\n{gradient_1(line)}")
         print(gradient_2("  ▸ BAO CAO TONG KET QUEST"))
-        print(f"  Chao {Fore.CYAN}{Style.BRIGHT}{self.username}{Style.RESET_ALL}, he thong da quet xong!")
+        mode = "SONG SONG" if self.parallel else "TUAN TU"
+        print(f"  Chao {Fore.CYAN}{Style.BRIGHT}{self.username}{Style.RESET_ALL} | Mode: {Fore.YELLOW}{mode}{Style.RESET_ALL}")
         print(gradient_1(line))
         print(f"  {Fore.WHITE}Tong quest{Style.RESET_ALL}          {total}")
         print(f"  {Fore.GREEN}Da hoan thanh{Style.RESET_ALL}       {completed}")
@@ -400,11 +503,16 @@ class QuestWorker(threading.Thread):
         else:
             enrolled_ts = time.time()
 
-        self._log(f">> Video: {name} ({done:.0f}/{needed}s)", Fore.YELLOW)
+        icon = random.choice(ICONS)
+        self._log(f">> Video: {name}", Fore.YELLOW)
+        self._set_progress(qid, name, done, needed, icon)
+
         while done < needed and not self._stop.is_set() and time.time() >= self._rate_until:
             max_allowed = (time.time() - enrolled_ts) + 10
             if max_allowed - done < VIDEO_SPEED:
-                time.sleep(1); continue
+                time.sleep(0.5)
+                self._set_progress(qid, name, done, needed, icon)
+                continue
             timestamp = min(needed, done + VIDEO_SPEED)
             try:
                 r = self._api.post(f"/quests/{qid}/video-progress",
@@ -418,15 +526,19 @@ class QuestWorker(threading.Thread):
                     self._handle_429(r, " video"); continue
             except Exception:
                 pass
+            self._set_progress(qid, name, done, needed, icon)
             if timestamp >= needed: break
             time.sleep(1)
+
         try:
             self._api.post(f"/quests/{qid}/video-progress", {"timestamp": needed})
         except Exception:
             pass
+        self._set_progress(qid, name, needed, needed, icon)
+        self._clear_progress(qid)
         self.completed_ids.add(qid)
         self.session_done += 1
-        self._log(f"[DONE] Hoan thanh: {name}", Fore.GREEN)
+        self._log(f"[DONE] {name}  ✓", Fore.GREEN)
         log_quest(self.username, name, "completed")
 
     def complete_heartbeat(self, quest):
@@ -436,13 +548,16 @@ class QuestWorker(threading.Thread):
         app_id = get_app_id(quest)
         pid = random.randint(1000, 30000)
         remaining = max(0, needed - done)
+        icon = random.choice(ICONS)
 
         self._log(
-            f">> {tt}: {name} (~{remaining // 60} phut) [pid={pid}]"
+            f">> {tt}: {name} (~{remaining // 60}p)"
             + (f" [app={app_id}]" if app_id else ""),
             Fore.YELLOW,
         )
-        last_log, retries = 0, 0
+        self._set_progress(qid, name, done, needed, icon)
+        retries = 0
+
         while done < needed and not self._stop.is_set() and time.time() >= self._rate_until:
             try:
                 payload = {"stream_key": f"call:0:{pid}", "terminal": False}
@@ -457,10 +572,7 @@ class QuestWorker(threading.Thread):
                     elif "stream_progress_seconds" in body:
                         done = body.get("stream_progress_seconds", done)
                     retries = 0
-                    if done - last_log >= 60 or done >= needed:
-                        pct = (done / needed * 100) if needed else 0
-                        self._log(f"  ... {name}: {done:.0f}/{needed}s ({pct:.1f}%)", Fore.LIGHTBLACK_EX)
-                        last_log = done
+                    self._set_progress(qid, name, done, needed, icon)
                     if body.get("completed_at") or done >= needed:
                         break
                 elif r.status_code == 429:
@@ -468,7 +580,6 @@ class QuestWorker(threading.Thread):
                 elif r.status_code == 401:
                     retries += 1
                     if "application_id" in payload and retries <= 2:
-                        self._log("  401 -> thu lai chi stream_key...", Fore.YELLOW)
                         try:
                             r2 = self._api.post(f"/quests/{qid}/heartbeat",
                                                 {"stream_key": f"call:0:{pid}", "terminal": False})
@@ -477,26 +588,36 @@ class QuestWorker(threading.Thread):
                                 prog = body.get("progress", {})
                                 if tt in prog:
                                     done = prog[tt].get("value", done)
-                                retries = 0; continue
+                                retries = 0
+                                self._set_progress(qid, name, done, needed, icon)
+                                continue
                         except Exception:
                             pass
                     if retries > 5:
-                        self._log(f"[X] Heartbeat 401. PLAY can Discord Desktop. Bo: {name}", Fore.RED)
-                        self.skipped_ids.add(qid); return
+                        self._log(f"[X] Heartbeat 401 — bo: {name}", Fore.RED)
+                        self.skipped_ids.add(qid)
+                        self._clear_progress(qid)
+                        return
                 else:
                     retries += 1
-                    if retries <= 2:
-                        try: err = r.json()
-                        except Exception: err = r.text[:100]
-                        self._log(f"  Heartbeat {r.status_code}: {err}", Fore.RED)
                     if retries > 5:
-                        self._log(f"[X] Heartbeat loi, bo: {name}", Fore.RED)
-                        self.skipped_ids.add(qid); return
+                        self._log(f"[X] Heartbeat loi — bo: {name}", Fore.RED)
+                        self.skipped_ids.add(qid)
+                        self._clear_progress(qid)
+                        return
             except Exception as e:
                 retries += 1
-                if retries <= 2:
-                    self._log(f"  Exception: {e}", Fore.RED)
-            time.sleep(HEARTBEAT_INTERVAL)
+                if retries > 5:
+                    self._log(f"[X] Exception — bo: {name}: {e}", Fore.RED)
+                    self.skipped_ids.add(qid)
+                    self._clear_progress(qid)
+                    return
+            # animate bar while waiting
+            for _ in range(HEARTBEAT_INTERVAL * 2):
+                if self._stop.is_set() or done >= needed:
+                    break
+                self._set_progress(qid, name, done, needed, icon)
+                time.sleep(0.5)
 
         try:
             self._api.post(f"/quests/{qid}/heartbeat",
@@ -504,10 +625,14 @@ class QuestWorker(threading.Thread):
         except Exception:
             pass
         if done >= needed:
+            self._set_progress(qid, name, needed, needed, icon)
+            self._clear_progress(qid)
             self.completed_ids.add(qid)
             self.session_done += 1
-            self._log(f"[DONE] Hoan thanh: {name}", Fore.GREEN)
+            self._log(f"[DONE] {name}  ✓", Fore.GREEN)
             log_quest(self.username, name, "completed")
+        else:
+            self._clear_progress(qid)
 
     def process_quest(self, quest):
         if time.time() < self._rate_until: return
@@ -524,7 +649,8 @@ class QuestWorker(threading.Thread):
             self.complete_heartbeat(quest)
 
     def run(self):
-        self._log("Bat dau auto quest...", Fore.GREEN)
+        mode = "SONG SONG" if self.parallel else "TUAN TU"
+        self._log(f"Bat dau auto quest [{mode}]...", Fore.GREEN)
         while not self._stop.is_set():
             if time.time() < self._rate_until:
                 remain = self._rate_until - time.time()
@@ -553,13 +679,35 @@ class QuestWorker(threading.Thread):
                             if is_completed(q) or not is_completable(q): continue
                             if is_enrolled(q): enrolled_q.append(q)
                             else: need_enroll.append(q)
-                        for q in enrolled_q:
-                            if self._stop.is_set() or time.time() < self._rate_until: break
-                            self.process_quest(q); time.sleep(1.5)
+
+                        todo = list(enrolled_q)
                         if AUTO_ACCEPT:
+                            # enroll first (tuần tự để tránh 429), rồi chạy task
                             for q in need_enroll:
                                 if self._stop.is_set() or time.time() < self._rate_until: break
-                                self.process_quest(q); time.sleep(3)
+                                if self.enroll(q):
+                                    todo.append(q)
+                                time.sleep(2)
+
+                        if self.parallel and len(todo) > 1:
+                            workers = min(self.max_workers, len(todo))
+                            self._log(f"Chay song song {len(todo)} quest (max {workers} luong)...", Fore.CYAN)
+                            with ThreadPoolExecutor(max_workers=workers) as pool:
+                                futs = [pool.submit(self.process_quest, q) for q in todo]
+                                for f in as_completed(futs):
+                                    if self._stop.is_set():
+                                        break
+                                    try:
+                                        f.result()
+                                    except Exception as e:
+                                        if DEBUG:
+                                            self._log(f"Quest error: {e}", Fore.RED)
+                        else:
+                            for q in todo:
+                                if self._stop.is_set() or time.time() < self._rate_until: break
+                                self.process_quest(q)
+                                time.sleep(1.5)
+
                         if self.session_done > 0:
                             print(f"\n{Fore.GREEN}{Style.BRIGHT}  Session: hoan thanh {self.session_done} quest.{Style.RESET_ALL}")
                             print(f"{Fore.LIGHTBLACK_EX}  Cho quest moi (check {POLL_INTERVAL}s)...{Style.RESET_ALL}\n")
@@ -602,8 +750,8 @@ def print_banner():
     my_info_text = f"""
     ═══════════════════════════════════════════════════════════════════
     [+] Tool      : Discord Quest Auto CLI
-    [+] Chuc nang : Auto quet · Auto nhan · Auto hoan thanh quest
-    [+] Version   : 4.0
+    [+] Chuc nang : Auto quet · Nhan · Hoan thanh (tuan tu / song song)
+    [+] Version   : 5.0  ·  Progress bar + multi-quest
     ═══════════════════════════════════════════════════════════════════
     """
     print(gradient_3(my_banner_text))
@@ -635,9 +783,23 @@ def main():
         input("\n  Enter de thoat..."); return
 
     print(f"  {Fore.GREEN}Dang nhap: {Style.BRIGHT}{acc['username']}{Style.RESET_ALL}\n")
-    worker = QuestWorker(token, acc["username"])
+
+    # Chọn chế độ
+    print(f"  {Fore.YELLOW}Chon che do:{Style.RESET_ALL}")
+    print(f"    {Fore.CYAN}[1]{Style.RESET_ALL} Tuan tu   — 1 quest mot luc (an toan, it rate-limit)")
+    print(f"    {Fore.CYAN}[2]{Style.RESET_ALL} Song song — nhieu quest cung luc (nhanh hon)")
+    mode = input(f"\n  {Fore.YELLOW}Mode (1/2) [mac dinh 2]: {Style.RESET_ALL}").strip() or "2"
+    parallel = mode != "1"
+
+    max_w = MAX_PARALLEL
+    if parallel:
+        raw = input(f"  {Fore.YELLOW}So luong song song (1-8) [{MAX_PARALLEL}]: {Style.RESET_ALL}").strip()
+        if raw.isdigit():
+            max_w = max(1, min(8, int(raw)))
+
+    worker = QuestWorker(token, acc["username"], parallel=parallel, max_workers=max_w)
     worker.start()
-    print(f"  {Fore.YELLOW}Ctrl+C de dung.{Style.RESET_ALL}")
+    print(f"\n  {Fore.YELLOW}Ctrl+C de dung.{Style.RESET_ALL}")
     print(gradient_1("  " + "─" * 50))
 
     try:
