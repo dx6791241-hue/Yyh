@@ -148,6 +148,18 @@ def install_requirements():
                 print(f"\033[1;31m✗ Không thể cài {package}. Hãy chạy thủ công: pip install {package}\033[0m")
     
     print("\033[1;32mHoàn tất kiểm tra thư viện!\033[0m\n")
+    # ========== THÊM ĐOẠN NÀY VÀO ĐÂY ==========
+    try:
+        print("\033[1;33mĐang cài đặt Chromium cho Playwright...\033[0m")
+        subprocess.check_call([sys.executable, "-m", "playwright", "install", "chromium"])
+        print("\033[1;32m✓ Đã cài đặt Chromium thành công!\033[0m")
+    except Exception as e:
+        print(f"\033[1;31m✗ Lỗi khi cài Chromium: {e}\033[0m")
+        print("\033[1;33mBạn có thể chạy thủ công: playwright install chromium\033[0m")
+    print("\033[1;32mHoàn tất kiểm tra thư viện!\033[0m\n")
+    # ============================================
+
+    print("\033[1;32mHoàn tất kiểm tra thư viện!\033[0m\n")
 
 # Gọi hàm này ngay khi chạy chương trình
 if __name__ == "__main__":
